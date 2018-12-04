@@ -36,4 +36,5 @@ public class PropertiesController {
         phone.setDateInProduced(new Date());
         return phone;
     }
+
 }

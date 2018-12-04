@@ -1,6 +1,7 @@
 package com.springboot;
 
 import org.springframework.boot.SpringApplication;
+//import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  *Spring Boot建议将我们main方法所在的这个主要的配置类配置在根包名下
  *
- *
+ *https://blog.csdn.net/valada/article/details/80892573
  */
 @RestController
 @SpringBootApplication

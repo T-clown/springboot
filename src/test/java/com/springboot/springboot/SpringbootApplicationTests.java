@@ -1,6 +1,5 @@
 package com.springboot.springboot;
 
-import com.sun.javafx.tools.ant.Application;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

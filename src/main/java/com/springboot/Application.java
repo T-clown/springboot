@@ -1,11 +1,7 @@
 package com.springboot;
 
-import org.springframework.boot.SpringApplication;
-//import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @RestController是@ResponseBody和@Controller的组合注解。
@@ -16,14 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
  *
  *https://blog.csdn.net/valada/article/details/80892573
  */
-@RestController
 @SpringBootApplication
 public class Application {
-
-    @RequestMapping("/1")
-    public String index() {
-        return "hellow springboot";
-    }
+//update
 
     public static void main(String[] args) {
         /**

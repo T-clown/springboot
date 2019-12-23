@@ -25,229 +25,25 @@
         </javaTypeResolver>
 
         <!-- 生成vo对象(dto & example) -->
-        <javaModelGenerator targetPackage="com.yit.sdp.dao.dto"
-                            targetProject="dao/src/main/java">
+        <javaModelGenerator targetPackage="dto"
+                            targetProject="D:\OS-Projects\springboot\src\main\java\dao">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
         <!-- 用于定义SQL映射生成器的属性。(xml) -->
-        <sqlMapGenerator targetPackage="com.yit.sdp.dao.generatedMapper"
-                         targetProject="dao/src/main/resources">
+        <sqlMapGenerator targetPackage="generatedMapper"
+                         targetProject="D:\OS-Projects\springboot\src\main\resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
         <!-- 生成DAO的类文件以及配置文件 -->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.yit.sdp.dao.generatedMapper"
-                             targetProject="dao/src/main/java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="generatedMapper"
+                             targetProject="D:\OS-Projects\springboot\src\main\java\dao">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
         <!-- tableName:想要生成的数据库表,自动化工具会根据该表的结构生成相应的vo对象 -->
-        <table tableName="yitiao_sdp_channel" domainObjectName="SdpChannelDTO">
+        <table tableName="member_account" domainObjectName="MemberAccountDTO">
             <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-
-        <table tableName="yitiao_sdp_distributor" domainObjectName="SdpDistributorDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="profit_percent"/>
-            <ignoreColumn column="bd_id"/>
-            <ignoreColumn column="bd_name"/>
-            <ignoreColumn column="distributor_info"/>
-            <ignoreColumn column="agent_id"/>
-            <ignoreColumn column="wechat_account_num"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-
-        <table tableName="yitiao_sdp_finance" domainObjectName="SdpFinanceDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-
-
-        <table tableName="yitiao_sdp_account" domainObjectName="SdpAccountDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="type"/>
-            <ignoreColumn column="agent_id"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-
-        <table tableName="yitiao_sdp_role" domainObjectName="SdpRoleDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-
-        <table tableName="yitiao_sdp_distributor_status_history" domainObjectName="SdpDistributorStatusHistoryDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-
-        <table tableName="yitiao_sdp_shop" domainObjectName="SdpShopDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-
-        <table tableName="yitiao_sdp_qualification" domainObjectName="SdpQualificationDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-
-        <table tableName="yitiao_sdp_withdrawal_ticket" domainObjectName="SdpWithdrawalTicketDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-
-        <table tableName="yitiao_sdp_product_commission_plan" domainObjectName="SdpProductCommissionPlanDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-
-
-        <table tableName="yitiao_sdp_distributor_contract" domainObjectName="SdpDistributorContractDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-
-        <table tableName="yitiao_sdp_shop_spu" domainObjectName="SdpShopSpuDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-
-        <table tableName="yitiao_sdp_order_item_info" domainObjectName="SdpOrderItemInfoDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-            <ignoreColumn column="in_sdp_lib"/>
-        </table>
-
-        <table tableName="yitiao_sdp_order_refund"  domainObjectName="SdpOrderRefundDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-        <table tableName="yitiao_sdp_fund_flow_detail" domainObjectName="SdpFundFlowDetailDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="cycle_reward_tag"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-
-        </table>
-        <table tableName="yitiao_sdp_category_entity" domainObjectName="SdpCategoryEntityDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-
-        <table tableName="yitiao_sdp_distributor_tweets" domainObjectName="SdpDistributorTweetsEntityDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-
-        <table tableName="yitiao_sdp_tweet_authorization" domainObjectName="SdpTweetAuthorizationEntityDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-        <table tableName="yitiao_sdp_tweets_library" domainObjectName="SdpTweetsLibraryEntityDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-
-        <table tableName="yitiao_sdp_qualification_history" domainObjectName="SdpQualificationHistoryDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-
-        <table tableName="yitiao_sdp_withdrawal_ticket_status_history"
-               domainObjectName="SdpWithdrawalTicketStatusHistoryDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-
-        <table tableName="yitiao_sdp_gift_spu" domainObjectName="SdpGiftSpuDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-        <table tableName="yitiao_sdp_popularized_order_item_info" domainObjectName="SdpPopularizedOrderItemInfoDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="cycle_reward_tag"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-
-        </table>
-        <table tableName="yitiao_sdp_popularized_order_refund" domainObjectName="SdpPopularizedOrderRefundDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-        <table tableName="yitiao_sdp_achievement_reward" domainObjectName="SdpAchievementRewardDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-        <table tableName="yitiao_sdp_product_library" domainObjectName="SdpProductLibraryDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-        <table tableName="yitiao_sdp_popularized_cycle_reword" domainObjectName="SdpPopularizedCycleRewordDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-
-        <table tableName="yitiao_sdp_shop_share_picture" domainObjectName="SdpShopSharePictureDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-        <table tableName="yitiao_sdp_special_percent_settlement" domainObjectName="SdpSpecialPercentSettlementDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="library_type"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-
-        <table tableName="yitiao_sdp_product_new_library" domainObjectName="SdpProductNewLibraryDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-        <table tableName="yitiao_sdp_commission_adjustment_rule" domainObjectName="SdpCommissionAdjustmentRuleDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-     <table tableName="yitiao_sdp_white_product_percent_settlement" domainObjectName="SdpWhiteProductPercentSettlementDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-     <table tableName="yitiao_sdp_commission_rule_ticket" domainObjectName="SdpCommissionRuleTicketDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
-        </table>
-        <table tableName="yitiao_sdp_commission_rule_snapshot" domainObjectName="SdpCommissionRuleSnapshotDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
-            <ignoreColumn column="etl_create_time"/>
-            <ignoreColumn column="etl_update_time"/>
         </table>
     </context>
 </generatorConfiguration>

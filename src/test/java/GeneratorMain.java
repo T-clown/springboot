@@ -22,7 +22,7 @@ public class GeneratorMain {
     public static void deleteJavaFiles() {
         try {
             File directory = new File("");
-            String str = directory.getCanonicalPath() + "/dao/src/main/java/com/yit/sdp/dao/dto";
+            String str = directory.getCanonicalPath() + "/spring/src/main/java/com/springboot/dao/dto";
             File file = new File(str);
             if (file.isDirectory() && null != file.listFiles() && file.listFiles().length > 0) {
                 for (File f : file.listFiles()) {
@@ -30,7 +30,7 @@ public class GeneratorMain {
                 }
             }
             directory = new File("");
-            str = directory.getCanonicalPath() + "/dao/src/main/java/com/yit/sdp/dao/generatedMapper";
+            str = directory.getCanonicalPath() + "/spring/src/main/java/com/springboot/dao/generatedMapper";
             file = new File(str);
             if (file.isDirectory() && null != file.listFiles() && file.listFiles().length > 0) {
                 for (File f : file.listFiles()) {
@@ -45,7 +45,7 @@ public class GeneratorMain {
     public static void deleteXmlFiles() {
         try {
             File directory = new File("");
-            String str = directory.getCanonicalPath() + "/dao/src/main/resources/com/springboot/dao/generatedMapper";
+            String str = directory.getCanonicalPath() + "/springboot/src/main/resources/com/springboot/dao/generatedMapper";
             File file = new File(str);
             if (file.isDirectory() && null != file.listFiles() && file.listFiles().length > 0) {
                 for (File f : file.listFiles()) {

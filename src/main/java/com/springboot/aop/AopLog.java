@@ -39,7 +39,7 @@ public class AopLog {
     //
     //}
 
-    @Pointcut("@annotation(com.springboot.aop.Pointcut)")
+    @Pointcut("@annotation(com.springboot.annotation.Pointcut)")
     public void pointcut() {
 
     }

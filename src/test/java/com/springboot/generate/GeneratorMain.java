@@ -1,3 +1,5 @@
+package com.springboot.generate;
+
 import java.io.File;
 import java.io.IOException;
 

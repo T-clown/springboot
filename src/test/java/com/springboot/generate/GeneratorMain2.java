@@ -1,3 +1,5 @@
+package com.springboot.generate;
+
 import org.mybatis.generator.api.ShellRunner;
 
 

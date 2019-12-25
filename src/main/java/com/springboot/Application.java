@@ -13,7 +13,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
  *
  *https://blog.csdn.net/valada/article/details/80892573
  */
-@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+@SpringBootApplication
 public class Application {
 
 

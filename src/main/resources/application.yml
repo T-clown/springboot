@@ -6,8 +6,15 @@ server:
 spring:
   profiles:
     include:
-      mybatis,kafka,redis,dubbo,zk,es
+      mysql,kafka,redis,dubbo,zk,es
 
+#分页
+pagehelper:
+  helperDialect: mysql
+  offsetAsPageNum: true
+  rowBoundsWithCount: true
+  reasonable: false
+#zookeeper
 zk:
   url: 127.0.0.1:2181
   timeout: 1000

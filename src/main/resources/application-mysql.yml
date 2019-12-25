@@ -1,7 +1,7 @@
 ## 默认的数据源
 master:
   datasource:
-    url: jdbc:mysql://localhost:3306/springBoot?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
+    url: jdbc:mysql://localhost:3306/spring-boot-demo?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8
     username: root
     password: root
     driverClassName: com.mysql.jdbc.Driver
@@ -9,7 +9,7 @@ master:
   ## 另一个的数据源
 cluster:
   datasource:
-    url: jdbc:mysql://localhost:3306/springBoot_test?useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://localhost:3306/spring-boot-demo?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
     username: root
     password: root
     driverClassName: com.mysql.jdbc.Driver

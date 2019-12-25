@@ -1,5 +1,6 @@
 package com.springboot;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -14,6 +15,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
  *https://blog.csdn.net/valada/article/details/80892573
  */
 @SpringBootApplication
+@MapperScan(basePackages = {"com.springboot"})
 public class Application {
 
 

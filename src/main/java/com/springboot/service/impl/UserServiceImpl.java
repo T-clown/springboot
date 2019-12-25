@@ -3,27 +3,21 @@ package com.springboot.service.impl;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
+import com.springboot.dao.dto.StudentDTO;
+import com.springboot.dao.dto.StudentDTOExample;
+import com.springboot.dao.dto.StudentDTOExample.Criteria;
+import com.springboot.dao.generatedMapper.StudentDTOMapper;
 import com.springboot.entity.User;
 import com.springboot.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-/**
- * <p>
- * UserService
- * </p>
- *
- * @package: com.xkcoding.cache.redis.service.impl
- * @description: UserService
- * @author: yangkai.shen
- * @date: Created in 2018/11/15 16:45
- * @copyright: Copyright (c) 2018
- * @version: V1.0
- * @modified: yangkai.shen
- */
+
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
@@ -31,6 +25,9 @@ public class UserServiceImpl implements UserService {
      * 模拟数据库
      */
     private static final Map<Long, User> DATABASES = Maps.newConcurrentMap();
+
+    @Autowired(required = false)
+    StudentDTOMapper studentDTOMapper;
 
     /**
      * 初始化数据
@@ -79,5 +76,19 @@ public class UserServiceImpl implements UserService {
     public void delete(Long id) {
         DATABASES.remove(id);
         log.info("删除用户【id】= {}", id);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void updateStudent(){
+        StudentDTOExample example=new StudentDTOExample();
+        Criteria criteria= example.createCriteria();
+        criteria.andIdEqualTo(11);
+        StudentDTO studentDTO = new StudentDTO();
+        studentDTO.setName("赵日天");
+        studentDTO.setClassId(3);
+        studentDTO.setSex("男");
+        studentDTOMapper.updateByExampleSelective(studentDTO,example);
+       // int a = 2 / 0;
     }
 }

@@ -25,4 +25,6 @@ public interface UserService {
      * @param id key值
      */
     void delete(Long id);
+
+     void updateStudent();
 }

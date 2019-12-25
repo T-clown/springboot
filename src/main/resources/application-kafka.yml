@@ -8,7 +8,7 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
     consumer:
-      group-id: spring-boot-demo
+      group-id: springboot
       # 手动提交
       enable-auto-commit: false
       auto-offset-reset: latest

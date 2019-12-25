@@ -18,7 +18,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 @MapperScan(basePackages = ClusterDataSourceConfig.PACKAGE, sqlSessionFactoryRef = "clusterSqlSessionFactory")
 public class ClusterDataSourceConfig {
 
-    static final String PACKAGE = "com.springboot.config";
+    static final String PACKAGE = "com.springboot";
     static final String MAPPER_LOCATION = "classpath:generatedMapper/*.xml";
 
     @Value("${cluster.datasource.url}")

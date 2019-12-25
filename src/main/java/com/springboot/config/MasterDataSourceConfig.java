@@ -18,11 +18,10 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 @Configuration
-
 @MapperScan(basePackages = MasterDataSourceConfig.PACKAGE, sqlSessionFactoryRef = "masterSqlSessionFactory")
 public class MasterDataSourceConfig {
 
-    static final String PACKAGE = "com.springboot.config";
+    static final String PACKAGE = "com.springboot";
     static final String MAPPER_LOCATION = "classpath:generatedMapper/*.xml";
 
     @Value("${master.datasource.url}")

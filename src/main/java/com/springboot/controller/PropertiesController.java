@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import cn.hutool.json.JSONUtil;
 import com.springboot.annotation.Pointcut;
+import com.springboot.annotation.RateLimiter;
 import com.springboot.entity.Phone;
 import com.springboot.entity.Yellow;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,7 @@ public class PropertiesController {
     @Autowired
     private Phone phone;
 
+    @RateLimiter(value = 0.5, timeout = 300)
     @RequestMapping(value = "/yellow", method = GET)
     public Yellow properties(@RequestParam(value = "name", defaultValue = "美女") String name) {
         log.info(JSONUtil.toJsonStr(yellow));

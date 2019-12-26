@@ -1,4 +1,4 @@
-package com.springboot.utils;
+package com.springboot.util;
 
 import java.util.Collections;
 

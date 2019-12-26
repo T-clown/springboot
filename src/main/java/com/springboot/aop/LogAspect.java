@@ -1,6 +1,5 @@
 package com.springboot.aop;
 
-import java.util.Map;
 import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,13 +21,14 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
+ * 基于注解实现
  * 使用 aop 切面记录请求日志信息
  * 执行顺序：环绕通知-->前置通知-->目标方法-->环绕通知-->后置通知-->返回通知
  */
-@Aspect
+//@Aspect
 @Component
 @Slf4j
-public class AopLog {
+public class LogAspect {
     private static final String START_TIME = "request-start";
 
     /**

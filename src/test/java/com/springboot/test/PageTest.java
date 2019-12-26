@@ -23,7 +23,7 @@ public class PageTest extends SpringbootApplicationTests {
 
     @Test
     public void transactional() {
-        userService.updateStudent();
+        //userService.updateStudent();
     }
 
     @Test
@@ -37,7 +37,7 @@ public class PageTest extends SpringbootApplicationTests {
         PageInfo<StudentDTO> pageInfo = new PageInfo<>(users);
         Assert.assertEquals(5, pageInfo.getSize());
         Assert.assertEquals(count, pageInfo.getTotal());
-        log.debug("【userPageInfo】= {}", pageInfo);
+        log.info("【userPageInfo】= {}", pageInfo);
     }
 
 }

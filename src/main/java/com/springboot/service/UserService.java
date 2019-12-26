@@ -1,6 +1,8 @@
 package com.springboot.service;
 
+import com.springboot.dao.dto.StudentDTO;
 import com.springboot.entity.User;
+import com.springboot.statemachine.StateMachineContext.Operator;
 
 public interface UserService {
     /**
@@ -26,5 +28,7 @@ public interface UserService {
      */
     void delete(Long id);
 
-     void updateStudent();
+     void updateStudent(StudentDTO studentDTO, Operator operator);
+
+    StudentDTO getStudent(int id);
 }

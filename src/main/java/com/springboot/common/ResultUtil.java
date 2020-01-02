@@ -10,7 +10,7 @@ public class ResultUtil {
         return new Result(ResultCode.SUCCESS);
     }
 
-    public static <T> Result success(T data) {
+    public static <T> Result<T> success(T data) {
         return new Result(ResultCode.SUCCESS, data);
     }
 

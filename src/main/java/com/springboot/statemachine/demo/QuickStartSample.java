@@ -1,4 +1,4 @@
-package com.springboot.demo;
+package com.springboot.statemachine.demo;
 
 import org.squirrelframework.foundation.fsm.StateMachineBuilderFactory;
 import org.squirrelframework.foundation.fsm.UntypedStateMachine;

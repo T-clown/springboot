@@ -2,7 +2,7 @@ package com.springboot.statemachine;
 
 import java.util.Objects;
 
-import com.springboot.dao.dto.StudentDTO;
+import com.springboot.dao.dto.UserDTO;
 import com.springboot.service.UserService;
 import com.springboot.statemachine.entity.StatusEnum;
 import com.springboot.statemachine.entity.StudentTrigger;
@@ -33,16 +33,16 @@ public class StudentStateMachineEngine implements ApplicationContextAware {
     }
 
 
-    public StudentDTO fire(int id, StudentTrigger trigger, StateMachineContext context) {
-        StudentDTO studentDTO = userService.getStudent(id);
-        if (Objects.isNull(studentDTO)) {
+    public UserDTO fire(int id, StudentTrigger trigger, StateMachineContext context) {
+        UserDTO UserDTO = userService.getStudent(id);
+        if (Objects.isNull(UserDTO)) {
             throw new RuntimeException("无此学生");
         }
-        //if (ObjectUtils.defaultIfNull(studentDTO.getVersion(), 0).intValue() != context.getVersion()) {
+        //if (ObjectUtils.defaultIfNull(UserDTO.getVersion(), 0).intValue() != context.getVersion()) {
         //    throw new RuntimeException("版本不对");
         //}
-        context.setStudentDTO(studentDTO);
-        short status=0;//studentDTO.getStatus()
+        context.setUserDTO(UserDTO);
+        short status=0;//UserDTO.getStatus()
         //注意：目前所有的状态机执行都是同步的，如果存在异步情况，注意此处的数据返回
         StudentStatusMachine stateMachine = stateMachineBuilder
             .newUntypedStateMachine(
@@ -57,6 +57,6 @@ public class StudentStateMachineEngine implements ApplicationContextAware {
         } catch (Exception e) {
             throw e;
         }
-        return studentDTO;
+        return UserDTO;
     }
 }

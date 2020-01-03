@@ -2,7 +2,7 @@ package com.springboot.statemachine;
 
 import java.math.BigDecimal;
 
-import com.springboot.dao.dto.StudentDTO;
+import com.springboot.dao.dto.UserDTO;
 import lombok.Data;
 import org.springframework.transaction.TransactionStatus;
 
@@ -10,7 +10,7 @@ import org.springframework.transaction.TransactionStatus;
 public class StateMachineContext {
     private TransactionStatus transactionStatus;
     //private JedisLock jedisLock;
-    private StudentDTO studentDTO;
+    private UserDTO userDTO;
     private int version;
     private BigDecimal currentMonthCount;
     private String failReason;

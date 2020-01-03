@@ -3,11 +3,10 @@ package com.springboot.service.impl;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
-import com.springboot.dao.dto.StudentDTO;
-import com.springboot.dao.dto.StudentDTOExample;
-import com.springboot.dao.dto.StudentDTOExample.Criteria;
-import com.springboot.dao.dto.StudentDTOKey;
-import com.springboot.dao.generatedMapper.StudentDTOMapper;
+import com.springboot.dao.dto.UserDTO;
+import com.springboot.dao.dto.UserDTOExample;
+import com.springboot.dao.dto.UserDTOExample.Criteria;
+import com.springboot.dao.dto.UserDTOKey;
 import com.springboot.entity.User;
 import com.springboot.service.UserService;
 import com.springboot.statemachine.StateMachineContext.Operator;
@@ -29,7 +28,7 @@ public class UserServiceImpl implements UserService {
     private static final Map<Long, User> DATABASES = Maps.newConcurrentMap();
 
     @Autowired(required = false)
-    StudentDTOMapper studentDTOMapper;
+    com.springboot.dao.generatedMapper.UserDTOMapper UserDTOMapper;
 
     /**
      * 初始化数据
@@ -80,21 +79,21 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void updateStudent(StudentDTO studentDTO, Operator operator){
-        StudentDTOExample example=new StudentDTOExample();
+    public void updateStudent(UserDTO userDTO, Operator operator){
+        UserDTOExample example=new UserDTOExample();
         Criteria criteria= example.createCriteria();
-        criteria.andIdEqualTo(11);
-        studentDTO.setName("赵日天");
-        studentDTO.setClassId(3);
-        studentDTO.setSex("男");
-        studentDTOMapper.updateByExampleSelective(studentDTO,example);
+        //criteria.andIdEqualTo(11);
+        //UserDTO.setName("赵日天");
+        //UserDTO.setClassId(3);
+        //UserDTO.setSex("男");
+       // UserDTOMapper.updateByExampleSelective(userDTO,example);
        // int a = 2 / 0;
     }
 
     @Override
-    public StudentDTO getStudent(int id) {
-        StudentDTOKey key=new StudentDTOKey();
-        key.setId(id);
-        return studentDTOMapper.selectByPrimaryKey(key);
+    public UserDTO getStudent(int id) {
+        UserDTOKey key=new UserDTOKey();
+       // key.setId(id);
+        return UserDTOMapper.selectByPrimaryKey(key);
     }
 }

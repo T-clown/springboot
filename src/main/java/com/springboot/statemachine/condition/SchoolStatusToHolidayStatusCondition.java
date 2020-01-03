@@ -2,7 +2,7 @@ package com.springboot.statemachine.condition;
 
 import java.math.BigDecimal;
 
-import com.springboot.dao.dto.StudentDTO;
+import com.springboot.dao.dto.UserDTO;
 import com.springboot.statemachine.StateMachineContext;
 
 public class SchoolStatusToHolidayStatusCondition extends AbstractUntypedCondition {
@@ -14,9 +14,8 @@ public class SchoolStatusToHolidayStatusCondition extends AbstractUntypedConditi
     @Override
     public boolean isSatisfied(Object context) {
         StateMachineContext stateMachineContext = (StateMachineContext)context;
-        StudentDTO studentDTO = stateMachineContext.getStudentDTO();
+        UserDTO userDTO = stateMachineContext.getUserDTO();
         BigDecimal currentMonthCount = stateMachineContext.getCurrentMonthCount();
-        return studentDTO.getClassId() == 1
-            || currentMonthCount.compareTo(BigDecimal.ONE) > 0;
+        return currentMonthCount.compareTo(BigDecimal.ONE) > 0;
     }
 }

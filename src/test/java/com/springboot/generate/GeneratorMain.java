@@ -16,7 +16,7 @@ public class GeneratorMain {
         String configRootPath = GeneratorMain.class.getResource("/").getPath();
         args[1] = configRootPath + "generator.xml";
         args[2] = "-overwrite";
-        //deleteJavaFiles();
+        deleteJavaFiles();
         deleteXmlFiles();
         ShellRunner.main(args);
     }
@@ -24,7 +24,7 @@ public class GeneratorMain {
     public static void deleteJavaFiles() {
         try {
             File directory = new File("");
-            String str = directory.getCanonicalPath() + "/spring/src/main/java/com/springboot/dao/dto";
+            String str = directory.getCanonicalPath() + "/springboot/src/main/java/com/springboot/dao/dto";
             File file = new File(str);
             if (file.isDirectory() && null != file.listFiles() && file.listFiles().length > 0) {
                 for (File f : file.listFiles()) {
@@ -32,7 +32,7 @@ public class GeneratorMain {
                 }
             }
             directory = new File("");
-            str = directory.getCanonicalPath() + "/spring/src/main/java/com/springboot/dao/generatedMapper";
+            str = directory.getCanonicalPath() + "/springboot/src/main/java/com/springboot/dao/generatedMapper";
             file = new File(str);
             if (file.isDirectory() && null != file.listFiles() && file.listFiles().length > 0) {
                 for (File f : file.listFiles()) {

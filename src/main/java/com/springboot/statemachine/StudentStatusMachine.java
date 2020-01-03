@@ -6,7 +6,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor.CallerRunsPolicy;
 import java.util.concurrent.TimeUnit;
 
-import com.springboot.dao.dto.StudentDTO;
+import com.springboot.dao.dto.UserDTO;
 import com.springboot.service.UserService;
 import com.springboot.statemachine.condition.ApplyStatusToSckoolCondition;
 import com.springboot.statemachine.condition.SchoolStatusToHolidayStatusCondition;
@@ -18,7 +18,6 @@ import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
-import org.springframework.scheduling.Trigger;
 import org.squirrelframework.foundation.component.SquirrelSingletonProvider;
 import org.squirrelframework.foundation.exception.SquirrelRuntimeException;
 import org.squirrelframework.foundation.exception.TransitionException;
@@ -93,28 +92,28 @@ public class StudentStatusMachine extends AbstractUntypedStateMachine {
                                      StudentTrigger event, StateMachineContext stateMachineContext)
         throws RuntimeException {
         //生成工单
-        StudentDTO studentDTO = stateMachineContext.getStudentDTO();
-        //其他业务操作,然后给studentDTO赋值
+        UserDTO UserDTO = stateMachineContext.getUserDTO();
+        //其他业务操作,然后给UserDTO赋值
     }
 
     public void pay(StatusEnum fromState, StatusEnum toState,
                     StudentTrigger event, StateMachineContext stateMachineContext)
         throws RuntimeException {
-        StudentDTO studentDTO = stateMachineContext.getStudentDTO();
+        UserDTO UserDTO = stateMachineContext.getUserDTO();
 
     }
 
     public void payFailed(StatusEnum fromState, StatusEnum toState,
                           StudentTrigger event, StateMachineContext stateMachineContext) {
-        StudentDTO studentDTO = stateMachineContext.getStudentDTO();
+        UserDTO UserDTO = stateMachineContext.getUserDTO();
         //失败备注
-        //studentDTO.setFailReason(stateMachineContext.getFailReason());
+        //UserDTO.setFailReason(stateMachineContext.getFailReason());
         //其他操作
     }
 
     public void paySuccess(StatusEnum fromState, StatusEnum toState,
                            StudentTrigger event, StateMachineContext stateMachineContext) {
-        StudentDTO studentDTO = stateMachineContext.getStudentDTO();
+        UserDTO UserDTO = stateMachineContext.getUserDTO();
         //其他操作
     }
 

@@ -1,6 +1,6 @@
 package com.springboot.statemachine;
 
-import com.springboot.dao.dto.StudentDTO;
+import com.springboot.dao.dto.UserDTO;
 import com.springboot.service.UserService;
 import com.springboot.statemachine.entity.StatusEnum;
 import com.springboot.statemachine.entity.StudentTrigger;
@@ -44,9 +44,9 @@ public class PersistenceModule {
     @OnTransitionBegin
     @ListenerOrder(0)
     public void tryLock(StatusEnum from, StudentTrigger event, StateMachineContext context) {
-        StudentDTO StudentDTO = context.getStudentDTO();
+        UserDTO UserDTO = context.getUserDTO();
         //创建分布式锁
-        //JedisLock jedisLock = buildLock(StudentDTO.getName());
+        //JedisLock jedisLock = buildLock(UserDTO.getName());
         //try {
         //    if (jedisLock.tryLock()) {
         //        context.setJedisLock(jedisLock);
@@ -55,7 +55,7 @@ public class PersistenceModule {
         //        throw new RuntimeException("锁已被占用");
         //    }
         //} catch (Exception e) {
-        //    logger.error("lock failed！id:{}", StudentDTO.getId(), e);
+        //    logger.error("lock failed！id:{}", UserDTO.getId(), e);
         //    throw new RuntimeException("获取锁失败", e);
         //}
     }
@@ -83,11 +83,11 @@ public class PersistenceModule {
                        StateMachineContext context, UntypedStateMachine stateMachine) {
         try {
             //获取context信息
-            StudentDTO StudentDTO = context.getStudentDTO();
+            UserDTO UserDTO = context.getUserDTO();
             TransactionStatus transactionStatus = context.getTransactionStatus();
             //持久化
-           //StudentDTO.setStatus(to.getValue());
-            userService.updateStudent(StudentDTO, context.getOperator());
+           //UserDTO.setStatus(to.getValue());
+            userService.updateStudent(UserDTO, context.getOperator());
             //事务提交
             transactionManager.commit(transactionStatus);
         } catch (Exception e) {
@@ -107,7 +107,7 @@ public class PersistenceModule {
 
         if (to == StatusEnum.SUCCESS) {
             //提现成功发送短信
-            StudentDTO StudentDTO = context.getStudentDTO();
+            UserDTO UserDTO = context.getUserDTO();
             //发送短信
         }
     }
@@ -132,7 +132,7 @@ public class PersistenceModule {
     @OnTransitionEnd
     @ListenerOrder(0)
     public void releaseLock(StatusEnum from, StatusEnum to, StateMachineContext context) {
-        StudentDTO StudentDTO = context.getStudentDTO();
+        UserDTO UserDTO = context.getUserDTO();
         //JedisLock jedisLock = context.getJedisLock();
         //if (jedisLock != null) {
         //    try {

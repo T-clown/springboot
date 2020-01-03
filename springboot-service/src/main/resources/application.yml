@@ -1,0 +1,29 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /springboot
+
+spring:
+  profiles:
+    include:
+      mysql,kafka,redis,dubbo,zk,es
+
+#分页
+pagehelper:
+  helperDialect: mysql
+  offsetAsPageNum: true
+  rowBoundsWithCount: true
+  reasonable: false
+#zookeeper
+zk:
+  url: 127.0.0.1:2181
+  timeout: 1000
+  retry: 3
+
+p:
+  name: '华为'
+  price: 3999
+com:
+  properties:
+    name: '人生若只如初见'
+    title: '何事秋风悲画扇'

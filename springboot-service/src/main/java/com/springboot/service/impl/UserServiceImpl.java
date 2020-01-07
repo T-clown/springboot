@@ -7,10 +7,12 @@ import com.springboot.dao.dto.UserDTO;
 import com.springboot.dao.dto.UserDTOExample;
 import com.springboot.dao.dto.UserDTOExample.Criteria;
 import com.springboot.dao.dto.UserDTOKey;
+import com.springboot.dao.generatedMapper.UserDTOMapper;
 import com.springboot.entity.User;
 import com.springboot.service.UserService;
 import com.springboot.statemachine.StateMachineContext.Operator;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -25,15 +27,8 @@ public class UserServiceImpl implements UserService {
      */
     private static final Map<Long, User> DATABASES = Maps.newConcurrentMap();
 
-    //@Autowired
-    //UserDTOMapper userDTOMapper;
-
-    /**
-     * 初始化数据
-     */
-    static {
-
-    }
+    @Autowired(required = false)
+    UserDTOMapper userDTOMapper;
 
     /**
      * 保存或修改用户
@@ -91,8 +86,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getStudent(int id) {
         UserDTOKey key=new UserDTOKey();
-       // key.setId(id);
-       // return userDTOMapper.selectByPrimaryKey(key);
-        return null;
+        key.setId(id);
+        return userDTOMapper.selectByPrimaryKey(key);
     }
 }

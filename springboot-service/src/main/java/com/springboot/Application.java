@@ -3,6 +3,7 @@ package com.springboot;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * @RestController是@ResponseBody和@Controller的组合注解。
@@ -15,6 +16,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
  */
 @SpringBootApplication(scanBasePackages = "com.springboot")
 @MapperScan(basePackages = {"com.springboot.dao"})
+@EnableAsync
 public class Application {
 
 

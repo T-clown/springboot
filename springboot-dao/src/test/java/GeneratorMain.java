@@ -45,7 +45,7 @@ public class GeneratorMain {
     public static void deleteXmlFiles() {
         try {
             File directory = new File("");
-            String str = directory.getCanonicalPath() + "springboot-dao/src/main/resources/com/springboot/dao/generatedMapper";
+            String str = directory.getCanonicalPath() + "/springboot-dao/src/main/resources/com/springboot/dao/generatedMapper";
             File file = new File(str);
             if (file.isDirectory() && null != file.listFiles() && file.listFiles().length > 0) {
                 for (File f : file.listFiles()) {

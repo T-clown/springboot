@@ -3,10 +3,13 @@ server:
   servlet:
     context-path: /springboot
 
+
 spring:
   profiles:
     include:
       mysql,kafka,redis,dubbo,zk,es
+  mail:
+    username: 414162330@qq.com
 
 #分页
 pagehelper:

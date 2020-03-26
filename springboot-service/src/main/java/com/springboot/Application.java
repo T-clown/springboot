@@ -14,9 +14,9 @@ import org.springframework.scheduling.annotation.EnableAsync;
  *
  *https://blog.csdn.net/valada/article/details/80892573
  */
-@SpringBootApplication(scanBasePackages = "com.springboot")
-@MapperScan(basePackages = {"com.springboot.dao"})
 @EnableAsync
+@MapperScan(basePackages = {"com.springboot.dao"})
+@SpringBootApplication(scanBasePackages = "com.springboot")
 public class Application {
 
 

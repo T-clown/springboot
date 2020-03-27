@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 //@PropertySource(value = "classpath:application.properties",encoding = "UTF-8")
 public class Yellow {
     private Integer id;
-    @Value("${com.properties.name}")
+    @Value("${com.properties.username}")
     private String name;
     @Value("${com.properties.title}")
     private String title;

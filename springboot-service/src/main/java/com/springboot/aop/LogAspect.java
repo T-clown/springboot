@@ -57,7 +57,7 @@ public class LogAspect {
 
         //log.info("【请求 URL】：{}", request.getRequestURL());
         //log.info("【请求 IP】：{}", request.getRemoteAddr());
-        //log.info("【请求类名】：{}，【请求方法名】：{}", point.getSignature().getDeclaringTypeName(), point.getSignature().getName());
+        //log.info("【请求类名】：{}，【请求方法名】：{}", point.getSignature().getDeclaringTypeName(), point.getSignature().getUsername());
         //
         //Map<String, String[]> parameterMap = request.getParameterMap();
         //log.info("【请求参数】：{}，", JSONUtil.toJsonStr(parameterMap));

@@ -33,7 +33,7 @@ public class PropertiesController {
 
     @RateLimiter(value = 0.5, timeout = 300)
     @RequestMapping(value = "/yellow", method = GET)
-    public Yellow properties(@RequestParam(value = "name", defaultValue = "美女") String name) {
+    public Yellow properties(@RequestParam(value = "username", defaultValue = "美女") String name) {
         log.info(JSONUtil.toJsonStr(yellow));
         yellow.setId(counter.incrementAndGet());
         yellow.setName(String.format(context, name));

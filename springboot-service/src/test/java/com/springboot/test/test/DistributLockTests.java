@@ -1,4 +1,4 @@
-package com.springboot.test.lock;
+package com.springboot.test.test;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

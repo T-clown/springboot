@@ -31,7 +31,7 @@ public class User implements Serializable {
      */
     @Size(min = 5,max = 10,message = "姓名长度不对")
     @NotBlank(message = "姓名不能为空")
-    private String name;
+    private String username;
 
     @NotNull(message = "年龄不能为空")
     @Max(value = 100,message = "年龄超过100")
@@ -46,7 +46,6 @@ public class User implements Serializable {
 
     @Email
     private String email;
-
 
     @Region(message = "region值不在范围内")
     private String region;

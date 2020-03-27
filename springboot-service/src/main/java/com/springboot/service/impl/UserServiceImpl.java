@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
         UserDTOExample example=new UserDTOExample();
         Criteria criteria= example.createCriteria();
         //criteria.andIdEqualTo(11);
-        //UserDTO.setName("赵日天");
+        //UserDTO.setUsername("赵日天");
         //UserDTO.setClassId(3);
         //UserDTO.setSex("男");
        // UserDTOMapper.updateByExampleSelective(userDTO,example);

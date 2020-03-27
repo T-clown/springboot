@@ -58,10 +58,10 @@ public class ValidatorController {
      * @return
      */
     @PostMapping("/getUser")
-    public Result<User> getUser(@Valid @RequestParam("name") @Size(max = 6, message = "超过 name 的范围了") String name,
+    public Result<User> getUser(@Valid @RequestParam("username") @Size(max = 6, message = "超过 username 的范围了") String name,
                                 @Valid @RequestParam("id") @NotNull(message = "id不能为空") Long id) {
         User user = new User();
-        user.setName(name);
+        user.setUsername(name);
         user.setId(id);
         return ResultUtil.success(user);
     }

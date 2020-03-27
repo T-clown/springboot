@@ -46,7 +46,7 @@ public class PersistenceModule {
     public void tryLock(StatusEnum from, StudentTrigger event, StateMachineContext context) {
         UserDTO UserDTO = context.getUserDTO();
         //创建分布式锁
-        //JedisLock jedisLock = buildLock(UserDTO.getName());
+        //JedisLock jedisLock = buildLock(UserDTO.getUsername());
         //try {
         //    if (jedisLock.tryLock()) {
         //        context.setJedisLock(jedisLock);

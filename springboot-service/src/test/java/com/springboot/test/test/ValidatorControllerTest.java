@@ -45,15 +45,15 @@ public class ValidatorControllerTest {
     @Test
     public void mvc() throws Exception {
         User user = new User();
-        user.setName("SnailClimb");
+        user.setUsername("SnailClimb");
         user.setAge(11);
         user.setEmail("82938390@qq.com");
-        user.setName("www");
+        user.setUsername("www");
 
         mockMvc.perform(post("/validator")
             .contentType(MediaType.APPLICATION_JSON_UTF8)
             .content(JSONUtil.toJsonStr(user)))
-            .andExpect(MockMvcResultMatchers.jsonPath("name").value("SnailClimb"))
+            .andExpect(MockMvcResultMatchers.jsonPath("username").value("SnailClimb"))
             .andExpect(MockMvcResultMatchers.jsonPath("classId").value("82938390"))
             .andExpect(MockMvcResultMatchers.jsonPath("sex").value("Man"))
             .andExpect(MockMvcResultMatchers.jsonPath("email").value("Snailclimb@qq.com"));
@@ -70,7 +70,7 @@ public class ValidatorControllerTest {
         //ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         //Validator validator = factory.getValidator();
         User user = new User();
-        user.setName("clown");
+        user.setUsername("clown");
         user.setAge(8);
         user.setEmail("82938390@qq.com");
         Set<ConstraintViolation<User>> violations = validator.validate(user);

@@ -24,7 +24,7 @@ public class UserMapperTest extends SpringbootApplicationTests {
         userDTO.setEmail("414162330@qq.com");
         userDTO.setPhone("13730638402");
         userDTO.setIsDeleted(CommonYN.NO.value());
-        userDTO.setSex("男");
+        userDTO.setGender("男");
         userDTO.setCreateTime(new Date());
         userDTO.setUpdateTime(new Date());
         userMapper.insert(Collections.singletonList(userDTO));

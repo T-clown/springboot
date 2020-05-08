@@ -4,9 +4,10 @@
   <resultMap id="BaseResultMap" type="com.springboot.dao.dto.UserDTO">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="username" jdbcType="VARCHAR" property="username" />
-    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="gender" jdbcType="VARCHAR" property="gender" />
     <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
     <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="region" jdbcType="VARCHAR" property="region" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -71,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, username, sex, birthday, email, phone, create_time, update_time, is_deleted
+    id, username, gender, birthday, email, region, phone, create_time, update_time, is_deleted
   </sql>
   <select id="selectByExample" parameterType="com.springboot.dao.dto.UserDTOExample" resultMap="BaseResultMap">
     select
@@ -107,12 +108,14 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into springboot_user (username, sex, birthday, 
-      email, phone, create_time, 
-      update_time, is_deleted)
-    values (#{username,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, 
-      #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=SMALLINT})
+    insert into springboot_user (username, gender, birthday, 
+      email, region, phone, 
+      create_time, update_time, is_deleted
+      )
+    values (#{username,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, 
+      #{email,jdbcType=VARCHAR}, #{region,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=SMALLINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.springboot.dao.dto.UserDTO">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -123,14 +126,17 @@
       <if test="username != null">
         username,
       </if>
-      <if test="sex != null">
-        sex,
+      <if test="gender != null">
+        gender,
       </if>
       <if test="birthday != null">
         birthday,
       </if>
       <if test="email != null">
         email,
+      </if>
+      <if test="region != null">
+        region,
       </if>
       <if test="phone != null">
         phone,
@@ -149,14 +155,17 @@
       <if test="username != null">
         #{username,jdbcType=VARCHAR},
       </if>
-      <if test="sex != null">
-        #{sex,jdbcType=VARCHAR},
+      <if test="gender != null">
+        #{gender,jdbcType=VARCHAR},
       </if>
       <if test="birthday != null">
         #{birthday,jdbcType=TIMESTAMP},
       </if>
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null">
+        #{region,jdbcType=VARCHAR},
       </if>
       <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
@@ -187,14 +196,17 @@
       <if test="record.username != null">
         username = #{record.username,jdbcType=VARCHAR},
       </if>
-      <if test="record.sex != null">
-        sex = #{record.sex,jdbcType=VARCHAR},
+      <if test="record.gender != null">
+        gender = #{record.gender,jdbcType=VARCHAR},
       </if>
       <if test="record.birthday != null">
         birthday = #{record.birthday,jdbcType=TIMESTAMP},
       </if>
       <if test="record.email != null">
         email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.region != null">
+        region = #{record.region,jdbcType=VARCHAR},
       </if>
       <if test="record.phone != null">
         phone = #{record.phone,jdbcType=VARCHAR},
@@ -217,9 +229,10 @@
     update springboot_user
     set id = #{record.id,jdbcType=INTEGER},
       username = #{record.username,jdbcType=VARCHAR},
-      sex = #{record.sex,jdbcType=VARCHAR},
+      gender = #{record.gender,jdbcType=VARCHAR},
       birthday = #{record.birthday,jdbcType=TIMESTAMP},
       email = #{record.email,jdbcType=VARCHAR},
+      region = #{record.region,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -234,14 +247,17 @@
       <if test="username != null">
         username = #{username,jdbcType=VARCHAR},
       </if>
-      <if test="sex != null">
-        sex = #{sex,jdbcType=VARCHAR},
+      <if test="gender != null">
+        gender = #{gender,jdbcType=VARCHAR},
       </if>
       <if test="birthday != null">
         birthday = #{birthday,jdbcType=TIMESTAMP},
       </if>
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null">
+        region = #{region,jdbcType=VARCHAR},
       </if>
       <if test="phone != null">
         phone = #{phone,jdbcType=VARCHAR},
@@ -261,9 +277,10 @@
   <update id="updateByPrimaryKey" parameterType="com.springboot.dao.dto.UserDTO">
     update springboot_user
     set username = #{username,jdbcType=VARCHAR},
-      sex = #{sex,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=VARCHAR},
       birthday = #{birthday,jdbcType=TIMESTAMP},
       email = #{email,jdbcType=VARCHAR},
+      region = #{region,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},

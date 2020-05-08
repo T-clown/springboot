@@ -15,7 +15,7 @@ public class DistributLockController {
 
     @ZkLock(key = "zkLock")
     @PostMapping("/deleteUser")
-    public boolean deleteUser(Long userId) {
+    public boolean deleteUser(Integer userId) {
         userService.delete(userId);
         return true;
     }

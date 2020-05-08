@@ -235,73 +235,73 @@ public class UserDTOExample {
             return (Criteria) this;
         }
 
-        public Criteria andSexIsNull() {
-            addCriterion("sex is null");
+        public Criteria andGenderIsNull() {
+            addCriterion("gender is null");
             return (Criteria) this;
         }
 
-        public Criteria andSexIsNotNull() {
-            addCriterion("sex is not null");
+        public Criteria andGenderIsNotNull() {
+            addCriterion("gender is not null");
             return (Criteria) this;
         }
 
-        public Criteria andSexEqualTo(String value) {
-            addCriterion("sex =", value, "sex");
+        public Criteria andGenderEqualTo(String value) {
+            addCriterion("gender =", value, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andSexNotEqualTo(String value) {
-            addCriterion("sex <>", value, "sex");
+        public Criteria andGenderNotEqualTo(String value) {
+            addCriterion("gender <>", value, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andSexGreaterThan(String value) {
-            addCriterion("sex >", value, "sex");
+        public Criteria andGenderGreaterThan(String value) {
+            addCriterion("gender >", value, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andSexGreaterThanOrEqualTo(String value) {
-            addCriterion("sex >=", value, "sex");
+        public Criteria andGenderGreaterThanOrEqualTo(String value) {
+            addCriterion("gender >=", value, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andSexLessThan(String value) {
-            addCriterion("sex <", value, "sex");
+        public Criteria andGenderLessThan(String value) {
+            addCriterion("gender <", value, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andSexLessThanOrEqualTo(String value) {
-            addCriterion("sex <=", value, "sex");
+        public Criteria andGenderLessThanOrEqualTo(String value) {
+            addCriterion("gender <=", value, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andSexLike(String value) {
-            addCriterion("sex like", value, "sex");
+        public Criteria andGenderLike(String value) {
+            addCriterion("gender like", value, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andSexNotLike(String value) {
-            addCriterion("sex not like", value, "sex");
+        public Criteria andGenderNotLike(String value) {
+            addCriterion("gender not like", value, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andSexIn(List<String> values) {
-            addCriterion("sex in", values, "sex");
+        public Criteria andGenderIn(List<String> values) {
+            addCriterion("gender in", values, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andSexNotIn(List<String> values) {
-            addCriterion("sex not in", values, "sex");
+        public Criteria andGenderNotIn(List<String> values) {
+            addCriterion("gender not in", values, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andSexBetween(String value1, String value2) {
-            addCriterion("sex between", value1, value2, "sex");
+        public Criteria andGenderBetween(String value1, String value2) {
+            addCriterion("gender between", value1, value2, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andSexNotBetween(String value1, String value2) {
-            addCriterion("sex not between", value1, value2, "sex");
+        public Criteria andGenderNotBetween(String value1, String value2) {
+            addCriterion("gender not between", value1, value2, "gender");
             return (Criteria) this;
         }
 
@@ -432,6 +432,76 @@ public class UserDTOExample {
 
         public Criteria andEmailNotBetween(String value1, String value2) {
             addCriterion("email not between", value1, value2, "email");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionIsNull() {
+            addCriterion("region is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionIsNotNull() {
+            addCriterion("region is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionEqualTo(String value) {
+            addCriterion("region =", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionNotEqualTo(String value) {
+            addCriterion("region <>", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionGreaterThan(String value) {
+            addCriterion("region >", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionGreaterThanOrEqualTo(String value) {
+            addCriterion("region >=", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionLessThan(String value) {
+            addCriterion("region <", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionLessThanOrEqualTo(String value) {
+            addCriterion("region <=", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionLike(String value) {
+            addCriterion("region like", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionNotLike(String value) {
+            addCriterion("region not like", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionIn(List<String> values) {
+            addCriterion("region in", values, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionNotIn(List<String> values) {
+            addCriterion("region not in", values, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionBetween(String value1, String value2) {
+            addCriterion("region between", value1, value2, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionNotBetween(String value1, String value2) {
+            addCriterion("region not between", value1, value2, "region");
             return (Criteria) this;
         }
 

@@ -6,11 +6,13 @@ import java.util.Date;
 public class UserDTO extends UserDTOKey implements Serializable {
     private String username;
 
-    private String sex;
+    private String gender;
 
     private Date birthday;
 
     private String email;
+
+    private String region;
 
     private String phone;
 
@@ -30,12 +32,12 @@ public class UserDTO extends UserDTOKey implements Serializable {
         this.username = username == null ? null : username.trim();
     }
 
-    public String getSex() {
-        return sex;
+    public String getGender() {
+        return gender;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex == null ? null : sex.trim();
+    public void setGender(String gender) {
+        this.gender = gender == null ? null : gender.trim();
     }
 
     public Date getBirthday() {
@@ -52,6 +54,14 @@ public class UserDTO extends UserDTOKey implements Serializable {
 
     public void setEmail(String email) {
         this.email = email == null ? null : email.trim();
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region == null ? null : region.trim();
     }
 
     public String getPhone() {

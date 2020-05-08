@@ -2,9 +2,11 @@ package com.springboot.enums;
 
 import java.util.Arrays;
 
+import com.springboot.common.ServiceRuntimeException;
+
 public enum CommonYN {
     /**
-     *是否
+     * 是否
      */
     YES(1, "是"),
 
@@ -22,7 +24,7 @@ public enum CommonYN {
         CommonYN[] types = CommonYN.values();
         return Arrays.stream(types)
             .filter(type -> type.value() == value)
-            .findAny().orElse(null);
+            .findAny().orElseThrow(() -> new ServiceRuntimeException("无法解析" + value));
     }
 
     public short value() { return value; }

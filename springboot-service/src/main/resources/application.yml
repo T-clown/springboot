@@ -10,7 +10,21 @@ spring:
       mysql,kafka,redis,dubbo,zk,es
   mail:
     username: 414162330@qq.com
-
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      master: # 主数据源
+        driverClassName: com.mysql.jdbc.Driver
+        username: root
+        password: root
+        url: jdbc:mysql://localhost:3306/master?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
+      slave: # 从数据源
+        driverClassName: com.mysql.jdbc.Driver
+        username: root
+        password: root
+        url: jdbc:mysql://localhost:3306/slave?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
 #分页
 pagehelper:
   helperDialect: mysql

@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class InterfaceAopConfig {
+
     public static final String execution = "@annotation(com.springboot.annotation.Pointcut)";
 
     @Bean

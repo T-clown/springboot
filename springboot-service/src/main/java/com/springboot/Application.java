@@ -1,8 +1,11 @@
 package com.springboot;
 
+import com.springboot.config.DynamicDataSourceConfig;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
@@ -14,9 +17,10 @@ import org.springframework.scheduling.annotation.EnableAsync;
  *
  *https://blog.csdn.net/valada/article/details/80892573
  */
+@Import({DynamicDataSourceConfig.class})
 @EnableAsync
 @MapperScan(basePackages = {"com.springboot.dao"})
-@SpringBootApplication(scanBasePackages = "com.springboot")
+@SpringBootApplication(scanBasePackages = "com.springboot",exclude = DataSourceAutoConfiguration.class)
 public class Application {
 
 

@@ -20,7 +20,6 @@ public class DataSourceAspect {
 
     @Pointcut("@annotation(com.springboot.annotation.DataSource)")
     public void dataSourcePointCut() {
-
     }
 
     @Around("dataSourcePointCut()")
@@ -28,15 +27,16 @@ public class DataSourceAspect {
         MethodSignature signature = (MethodSignature)point.getSignature();
         Method method = signature.getMethod();
         DataSource dataSource = method.getAnnotation(DataSource.class);
-        if (dataSource == null) {
-            DynamicDataSourceContextHolder.setDataSourceKey("master");
-        } else {
-            String dataSourceName = dataSource.name();
-            if (DynamicRoutingDataSource.isExistDataSource(dataSourceName) && !dataSourceName.equals(
-                DynamicDataSourceContextHolder.getDataSourceKey())) {
-                DynamicDataSourceContextHolder.setDataSourceKey(dataSourceName);
-            }
-        }
+        //if (dataSource == null) {
+        //    DynamicDataSourceContextHolder.setDataSourceKey("master");
+        //} else {
+        //    String dataSourceName = dataSource.name();
+        //    if (DynamicRoutingDataSource.isExistDataSource(dataSourceName) && !dataSourceName.equals(
+        //        DynamicDataSourceContextHolder.getDataSourceKey())) {
+        //        DynamicDataSourceContextHolder.setDataSourceKey(dataSourceName);
+        //    }
+        //}
+        DynamicDataSourceContextHolder.setDataSourceKey(dataSource.name());
         try {
             return point.proceed();
         } finally {

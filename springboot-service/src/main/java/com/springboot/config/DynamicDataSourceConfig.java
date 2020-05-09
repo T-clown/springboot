@@ -12,30 +12,31 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Component;
 
 @Configuration
-@Component
 public class DynamicDataSourceConfig {
+
     @Bean
     @ConfigurationProperties("spring.datasource.druid.master")
-    public javax.sql.DataSource xiaobinMasterDataSource() {
+    public DataSource masterDataSource() {
         return DruidDataSourceBuilder.create().build();
     }
 
     @Bean
     @ConfigurationProperties("spring.datasource.druid.slave")
-    public javax.sql.DataSource xiaobinSlaveDataSource() {
+    public DataSource slaveDataSource() {
         return DruidDataSourceBuilder.create().build();
     }
 
     @Bean
     @Primary
-    public DynamicRoutingDataSource dataSource(DataSource masterDataSource, DataSource slaveDataSource) {
+    public DynamicRoutingDataSource dataSource() {
         Map<Object, Object> targetDataSources = new HashMap<>();
-        targetDataSources.put("master", masterDataSource);
-        targetDataSources.put("slave", slaveDataSource);
-        return new DynamicRoutingDataSource(masterDataSource, targetDataSources);
+        targetDataSources.put("master", masterDataSource());
+        targetDataSources.put("slave", slaveDataSource());
+        return new DynamicRoutingDataSource(masterDataSource(), targetDataSources);
     }
+
+
 
 }

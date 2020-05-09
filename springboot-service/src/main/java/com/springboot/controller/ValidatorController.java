@@ -6,13 +6,16 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.springboot.annotation.DataSource;
+import com.springboot.common.DynamicDataSourceContextHolder;
+import com.springboot.common.DynamicRoutingDataSource;
 import com.springboot.common.Result;
 import com.springboot.common.ResultUtil;
 import com.springboot.entity.CreateUserRequest;
+import com.springboot.entity.DataSourceInfo;
 import com.springboot.entity.User;
 import com.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,6 +51,10 @@ public class ValidatorController {
     public Result addUser(@RequestBody @Valid CreateUserRequest request) {
         return ResultUtil.success(userService.saveUser(request));
     }
+    @Autowired
+    private DynamicRoutingDataSource dynamicRoutingDataSource;
+    @Autowired
+    DataSourceInfo dataSourceInfo;
 
     /**
      * 类上@Validated+方法上@Valid
@@ -55,9 +62,14 @@ public class ValidatorController {
      * @param id
      * @return
      */
+    //@DataSource(name = "slave")
     @PostMapping("/user/{id}")
     public Result<User> getUserById(
         @Valid @PathVariable("id") @Max(value = 5, message = "超过 id 的范围了") Integer id) {
+        if(id==3){
+            dynamicRoutingDataSource.addDataSource(dataSourceInfo.getProperties());
+            DynamicDataSourceContextHolder.setDataSourceKey(dataSourceInfo.getUrl());
+        }
         return ResultUtil.success(userService.get(id));
     }
 

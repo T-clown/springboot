@@ -17,6 +17,7 @@ public enum ResultCode {
     FAILURE(-1, "System Busy"),
     INVALID_PARAMETER(-2, "参数错误"),
     UNKNOWN_ERROR(-3, "未知错误"),
+    ES_ERROR(-4, "ES执行错误"),
 
     ;
 

@@ -21,6 +21,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @ApiModel 标注于实体类上
  * @ApiModelProperty 标注于实体类属性上，用于说明各属性含义
  * @ApiIgnore 用于标注在不想被Swagger扫描的类或者方法及属性上
+ * https://doc.xiaominfo.com/knife4j/springboot.html
  */
 @Configuration
 @EnableSwagger2

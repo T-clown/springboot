@@ -7,6 +7,7 @@ import java.util.concurrent.ThreadPoolExecutor.AbortPolicy;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -15,6 +16,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 /**
  * 线程池配置
  */
+@Slf4j
 @Configuration
 @EnableAsync
 public class ThreadPoolConfig {
@@ -75,9 +77,9 @@ public class ThreadPoolConfig {
                 if (t.getPriority() != Thread.NORM_PRIORITY) {
                     t.setPriority(Thread.NORM_PRIORITY);
                 }
-                //当线程出现异常后执行此方法
+                //当线程出现异常后执行此方法，只对execute有用
                 t.setUncaughtExceptionHandler((t1, e) -> {
-                    System.out.println(t1.getName() + "\t" + e.getMessage());
+                    log.error(t1.getName() + "\t" + e.getMessage());
                 });
                 return t;
             }

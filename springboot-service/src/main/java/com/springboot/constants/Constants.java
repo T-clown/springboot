@@ -11,5 +11,5 @@ public class Constants {
     /**
      * Topic 名称
      */
-    public static String KAFKA_TOPIC_NAME = "kafka";
+    public static final String KAFKA_TOPIC_NAME = "kafka";
 }

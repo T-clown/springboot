@@ -10,6 +10,7 @@ import com.springboot.entity.Phone;
 import com.springboot.entity.Yellow;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,7 +33,7 @@ public class PropertiesController {
     private Phone phone;
 
     @RateLimiter(value = 0.5, timeout = 300)
-    @RequestMapping(value = "/yellow", method = GET)
+    @GetMapping(value = "/yellow")
     public Yellow properties(@RequestParam(value = "username", defaultValue = "美女") String name) {
         log.info(JSONUtil.toJsonStr(yellow));
         yellow.setId(counter.incrementAndGet());
@@ -40,7 +41,7 @@ public class PropertiesController {
         return yellow;
     }
 
-    @RequestMapping(value = "/phone", method = GET)
+    @GetMapping(value = "/phone")
     @Pointcut
     public Phone phone() {
         log.info(JSONUtil.toJsonStr(phone));

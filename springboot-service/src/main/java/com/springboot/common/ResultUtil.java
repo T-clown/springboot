@@ -14,9 +14,6 @@ public class ResultUtil {
         return new Result(ResultCode.SUCCESS, data);
     }
 
-    //public static Result error(BaseException exception) {
-    //    return new Result(exception.getStatus());
-    //}
 
     public static Result error(ResultCode errorCode) {
         return new Result(errorCode);

@@ -14,12 +14,16 @@ import com.springboot.statemachine.StateMachineContext.Operator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
+@CacheConfig(cacheNames = "caffeineCacheManager")
 public class UserServiceImpl implements UserService {
 
     @Autowired(required = false)
@@ -47,6 +51,7 @@ public class UserServiceImpl implements UserService {
      * @param id key值
      * @return 返回结果
      */
+    @Cacheable(key = "#id")
     @Override
     public User get(Integer id) {
         UserDTOKey key = new UserDTOKey();
@@ -62,13 +67,13 @@ public class UserServiceImpl implements UserService {
      *
      * @param id key值
      */
-    @CacheEvict(value = "user", key = "#id")
+    @CacheEvict(key = "#id")
     @Override
     public void delete(Integer id) {
 
         log.info("删除用户【id】= {}", id);
     }
-
+    @CachePut(key = "#userDTO.id")
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateStudent(UserDTO userDTO, Operator operator) {

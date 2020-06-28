@@ -6,6 +6,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import cn.hutool.json.JSONUtil;
 import com.springboot.annotation.Pointcut;
 import com.springboot.annotation.RateLimiter;
+import com.springboot.common.Result;
+import com.springboot.common.ResultUtil;
 import com.springboot.entity.Phone;
 import com.springboot.entity.Yellow;
 import lombok.extern.slf4j.Slf4j;
@@ -34,11 +36,11 @@ public class PropertiesController {
 
     @RateLimiter(value = 0.5, timeout = 300)
     @GetMapping(value = "/yellow")
-    public Yellow properties(@RequestParam(value = "username", defaultValue = "美女") String name) {
+    public Result properties(@RequestParam(value = "username", defaultValue = "美女") String name) {
         log.info(JSONUtil.toJsonStr(yellow));
         yellow.setId(counter.incrementAndGet());
         yellow.setName(String.format(context, name));
-        return yellow;
+        return ResultUtil.success(yellow);
     }
 
     @GetMapping(value = "/phone")

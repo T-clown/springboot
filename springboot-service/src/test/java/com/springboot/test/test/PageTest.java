@@ -23,7 +23,7 @@ public class PageTest extends SpringbootApplicationTests {
 
     @Test
     public void transactional() {
-        //userService.updateStudent();
+        //userService.updateUser();
     }
 
     @Test

@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ValidatorControllerTest {
+public class UserControllerTest {
     private MockMvc mockMvc;
 
     //@Before

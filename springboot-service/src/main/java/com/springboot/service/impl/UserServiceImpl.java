@@ -8,22 +8,20 @@ import com.springboot.dao.dto.UserDTOExample.Criteria;
 import com.springboot.dao.dto.UserDTOKey;
 import com.springboot.dao.generatedMapper.UserDTOMapper;
 import com.springboot.entity.CreateUserRequest;
+import com.springboot.entity.UpdateUserRequest;
 import com.springboot.entity.User;
 import com.springboot.service.UserService;
-import com.springboot.statemachine.StateMachineContext.Operator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@Async
 @Slf4j
-@CacheConfig(cacheNames = "caffeineCacheManager")
+@Service
 public class UserServiceImpl implements UserService {
 
     @Autowired(required = false)
@@ -67,24 +65,21 @@ public class UserServiceImpl implements UserService {
      *
      * @param id key值
      */
-    @CacheEvict(key = "#id")
+
     @Override
     public void delete(Integer id) {
-
         log.info("删除用户【id】= {}", id);
     }
-    @CachePut(key = "#userDTO.id")
+
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void updateStudent(UserDTO userDTO, Operator operator) {
-        UserDTOExample example = new UserDTOExample();
-        Criteria criteria = example.createCriteria();
-        //criteria.andIdEqualTo(11);
-        //UserDTO.setUsername("赵日天");
-        //UserDTO.setClassId(3);
-        //UserDTO.setSex("男");
-        // UserDTOMapper.updateByExampleSelective(userDTO,example);
-        // int a = 2 / 0;
+    public void updateUser(UpdateUserRequest request) {
+        try {
+            Thread.sleep(1000 * 10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        log.info("UserServiceImpl当前线程：" + Thread.currentThread().getName());
     }
 
     @Override

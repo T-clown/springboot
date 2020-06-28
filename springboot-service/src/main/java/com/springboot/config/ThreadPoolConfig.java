@@ -64,7 +64,7 @@ public class ThreadPoolConfig {
         ThreadPoolExecutor executor = new ThreadPoolExecutor(corePoolSize, maxPoolSize, keepAliveTime, TimeUnit.SECONDS,
             new LinkedBlockingQueue<>(queueCapacity), new ThreadFactory() {
             private final AtomicInteger threadNumber = new AtomicInteger(1);
-            private static final String NAME_PREFIX = "ThreadPoolExecutor";
+            private static final String NAME_PREFIX = "ThreadPoolExecutor-";
 
             @Override
             public Thread newThread(Runnable r) {

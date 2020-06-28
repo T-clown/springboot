@@ -87,7 +87,7 @@ public class PersistenceModule {
             TransactionStatus transactionStatus = context.getTransactionStatus();
             //持久化
            //UserDTO.setStatus(to.getValue());
-            userService.updateStudent(UserDTO, context.getOperator());
+            //userService.updateUser(UserDTO, context.getOperator());
             //事务提交
             transactionManager.commit(transactionStatus);
         } catch (Exception e) {

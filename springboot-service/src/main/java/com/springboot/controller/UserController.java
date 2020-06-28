@@ -13,9 +13,12 @@ import com.springboot.common.Result;
 import com.springboot.common.ResultUtil;
 import com.springboot.entity.CreateUserRequest;
 import com.springboot.entity.DataSourceInfo;
+import com.springboot.entity.UpdateUserRequest;
 import com.springboot.entity.User;
 import com.springboot.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,17 +27,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @Validated
 @RestController
 @RequestMapping("/validator")
-public class ValidatorController {
+public class UserController {
 
     @Autowired
     UserService userService;
 
     @PostConstruct
-    public void init(){
-        System.out.println("初始化。。。。。。。。。");
+    public void init() {
+        log.info("UserController初始化。。。。。。。。。");
     }
 
     /**
@@ -48,6 +52,7 @@ public class ValidatorController {
     public Result addUser(@RequestBody @Valid CreateUserRequest request) {
         return ResultUtil.success(userService.saveUser(request));
     }
+
     @Autowired
     private DynamicRoutingDataSource dynamicRoutingDataSource;
     @Autowired
@@ -61,9 +66,8 @@ public class ValidatorController {
      */
     //@DataSource(name = "slave")
     @PostMapping("/user/{id}")
-    public Result<User> getUserById(
-        @Valid @PathVariable("id") @Max(value = 5, message = "超过 id 的范围了") Integer id) {
-        if(id==3){
+    public Result<User> getUserById(@Valid @PathVariable("id") @Max(value = 5, message = "超过 id 的范围了") Integer id) {
+        if (id == 3) {
             dynamicRoutingDataSource.addDataSource(dataSourceInfo.getProperties());
             DynamicDataSourceContextHolder.setDataSourceKey(dataSourceInfo.getUrl());
         }
@@ -84,6 +88,13 @@ public class ValidatorController {
         user.setUsername(name);
         user.setId(id);
         return ResultUtil.success(user);
+    }
+
+    @PostMapping("/asyncUpdateUser")
+    public Result asyncUpdateUser(@RequestBody UpdateUserRequest request) {
+        log.info("UserController线程：" + Thread.currentThread().getName());
+        userService.updateUser(request);
+        return ResultUtil.success(true);
     }
 
 }

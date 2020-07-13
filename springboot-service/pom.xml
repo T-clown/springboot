@@ -14,6 +14,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <janusgraph.version>0.5.2</janusgraph.version>
     </properties>
 
     <dependencies>
@@ -32,6 +33,8 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+
     </dependencies>
 
     <build>

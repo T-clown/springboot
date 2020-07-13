@@ -13,11 +13,8 @@ import com.springboot.entity.Yellow;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 /**
  * properties比yml优先级高
@@ -53,5 +50,6 @@ public class PropertiesController {
         phone.setDateInProduced(new Date());
         return phone;
     }
+
 
 }

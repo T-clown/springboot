@@ -29,4 +29,5 @@ public class UserMapperTest extends SpringbootApplicationTests {
         userDTO.setUpdateTime(new Date());
         userMapper.insert(Collections.singletonList(userDTO));
     }
+
 }

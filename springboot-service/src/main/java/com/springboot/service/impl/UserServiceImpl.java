@@ -3,8 +3,6 @@ package com.springboot.service.impl;
 import com.alibaba.fastjson.JSON;
 
 import com.springboot.dao.dto.UserDTO;
-import com.springboot.dao.dto.UserDTOExample;
-import com.springboot.dao.dto.UserDTOExample.Criteria;
 import com.springboot.dao.dto.UserDTOKey;
 import com.springboot.dao.generatedMapper.UserDTOMapper;
 import com.springboot.entity.CreateUserRequest;
@@ -14,7 +12,6 @@ import com.springboot.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,7 +46,7 @@ public class UserServiceImpl implements UserService {
      * @param id key值
      * @return 返回结果
      */
-    @Cacheable(key = "#id")
+
     @Override
     public User get(Integer id) {
         UserDTOKey key = new UserDTOKey();

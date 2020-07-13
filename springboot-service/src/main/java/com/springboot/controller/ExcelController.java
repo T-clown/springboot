@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.excel.EasyExcel;
 
-import com.springboot.common.Result;
-import com.springboot.common.ResultUtil;
-import com.springboot.common.ServiceRuntimeException;
+import com.springboot.common.entity.Result;
+import com.springboot.common.enums.ResultCode;
+import com.springboot.common.exception.ServiceRuntimeException;
 import com.springboot.dao.dto.UserDTO;
 import com.springboot.entity.excel.DownloadData;
-import com.springboot.enums.ResultCode;
 import com.springboot.entity.excel.UploadData;
 import com.springboot.util.ExcelUploadListener;
 import com.springboot.service.repository.UserRepository;
 import com.springboot.util.ExcelUtil;
+import com.springboot.common.util.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -20,6 +20,10 @@
     <dependencies>
         <dependency>
             <groupId>springboot</groupId>
+            <artifactId>springboot-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>springboot</groupId>
             <artifactId>springboot-dao</artifactId>
         </dependency>
 

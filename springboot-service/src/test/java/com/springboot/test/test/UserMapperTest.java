@@ -5,7 +5,7 @@ import java.util.Date;
 
 import com.springboot.dao.dto.UserDTO;
 import com.springboot.dao.extendedMapper.UserMapper;
-import com.springboot.enums.CommonYN;
+import com.springboot.common.enums.CommonYN;
 import com.springboot.test.SpringbootApplicationTests;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

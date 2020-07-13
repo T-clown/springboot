@@ -8,7 +8,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.springboot.common.ServiceRuntimeException;
+import com.springboot.common.exception.ServiceRuntimeException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.bulk.BulkRequest;
@@ -31,7 +31,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import static com.springboot.enums.ResultCode.ES_ERROR;
+import static com.springboot.common.enums.ResultCode.ES_ERROR;
 
 @Slf4j
 @Component

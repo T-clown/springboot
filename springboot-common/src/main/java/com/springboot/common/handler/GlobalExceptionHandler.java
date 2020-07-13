@@ -1,4 +1,4 @@
-package com.springboot.handler;
+package com.springboot.common.handler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,9 +6,9 @@ import java.util.Map;
 import javax.validation.ConstraintViolationException;
 
 import cn.hutool.json.JSONUtil;
-import com.springboot.common.Result;
-import com.springboot.common.ResultUtil;
-import com.springboot.common.ServiceRuntimeException;
+import com.springboot.common.entity.Result;
+import com.springboot.common.util.ResultUtil;
+import com.springboot.common.exception.ServiceRuntimeException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;

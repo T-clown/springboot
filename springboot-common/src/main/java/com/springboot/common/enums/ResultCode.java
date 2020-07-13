@@ -1,4 +1,4 @@
-package com.springboot.enums;
+package com.springboot.common.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

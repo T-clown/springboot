@@ -1,6 +1,7 @@
-package com.springboot.common;
+package com.springboot.common.util;
 
-import com.springboot.enums.ResultCode;
+import com.springboot.common.entity.Result;
+import com.springboot.common.enums.ResultCode;
 
 public class ResultUtil {
     public ResultUtil() {

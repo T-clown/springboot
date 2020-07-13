@@ -1,8 +1,8 @@
-package com.springboot.enums;
+package com.springboot.common.enums;
 
 import java.util.Arrays;
 
-import com.springboot.common.ServiceRuntimeException;
+import com.springboot.common.exception.ServiceRuntimeException;
 
 public enum CommonYN {
     /**

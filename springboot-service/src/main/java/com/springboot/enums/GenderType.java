@@ -2,7 +2,8 @@ package com.springboot.enums;
 
 import java.util.Arrays;
 
-import com.springboot.common.ServiceRuntimeException;
+import com.springboot.common.enums.ResultCode;
+import com.springboot.common.exception.ServiceRuntimeException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

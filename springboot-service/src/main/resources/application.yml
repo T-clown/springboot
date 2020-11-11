@@ -44,3 +44,8 @@ com:
   properties:
     name: '人生若只如初见'
     title: '何事秋风悲画扇'
+
+
+log4jdbc:
+  spylogdelegator:
+    name: net.sf.log4jdbc.log.slf4j.Slf4jSpyLogDelegator

@@ -1,18 +1,20 @@
 ## 默认的数据源
 master:
   datasource:
-    url: jdbc:mysql://localhost:3306/spring-boot-demo?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8
+    url: jdbc:p6spy:mysql://localhost:3306/spring-boot-demo?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8
     username: root
     password: root
-    driverClassName: com.mysql.jdbc.Driver
+    #driverClassName: com.mysql.jdbc.Driver
+    driverClassName: com.p6spy.engine.spy.P6SpyDriver
 
   ## 另一个的数据源
 cluster:
   datasource:
-    url: jdbc:mysql://localhost:3306/spring-boot-demo?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+    url: jdbc:p6spy:mysql://localhost:3306/spring-boot-demo?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
     username: root
     password: root
-    driverClassName: com.mysql.jdbc.Driver
+    #driverClassName: com.mysql.jdbc.Driver
+    driverClassName: com.p6spy.engine.spy.P6SpyDriver
 
   # 连接池的配置信息
   # 初始化大小，最小，最大

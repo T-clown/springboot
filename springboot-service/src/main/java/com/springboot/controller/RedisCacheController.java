@@ -1,6 +1,6 @@
 package com.springboot.controller;
 
-import com.springboot.constants.Constants;
+import com.springboot.common.constants.Constants;
 import com.springboot.entity.User;
 import com.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

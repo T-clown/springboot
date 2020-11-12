@@ -1,6 +1,6 @@
 package com.springboot.config;
 
-import com.springboot.constants.Constants;
+import com.springboot.common.constants.Constants;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

@@ -1,6 +1,6 @@
 package com.springboot.handler;
 
-import com.springboot.constants.Constants;
+import com.springboot.common.constants.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;

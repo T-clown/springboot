@@ -1,12 +1,13 @@
 package com.springboot;
 
 import com.springboot.config.DynamicDataSourceConfig;
+import com.springboot.controller.EsController;
 import com.springboot.extend.TestApplicationContextInitializer;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
 
@@ -17,8 +18,9 @@ import org.springframework.scheduling.annotation.EnableAsync;
  * Spring Boot建议将我们main方法所在的这个主要的配置类配置在根包名下
  *
  * https://blog.csdn.net/valada/article/details/80892573
+ * @ImportResource注解用于导入Spring的配置文件，让配置文件里面的内容生效，这个注解是放在主入口函数的类上
  */
-@Import({DynamicDataSourceConfig.class})
+//@Import({DynamicDataSourceConfig.class})
 @EnableAsync
 @MapperScan(basePackages = {"com.springboot.dao"})
 @SpringBootApplication(scanBasePackages = "com.springboot", exclude = DataSourceAutoConfiguration.class)

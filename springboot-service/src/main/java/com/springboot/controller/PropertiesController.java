@@ -4,12 +4,15 @@ import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import cn.hutool.json.JSONUtil;
+import com.springboot.annotation.ImportSelector;
 import com.springboot.annotation.Pointcut;
 import com.springboot.annotation.RateLimiter;
 import com.springboot.common.entity.Result;
+import com.springboot.common.enums.CommonYN;
 import com.springboot.entity.Phone;
 import com.springboot.entity.Yellow;
 import com.springboot.common.util.ResultUtil;
+import com.springboot.service.SelectorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +33,9 @@ public class PropertiesController {
     private Yellow yellow;
     @Autowired
     private Phone phone;
+    @Autowired
+    @ImportSelector(mode = CommonYN.YES)
+    SelectorService selectorService;
 
     @RateLimiter(value = 0.5, timeout = 300)
     @GetMapping(value = "/yellow")
@@ -37,6 +43,7 @@ public class PropertiesController {
         log.info(JSONUtil.toJsonStr(yellow));
         yellow.setId(counter.incrementAndGet());
         yellow.setName(String.format(context, name));
+        log.info("select:{}", selectorService.select());
         return ResultUtil.success(yellow);
     }
 
@@ -50,6 +57,5 @@ public class PropertiesController {
         phone.setDateInProduced(new Date());
         return phone;
     }
-
 
 }

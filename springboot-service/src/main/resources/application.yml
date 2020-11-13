@@ -14,15 +14,16 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       master: # 主数据源
-        driverClassName: com.mysql.jdbc.Driver
+        driverClassName: com.p6spy.engine.spy.P6SpyDriver
         username: root
         password: root
-        url: jdbc:mysql://localhost:3306/master?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
+        url: jdbc:p6spy:mysql://localhost:3306/master?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
       slave: # 从数据源
-        driverClassName: com.mysql.jdbc.Driver
+        driverClassName: com.p6spy.engine.spy.P6SpyDriver
         username: root
         password: root
-        url: jdbc:mysql://localhost:3306/slave?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
+        url: jdbc:p6spy:mysql://localhost:3306/slave?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
+
 mybatis:
   mapper-locations: classpath:mapper/*.xml
 #分页

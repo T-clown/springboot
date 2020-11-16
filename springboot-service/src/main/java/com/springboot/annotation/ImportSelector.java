@@ -11,7 +11,7 @@ import com.springboot.common.enums.CommonYN;
 import com.springboot.service.PayConfigurationSelector;
 import org.springframework.context.annotation.Import;
 
-@Target(ElementType.FIELD)
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Import(PayConfigurationSelector.class)

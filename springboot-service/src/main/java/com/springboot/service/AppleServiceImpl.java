@@ -1,7 +1,7 @@
 package com.springboot.service;
 
-public class OrangeServiceImpl {
+public class AppleServiceImpl  {
     public String select() {
-        return "橘子";
+        return "苹果";
     }
 }

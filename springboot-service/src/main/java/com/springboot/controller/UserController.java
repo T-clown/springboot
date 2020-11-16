@@ -7,16 +7,13 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.springboot.annotation.ImportSelector;
 import com.springboot.common.DynamicDataSourceContextHolder;
 import com.springboot.common.DynamicRoutingDataSource;
 import com.springboot.common.entity.Result;
-import com.springboot.common.enums.CommonYN;
 import com.springboot.entity.CreateUserRequest;
 import com.springboot.entity.DataSourceInfo;
 import com.springboot.entity.UpdateUserRequest;
 import com.springboot.entity.User;
-import com.springboot.service.SelectorService;
 import com.springboot.service.UserService;
 import com.springboot.common.util.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RestController
 @RequestMapping("/validator")
+//@ImportSelector(mode = CommonYN.NO)
 public class UserController {
 
     @Autowired
@@ -62,12 +60,9 @@ public class UserController {
     @Autowired
     DataSourceInfo dataSourceInfo;
 
-    @Autowired
-    EsController esController;
 
-    @Autowired
-    @ImportSelector(mode = CommonYN.NO)
-    SelectorService selectorService;
+    //@Autowired
+    //SelectorService selectorService;
 
     /**
      * 类上@Validated+方法上@Valid
@@ -78,9 +73,8 @@ public class UserController {
     //@DataSource(name = "slave")
     @PostMapping("/user/{id}")
     public Result<User> getUserById(@Valid @PathVariable("id") @Max(value = 5, message = "超过 id 的范围了") Integer id) {
-        esController.test();
-        String select = selectorService.select();
-        log.info("select:{}", select);
+        //String select = selectorService.select();
+        //log.info("select:{}", select);
         if (id == 3) {
             dynamicRoutingDataSource.addDataSource(dataSourceInfo.getProperties());
             DynamicDataSourceContextHolder.setDataSourceKey(dataSourceInfo.getUrl());

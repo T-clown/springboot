@@ -12,7 +12,6 @@ import com.springboot.common.enums.CommonYN;
 import com.springboot.entity.Phone;
 import com.springboot.entity.Yellow;
 import com.springboot.common.util.ResultUtil;
-import com.springboot.service.SelectorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Slf4j
+@ImportSelector(mode = CommonYN.YES)
 public class PropertiesController {
     private static final String context = "你好，%s";
     private final AtomicInteger counter = new AtomicInteger();
@@ -33,9 +33,7 @@ public class PropertiesController {
     private Yellow yellow;
     @Autowired
     private Phone phone;
-    @Autowired
-    @ImportSelector(mode = CommonYN.YES)
-    SelectorService selectorService;
+
 
     @RateLimiter(value = 0.5, timeout = 300)
     @GetMapping(value = "/yellow")
@@ -43,7 +41,6 @@ public class PropertiesController {
         log.info(JSONUtil.toJsonStr(yellow));
         yellow.setId(counter.incrementAndGet());
         yellow.setName(String.format(context, name));
-        log.info("select:{}", selectorService.select());
         return ResultUtil.success(yellow);
     }
 

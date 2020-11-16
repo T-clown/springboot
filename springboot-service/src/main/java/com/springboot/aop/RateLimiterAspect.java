@@ -15,12 +15,7 @@ import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 
 /**
- * <p>
  * 限流切面
- * </p>
- *
- * @author yangkai.shen
- * @date Created in 2019/9/12 14:27
  */
 @Slf4j
 @Aspect

@@ -10,11 +10,11 @@ import org.springframework.core.annotation.MergedAnnotations;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.Assert;
 
-public abstract class PayModeImportSelector<A extends Annotation> implements ImportSelector {
+public abstract class AbstractImportSelector<A extends Annotation> implements ImportSelector {
 
     @Override
     public final String[] selectImports(AnnotationMetadata annotationMetadata) {
-        Class<?> annType = GenericTypeResolver.resolveTypeArgument(getClass(), PayModeImportSelector.class);
+        Class<?> annType = GenericTypeResolver.resolveTypeArgument(getClass(), AbstractImportSelector.class);
         Assert.state(annType != null, "Unresolvable type argument for AdviceModeImportSelector");
         MergedAnnotations annotations = annotationMetadata.getAnnotations();
         MergedAnnotation<Annotation> mergedAnnotation = annotations.get(annType.getName());

@@ -291,6 +291,17 @@
             <version>3.8.5</version>
         </dependency>
 
+        <!--https://mapstruct.org/documentation/stable/reference/html/-->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.4.1.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>1.4.1.Final</version>
+        </dependency>
 
     </dependencies>
 

@@ -1,17 +1,14 @@
 package com.springboot.controller;
 
-import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import cn.hutool.json.JSONUtil;
 import com.springboot.annotation.ImportSelector;
-import com.springboot.annotation.Pointcut;
 import com.springboot.annotation.RateLimiter;
 import com.springboot.common.entity.Result;
 import com.springboot.common.enums.CommonYN;
-import com.springboot.entity.Phone;
-import com.springboot.entity.Yellow;
 import com.springboot.common.util.ResultUtil;
+import com.springboot.entity.Yellow;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,40 +16,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * properties比yml优先级高
+ * 同目录下properties比yml优先级高
  * 配置文件读取顺序：resources下的config目录文件-->resources下的配置文件
+ * 读取properties中文会乱码，可转成yml文件解决
  */
 @RestController
 @Slf4j
 @ImportSelector(mode = CommonYN.YES)
 public class PropertiesController {
-    private static final String context = "你好，%s";
     private final AtomicInteger counter = new AtomicInteger();
 
     @Autowired
     private Yellow yellow;
-    @Autowired
-    private Phone phone;
 
 
     @RateLimiter(value = 0.5, timeout = 300)
     @GetMapping(value = "/yellow")
-    public Result properties(@RequestParam(value = "username", defaultValue = "美女") String name) {
+    public Result properties(@RequestParam(value = "name", defaultValue = "美女") String name) {
         log.info(JSONUtil.toJsonStr(yellow));
         yellow.setId(counter.incrementAndGet());
-        yellow.setName(String.format(context, name));
         return ResultUtil.success(yellow);
     }
 
-    @GetMapping(value = "/phone")
-    @Pointcut
-    public Phone phone() {
-        log.info(JSONUtil.toJsonStr(phone));
-        log.info("目标方法：phone()");
-        //int a=2/0;
-        phone.setId(counter.getAndIncrement());
-        phone.setDateInProduced(new Date());
-        return phone;
-    }
 
 }

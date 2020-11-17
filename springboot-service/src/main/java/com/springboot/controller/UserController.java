@@ -31,7 +31,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RestController
 @RequestMapping("/user")
-//@ImportSelector(mode = CommonYN.NO)
 public class UserController {
 
     @Autowired

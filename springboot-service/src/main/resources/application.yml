@@ -4,6 +4,7 @@ server:
     context-path: /springboot
 
 
+
 spring:
   profiles:
     include:
@@ -43,8 +44,8 @@ p:
   price: 3999
 com:
   properties:
-    name: '人生若只如初见'
-    title: '何事秋风悲画扇'
+    name: '等闲变却故人心'
+    title: '却道故人心易变'
 
 
 log4jdbc:

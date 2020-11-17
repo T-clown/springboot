@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.springboot.annotation.RateLimiter;
+import com.springboot.common.exception.ServiceRuntimeException;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -42,7 +43,7 @@ public class RateLimiterAspect {
             // 尝试获取令牌
             if (RATE_LIMITER_CACHE.get(method.getName()) != null && !RATE_LIMITER_CACHE.get(method.getName())
                 .tryAcquire(rateLimiter.timeout(), rateLimiter.timeUnit())) {
-                throw new RuntimeException("手速太快了，慢点儿吧~");
+                throw new ServiceRuntimeException("手速太快了，慢点儿吧~");
             }
         }
         return point.proceed();

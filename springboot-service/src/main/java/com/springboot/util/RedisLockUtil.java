@@ -41,7 +41,7 @@ public class RedisLockUtil {
      * 解锁脚本，KEYS[1]要解锁的key，ARGV[1]是UUID随机值
      */
     private static final String SCRIPT_UNLOCK
-        = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
+        = "if redis.call('getUserById', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
 
     /**
      * 尝试获取分布式锁
@@ -70,7 +70,7 @@ public class RedisLockUtil {
      */
     public static boolean release(Jedis jedis, String lockKey, String requestId) {
         String script
-            = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
+            = "if redis.call('getUserById', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
         Object result = jedis.eval(script, Collections.singletonList(lockKey), Collections.singletonList(requestId));
         if (RELEASE_SUCCESS.equals(result)) {
             return true;

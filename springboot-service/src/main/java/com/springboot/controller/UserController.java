@@ -27,11 +27,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@Import({EsController.class})
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("/validator")
+@RequestMapping("/user")
 //@ImportSelector(mode = CommonYN.NO)
 public class UserController {
 
@@ -50,19 +49,15 @@ public class UserController {
      * @param request
      * @return 参数为对象的：方法上加@Valid 或者 @Validated
      */
-    @PostMapping("/addUser")
-    public Result addUser(@RequestBody @Valid CreateUserRequest request) {
-        return ResultUtil.success(userService.saveUser(request));
+    @PostMapping("/add")
+    public Result add(@RequestBody @Valid CreateUserRequest request) {
+        return ResultUtil.success(userService.addUser(request));
     }
 
     @Autowired
     private DynamicRoutingDataSource dynamicRoutingDataSource;
     @Autowired
     DataSourceInfo dataSourceInfo;
-
-
-    //@Autowired
-    //SelectorService selectorService;
 
     /**
      * 类上@Validated+方法上@Valid
@@ -71,15 +66,13 @@ public class UserController {
      * @return
      */
     //@DataSource(name = "slave")
-    @PostMapping("/user/{id}")
+    @PostMapping("/{id}")
     public Result<User> getUserById(@Valid @PathVariable("id") @Max(value = 5, message = "超过 id 的范围了") Integer id) {
-        //String select = selectorService.select();
-        //log.info("select:{}", select);
         if (id == 3) {
             dynamicRoutingDataSource.addDataSource(dataSourceInfo.getProperties());
             DynamicDataSourceContextHolder.setDataSourceKey(dataSourceInfo.getUrl());
         }
-        return ResultUtil.success(userService.get(id));
+        return ResultUtil.success(userService.getUserById(id));
     }
 
     /**
@@ -88,8 +81,8 @@ public class UserController {
      * @param name
      * @return
      */
-    @PostMapping("/getUser")
-    public Result<User> getUser(
+    @PostMapping("/get")
+    public Result<User> get(
         @Valid @RequestParam("name") @Size(max = 6, message = "超过 username 的范围了") @NotBlank String name,
         @Valid @RequestParam("id") @NotNull(message = "id不能为空") Long id) {
         User user = new User();
@@ -98,11 +91,9 @@ public class UserController {
         return ResultUtil.success(user);
     }
 
-    @PostMapping("/asyncUpdateUser")
-    public Result asyncUpdateUser(@RequestBody UpdateUserRequest request) {
-        log.info("UserController线程：" + Thread.currentThread().getName());
-        userService.updateUser(request);
-        return ResultUtil.success(true);
+    @PostMapping("/update")
+    public Result<Boolean> update(@RequestBody @Valid UpdateUserRequest request) {
+        return ResultUtil.success(userService.updateUser(request));
     }
 
 }

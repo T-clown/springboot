@@ -1,10 +1,8 @@
 package com.springboot.service;
 
-import com.springboot.dao.dto.UserDTO;
 import com.springboot.entity.CreateUserRequest;
 import com.springboot.entity.UpdateUserRequest;
 import com.springboot.entity.User;
-import com.springboot.statemachine.StateMachineContext.Operator;
 
 public interface UserService {
     /**
@@ -13,7 +11,7 @@ public interface UserService {
      * @param request 用户对象
      * @return 操作结果
      */
-    boolean saveUser(CreateUserRequest request);
+    boolean addUser(CreateUserRequest request);
 
     /**
      * 获取用户
@@ -21,7 +19,7 @@ public interface UserService {
      * @param id key值
      * @return 返回结果
      */
-    User get(Integer id);
+    User getUserById(Integer id);
 
     /**
      * 删除
@@ -30,7 +28,6 @@ public interface UserService {
      */
     void delete(Integer id);
 
-    void updateUser(UpdateUserRequest request);
+    boolean updateUser(UpdateUserRequest request);
 
-    UserDTO getStudent(int id);
 }

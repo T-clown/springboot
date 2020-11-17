@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import com.springboot.dao.dto.UserDTO;
 import com.springboot.service.UserService;
+import com.springboot.service.repository.UserRepository;
 import com.springboot.statemachine.entity.StatusEnum;
 import com.springboot.statemachine.entity.StudentTrigger;
 import org.springframework.beans.BeansException;
@@ -20,7 +21,7 @@ public class StudentStateMachineEngine implements ApplicationContextAware {
     protected UntypedStateMachineBuilder stateMachineBuilder = null;
     protected ApplicationContext applicationContext = null;
     @Autowired
-    private UserService userService;
+    private UserRepository userService;
 
     public StudentStateMachineEngine() {
         stateMachineBuilder = StateMachineBuilderFactory.create(StudentStatusMachine.class,
@@ -34,7 +35,7 @@ public class StudentStateMachineEngine implements ApplicationContextAware {
 
 
     public UserDTO fire(int id, StudentTrigger trigger, StateMachineContext context) {
-        UserDTO UserDTO = userService.getStudent(id);
+        UserDTO UserDTO = userService.getUserDTOById(id);
         if (Objects.isNull(UserDTO)) {
             throw new RuntimeException("无此学生");
         }

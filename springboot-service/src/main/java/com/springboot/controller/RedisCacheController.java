@@ -29,6 +29,6 @@ public class RedisCacheController {
 
     @PostMapping("/getUser")
     public User getUser(Integer userId) {
-        return userService.get(userId);
+        return userService.getUserById(userId);
     }
 }

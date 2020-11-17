@@ -14,7 +14,7 @@ public enum GenderType {
      *
      */
     MALE("MALE", "男"),
-    FEMALE("FEMALE", "男");
+    FEMALE("FEMALE", "女");
 
     String name;
     String desc;

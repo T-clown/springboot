@@ -1,5 +1,6 @@
 package com.springboot.entity;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.validation.constraints.Email;
@@ -24,8 +25,7 @@ public class UpdateUserRequest {
     /**
      * 姓名
      */
-    @Size(min = 5, max = 10, message = "姓名太长")
-    @NotBlank(message = "姓名不能为空")
+    @Size(max = 10, message = "姓名太长")
     private String username;
 
     //@NotNull(message = "年龄不能为空")
@@ -34,15 +34,15 @@ public class UpdateUserRequest {
     private Integer age;
 
     @Past(message = "生日日期错误")
-    private Date birthday;
+    private LocalDateTime birthday;
 
     @Length(min = 11, max = 11, message = "手机号位数不对")
-    @NotBlank(message = "手机号不能为空")
     private String phone;
 
     @NotNull(message = "姓名不能为空")
-    @JsonDeserialize(using = GenderDeserializer.class)
-    private GenderType gender;
+    //@JsonDeserialize(using = GenderDeserializer.class)
+    //private GenderType gender;
+    private String gender;
 
     @Email(message = "邮箱格式错误")
     private String email;

@@ -1,5 +1,6 @@
 package com.springboot.test.test;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Date;
 
@@ -18,16 +19,16 @@ public class UserMapperTest extends SpringbootApplicationTests {
     @Rollback(value = false)
     @Test
     public void insert() {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUsername("clown");
-        userDTO.setBirthday(new Date());
-        userDTO.setEmail("414162330@qq.com");
-        userDTO.setPhone("13730638402");
-        userDTO.setIsDeleted(CommonYN.NO.value());
-        userDTO.setGender("男");
-        userDTO.setCreateTime(new Date());
-        userDTO.setUpdateTime(new Date());
-        userMapper.insert(Collections.singletonList(userDTO));
+        //UserDTO userDTO = new UserDTO();
+        //userDTO.setUsername("clown");
+        //userDTO.setBirthday(LocalDateTime.now());
+        //userDTO.setEmail("414162330@qq.com");
+        //userDTO.setPhone("13730638402");
+        //userDTO.setIsDeleted(CommonYN.NO.value());
+        //userDTO.setGender("男");
+        //userDTO.setCreateTime(LocalDateTime.now());
+        //userDTO.setUpdateTime(LocalDateTime.now());
+        //userMapper.insert(Collections.singletonList(userDTO));
     }
 
 }

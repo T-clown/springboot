@@ -38,9 +38,10 @@ public class CreateUserRequest {
     @Length(min = 11, max = 11, message = "手机号位数不对")
     private String phone;
 
-    @NotNull(message = "姓名不能为空")
-    @JsonDeserialize(using = GenderDeserializer.class)
-    private GenderType gender;
+    @NotNull(message = "性别不能为空")
+    //@JsonDeserialize(using = GenderDeserializer.class)
+    //private GenderType gender;
+    private String gender;
 
     @Email
     private String email;

@@ -7,6 +7,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.springboot.annotation.LockKeyParam;
+import com.springboot.annotation.ZkLock;
 import com.springboot.common.DynamicDataSourceContextHolder;
 import com.springboot.common.DynamicRoutingDataSource;
 import com.springboot.common.entity.Result;
@@ -48,8 +50,9 @@ public class UserController {
      * @param request
      * @return 参数为对象的：方法上加@Valid 或者 @Validated
      */
+    @ZkLock(key = "zklock")
     @PostMapping("/add")
-    public Result add(@RequestBody @Valid CreateUserRequest request) {
+    public Result add(@LockKeyParam(fields = {"username","phone"})@RequestBody @Valid CreateUserRequest request) {
         return ResultUtil.success(userService.addUser(request));
     }
 

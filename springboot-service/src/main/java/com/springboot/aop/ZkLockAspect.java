@@ -9,6 +9,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.springboot.annotation.LockKeyParam;
 import com.springboot.annotation.ZkLock;
+import com.springboot.common.exception.ServiceRuntimeException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
@@ -55,12 +56,12 @@ public class ZkLockAspect {
      */
     @Around("doLock()")
     public Object around(ProceedingJoinPoint point) throws Throwable {
-        MethodSignature signature = (MethodSignature) point.getSignature();
+        MethodSignature signature = (MethodSignature)point.getSignature();
         Method method = signature.getMethod();
         Object[] args = point.getArgs();
         ZkLock zooLock = method.getAnnotation(ZkLock.class);
         if (StrUtil.isBlank(zooLock.key())) {
-            throw new RuntimeException("分布式锁键不能为空");
+            throw new ServiceRuntimeException("分布式锁键不能为空");
         }
         String lockKey = buildLockKey(zooLock, method, args);
         InterProcessMutex lock = new InterProcessMutex(zkClient, lockKey);
@@ -69,7 +70,7 @@ public class ZkLockAspect {
             if (lock.acquire(zooLock.timeout(), zooLock.timeUnit())) {
                 return point.proceed();
             } else {
-                throw new RuntimeException("请勿重复提交");
+                throw new ServiceRuntimeException("请勿重复提交");
             }
         } finally {
             lock.release();
@@ -86,7 +87,8 @@ public class ZkLockAspect {
      * @throws NoSuchFieldException
      * @throws IllegalAccessException
      */
-    private String buildLockKey(ZkLock lock, Method method, Object[] args) throws NoSuchFieldException, IllegalAccessException {
+    private String buildLockKey(ZkLock lock, Method method, Object[] args)
+        throws NoSuchFieldException, IllegalAccessException {
         StringBuilder key = new StringBuilder(KEY_SEPARATOR + KEY_PREFIX + lock.key());
 
         // 迭代全部参数的注解，根据使用LockKeyParam的注解的参数所在的下标，来获取args中对应下标的参数值拼接到前半部分key上
@@ -96,11 +98,11 @@ public class ZkLockAspect {
             // 循环该参数全部注解
             for (Annotation annotation : parameterAnnotations[i]) {
                 // 注解不是 @LockKeyParam
-                if (!annotation.annotationType().isInstance(LockKeyParam.class)) {
+                if (!(annotation instanceof LockKeyParam)) {
                     continue;
                 }
                 // 获取所有fields
-                String[] fields = ((LockKeyParam) annotation).fields();
+                String[] fields = ((LockKeyParam)annotation).fields();
                 if (ArrayUtil.isEmpty(fields)) {
                     // 普通数据类型直接拼接
                     if (ObjectUtil.isNull(args[i])) {
@@ -113,7 +115,7 @@ public class ZkLockAspect {
                         Class<?> clazz = args[i].getClass();
                         Field declaredField = clazz.getDeclaredField(field);
                         declaredField.setAccessible(true);
-                        Object value = declaredField.get(clazz);
+                        Object value = declaredField.get(args[i]);
                         key.append(KEY_SEPARATOR).append(value);
                     }
                 }

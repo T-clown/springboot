@@ -68,7 +68,7 @@ public class DistributLockTests {
         log.error("count值为{}", count);
     }
 
-    @ZkLock(key = "buqy", timeout = 1, timeUnit = TimeUnit.MINUTES)
+    //@ZkLock(key = "buqy", timeout = 1, timeUnit = TimeUnit.MINUTES)
     public void aopBuy(int userId) {
         log.info("{} 正在出库。。。", userId);
         doBuy();

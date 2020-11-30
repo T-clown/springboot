@@ -1,5 +1,8 @@
 package com.springboot.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
@@ -69,7 +72,7 @@ public class UserController {
      */
     //@DataSource(name = "slave")
     @PostMapping("/{id}")
-    public Result<User> getUserById(@Valid @PathVariable("id") @Max(value = 5, message = "超过 id 的范围了") Integer id) {
+    protected Result<User> getUserById(@Valid @PathVariable("id") @Max(value = 5, message = "超过 id 的范围了") Integer id) {
         if (id == 3) {
             dynamicRoutingDataSource.addDataSource(dataSourceInfo.getProperties());
             DynamicDataSourceContextHolder.setDataSourceKey(dataSourceInfo.getUrl());

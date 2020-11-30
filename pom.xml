@@ -106,6 +106,7 @@
             <version>1.20</version>
         </dependency>
 
+        <!-- lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -278,11 +279,11 @@
         </dependency>
 
         <!--监控sql日志,log4jdbc监控jdbc层-->
-        <dependency>
-            <groupId>org.bgee.log4jdbc-log4j2</groupId>
-            <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
-            <version>1.16</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.bgee.log4jdbc-log4j2</groupId>-->
+            <!--<artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>-->
+            <!--<version>1.16</version>-->
+        <!--</dependency>-->
 
         <!--p6spy-->
         <dependency>
@@ -303,6 +304,15 @@
             <version>1.4.1.Final</version>
         </dependency>
 
+        <!--监控报警-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
     </dependencies>
 
 

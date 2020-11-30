@@ -11,6 +11,7 @@ import org.springframework.aop.ThrowsAdvice;
 
 /**
  * 基于接口实现AOP
+ * 切点配置InterfaceAopConfig
  */
 @Slf4j
 public class Advice implements MethodInterceptor, MethodBeforeAdvice, AfterReturningAdvice, ThrowsAdvice {

@@ -25,13 +25,13 @@ public class UserMapperTest extends SpringbootApplicationTests {
     public void insert() {
         UserDTO userDTO = new UserDTO();
         userDTO.setUsername("clasdasdasdasdasown");
-        userDTO.setBirthday(new Date());
+        userDTO.setBirthday(LocalDateTime.now());
         userDTO.setEmail("414162330@qq.com");
         userDTO.setPhone("13730638402");
         userDTO.setIsDeleted(CommonYN.NO.value());
         userDTO.setGender("男");
-        userDTO.setCreateTime(new Date());
-        userDTO.setUpdateTime(new Date());
+        userDTO.setCreateTime(LocalDateTime.now());
+        userDTO.setUpdateTime(LocalDateTime.now());
         userMapper.insert(Collections.singletonList(userDTO));
     }
 

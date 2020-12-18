@@ -1,24 +1,26 @@
 package com.springboot.dao.dto;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class UserDTO extends UserDTOKey implements Serializable {
     private String username;
 
     private String gender;
 
-    private Date birthday;
+    private LocalDateTime birthday;
 
     private String email;
 
     private String region;
 
+    private Short status;
+
     private String phone;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     private Short isDeleted;
 
@@ -40,11 +42,11 @@ public class UserDTO extends UserDTOKey implements Serializable {
         this.gender = gender == null ? null : gender.trim();
     }
 
-    public Date getBirthday() {
+    public LocalDateTime getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDateTime birthday) {
         this.birthday = birthday;
     }
 
@@ -64,6 +66,14 @@ public class UserDTO extends UserDTOKey implements Serializable {
         this.region = region == null ? null : region.trim();
     }
 
+    public Short getStatus() {
+        return status;
+    }
+
+    public void setStatus(Short status) {
+        this.status = status;
+    }
+
     public String getPhone() {
         return phone;
     }
@@ -72,19 +82,19 @@ public class UserDTO extends UserDTOKey implements Serializable {
         this.phone = phone == null ? null : phone.trim();
     }
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
+    public LocalDateTime getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(LocalDateTime updateTime) {
         this.updateTime = updateTime;
     }
 

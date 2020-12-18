@@ -4,12 +4,13 @@ import java.math.BigDecimal;
 
 import com.springboot.dao.dto.UserDTO;
 import lombok.Data;
+import org.redisson.api.RLock;
 import org.springframework.transaction.TransactionStatus;
 
 @Data
 public class StateMachineContext {
     private TransactionStatus transactionStatus;
-    //private JedisLock jedisLock;
+    private RLock rLock;
     private UserDTO userDTO;
     private int version;
     private BigDecimal currentMonthCount;
@@ -17,8 +18,8 @@ public class StateMachineContext {
     private Operator operator;
 
     public enum OperateRole {
-        CUSTOMER,
-        FINANCE
+        TEACHER,
+        STUDENT
     }
     @Data
     public static class Operator {

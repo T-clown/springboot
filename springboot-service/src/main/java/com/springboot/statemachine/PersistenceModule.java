@@ -1,9 +1,12 @@
 package com.springboot.statemachine;
 
+import com.springboot.common.DistributedLock;
 import com.springboot.dao.dto.UserDTO;
 import com.springboot.service.UserService;
+import com.springboot.service.repository.UserRepository;
 import com.springboot.statemachine.entity.StatusEnum;
 import com.springboot.statemachine.entity.StudentTrigger;
+import org.redisson.api.RLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +34,17 @@ import org.squirrelframework.foundation.fsm.annotation.OnTransitionException;
  */
 @Service
 public class PersistenceModule {
+    private static final Logger logger = LoggerFactory.getLogger(PersistenceModule.class);
+
     @Autowired
     private DataSourceTransactionManager transactionManager;
     @Autowired
     UserService userService;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    DistributedLock distributedLock;
 
-    private static final Logger logger = LoggerFactory.getLogger(PersistenceModule.class);
 
     /**
      * 先分布式锁
@@ -44,20 +52,15 @@ public class PersistenceModule {
     @OnTransitionBegin
     @ListenerOrder(0)
     public void tryLock(StatusEnum from, StudentTrigger event, StateMachineContext context) {
-        UserDTO UserDTO = context.getUserDTO();
+        UserDTO userDTO = context.getUserDTO();
         //创建分布式锁
-        //JedisLock jedisLock = buildLock(UserDTO.getUsername());
-        //try {
-        //    if (jedisLock.tryLock()) {
-        //        context.setJedisLock(jedisLock);
-        //    } else {
-        //        logger.warn("tryLock . is processing");
-        //        throw new RuntimeException("锁已被占用");
-        //    }
-        //} catch (Exception e) {
-        //    logger.error("lock failed！id:{}", UserDTO.getId(), e);
-        //    throw new RuntimeException("获取锁失败", e);
-        //}
+        try {
+            RLock rLock = distributedLock.lock(userDTO.getUsername());
+            context.setRLock(rLock);
+        } catch (Exception e) {
+            logger.error("lock failed！id:{}", userDTO.getId());
+            throw new RuntimeException("获取锁失败", e);
+        }
     }
 
     /**
@@ -71,7 +74,6 @@ public class PersistenceModule {
         def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
         TransactionStatus status = transactionManager.getTransaction(def);
         context.setTransactionStatus(status);
-
     }
 
     /**
@@ -83,11 +85,12 @@ public class PersistenceModule {
                        StateMachineContext context, UntypedStateMachine stateMachine) {
         try {
             //获取context信息
-            UserDTO UserDTO = context.getUserDTO();
+            UserDTO userDTO = context.getUserDTO();
             TransactionStatus transactionStatus = context.getTransactionStatus();
             //持久化
-           //UserDTO.setStatus(to.getValue());
+            //userDTO.setStatus(to.getValue());
             //userService.updateUser(UserDTO, context.getOperator());
+            userRepository.update(userDTO);
             //事务提交
             transactionManager.commit(transactionStatus);
         } catch (Exception e) {
@@ -105,9 +108,8 @@ public class PersistenceModule {
     public void publishCompleteMsg(StatusEnum from, StatusEnum to,
                                    StateMachineContext context) {
 
-        if (to == StatusEnum.SUCCESS) {
-            //提现成功发送短信
-            UserDTO UserDTO = context.getUserDTO();
+        if (StatusEnum.SUCCESS.equals(to)) {
+            UserDTO userDTO = context.getUserDTO();
             //发送短信
         }
     }
@@ -123,7 +125,6 @@ public class PersistenceModule {
         if (status != null && !status.isCompleted()) {
             transactionManager.rollback(status);
         }
-
     }
 
     /**
@@ -133,15 +134,15 @@ public class PersistenceModule {
     @ListenerOrder(0)
     public void releaseLock(StatusEnum from, StatusEnum to, StateMachineContext context) {
         UserDTO UserDTO = context.getUserDTO();
-        //JedisLock jedisLock = context.getJedisLock();
-        //if (jedisLock != null) {
-        //    try {
-        //        jedisLock.release();
-        //    } catch (Exception e) {
-        //        logger.error("release lock failed！", e);
-        //        throw new RuntimeException("释放锁失败", e);
-        //    }
-        //}
+        RLock rLock = context.getRLock();
+        if (rLock != null) {
+            try {
+                rLock.unlock();
+            } catch (Exception e) {
+                logger.error("release lock failed！", e);
+                throw new RuntimeException("释放锁失败", e);
+            }
+        }
     }
 
     @OnTransitionEnd

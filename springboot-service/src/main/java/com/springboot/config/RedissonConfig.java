@@ -27,10 +27,9 @@ public class RedissonConfig {
 
         Config config = new Config();
         //单节点
-        config.useSingleServer().setAddress("redis://" + host + ":" + port);
+        config.useSingleServer().setAddress("redis://" + host + ":" + port).setDatabase(0);
 
-        if
-        (StringUtils.isEmpty(password)) {
+        if (StringUtils.isEmpty(password)) {
             config.useSingleServer().setPassword(null);
         } else {
             config.useSingleServer().setPassword(password);

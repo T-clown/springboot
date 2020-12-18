@@ -2,6 +2,7 @@ package com.springboot.statemachine;
 
 import java.util.Objects;
 
+import com.springboot.common.exception.ServiceRuntimeException;
 import com.springboot.dao.dto.UserDTO;
 import com.springboot.service.UserService;
 import com.springboot.service.repository.UserRepository;
@@ -18,7 +19,7 @@ import org.squirrelframework.foundation.fsm.UntypedStateMachineBuilder;
 
 @Service
 public class StudentStateMachineEngine implements ApplicationContextAware {
-    protected UntypedStateMachineBuilder stateMachineBuilder = null;
+    protected UntypedStateMachineBuilder stateMachineBuilder;
     protected ApplicationContext applicationContext = null;
     @Autowired
     private UserRepository userService;
@@ -56,7 +57,7 @@ public class StudentStateMachineEngine implements ApplicationContextAware {
         try {
             stateMachine.fire(trigger, context);
         } catch (Exception e) {
-            throw e;
+            throw new ServiceRuntimeException();
         }
         return UserDTO;
     }

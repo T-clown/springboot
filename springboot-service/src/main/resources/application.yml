@@ -40,7 +40,7 @@ zk:
   retry: 3
 
 p:
-  name: '华为'
+  name: ${com.properties.name}
   price: 3999
 com:
   properties:

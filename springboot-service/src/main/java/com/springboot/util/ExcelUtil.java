@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ExcelUtil<T> {
 
     public static void exportExcel(HttpServletResponse response,
-        Class head, List<?> listData, String fileName) throws IOException {
+                                   Class head, List<?> listData, String fileName) throws IOException {
         fileName = URLEncoder.encode(fileName, "UTF-8");
         response.setContentType("application/vnd.ms-excel");
         response.setCharacterEncoding("UTF-8");
@@ -24,26 +24,15 @@ public class ExcelUtil<T> {
         EasyExcel.write(response.getOutputStream(), head).sheet("sheet0").doWrite(listData);
     }
 
-
     public static List<?> importExcel(MultipartFile file, Class<?> head) {
-        InputStream inputStream = null;
-        List<?> data = new ArrayList<> ();
-        try {
-            inputStream = new BufferedInputStream ( file.getInputStream () );
-            ExcelListener excelListener = new ExcelListener ( data );
+        List<?> data = new ArrayList<>();
+        try (InputStream inputStream = new BufferedInputStream(file.getInputStream())) {
+            ExcelListener excelListener = new ExcelListener(data);
             //执行完，才执行listener
-            EasyExcel.read ( inputStream, head, excelListener ).sheet ().doRead ();
+            EasyExcel.read(inputStream, head, excelListener).sheet().doRead();
             return data;
         } catch (Exception e) {
-            e.printStackTrace ();
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close ();
-                } catch (IOException e) {
-                    e.printStackTrace ();
-                }
-            }
+            e.printStackTrace();
         }
         return data;
     }

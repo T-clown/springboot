@@ -70,23 +70,23 @@ public class AsyncController {
         asyncContext.addListener(new AsyncListener() {
             @Override
             public void onTimeout(AsyncEvent event) {
-                System.out.println("超时了...");
+                log.warn("servletReq超时了...");
                 //做一些超时后的相关操作...
             }
 
             @Override
             public void onStartAsync(AsyncEvent event) {
-                System.out.println("线程开始");
+                log.info("线程开始");
             }
 
             @Override
             public void onError(AsyncEvent event) {
-                System.out.println("发生错误：" + event.getThrowable());
+                log.error("发生错误：" + event.getThrowable());
             }
 
             @Override
             public void onComplete(AsyncEvent event) {
-                System.out.println("执行完成");
+                log.info("执行完成");
                 //这里可以做一些清理资源的操作...
             }
         });
@@ -97,7 +97,7 @@ public class AsyncController {
             public void run() {
                 try {
                     Thread.sleep(10000);
-                    System.out.println("内部线程：" + Thread.currentThread().getName());
+                    log.info("内部线程：" + Thread.currentThread().getName());
                     asyncContext.getResponse().setCharacterEncoding("utf-8");
                     asyncContext.getResponse().setContentType("text/html;charset=UTF-8");
                     asyncContext.getResponse().getWriter().println("这是异步的请求返回");
@@ -110,12 +110,12 @@ public class AsyncController {
             }
         });
         //此时之类 request的线程连接已经释放了
-        System.out.println("主线程：" + Thread.currentThread().getName());
+        log.info("主线程：" + Thread.currentThread().getName());
     }
 
     @RequestMapping(value = "/email/callableReq", method = GET)
     public Callable<String> callableReq() {
-        System.out.println("外部线程：" + Thread.currentThread().getName());
+        log.info("外部线程：" + Thread.currentThread().getName());
 
         return new Callable<String>() {
 

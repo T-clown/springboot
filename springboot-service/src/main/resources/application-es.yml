@@ -1,5 +1,5 @@
 es:
-  host: 192.168.47.1
+  host: localhost
   port: 9200
   token: es-token
   charset: UTF-8

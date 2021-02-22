@@ -1,8 +1,5 @@
 package com.springboot.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
@@ -15,15 +12,14 @@ import com.springboot.annotation.ZkLock;
 import com.springboot.common.DynamicDataSourceContextHolder;
 import com.springboot.common.DynamicRoutingDataSource;
 import com.springboot.common.entity.Result;
+import com.springboot.common.util.ResultUtil;
 import com.springboot.entity.CreateUserRequest;
 import com.springboot.entity.DataSourceInfo;
 import com.springboot.entity.UpdateUserRequest;
 import com.springboot.entity.User;
 import com.springboot.service.UserService;
-import com.springboot.common.util.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;

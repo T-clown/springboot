@@ -20,6 +20,7 @@ import com.springboot.entity.User;
 import com.springboot.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -75,6 +76,7 @@ public class UserController {
         }
         return ResultUtil.success(userService.getUserById(id));
     }
+
 
     /**
      * 类上@Validated+方法上@Valid

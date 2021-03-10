@@ -50,7 +50,7 @@ public class UserController {
      * @param request
      * @return 参数为对象的：方法上加@Valid 或者 @Validated
      */
-    @ZkLock(key = "zklock")
+    //@ZkLock(key = "zklock")
     @PostMapping("/add")
     public Result add(@LockKeyParam(fields = {"username","phone"})@RequestBody @Valid CreateUserRequest request) {
         return ResultUtil.success(userService.addUser(request));

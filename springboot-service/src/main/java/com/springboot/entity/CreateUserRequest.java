@@ -24,7 +24,7 @@ public class CreateUserRequest {
     /**
      * 姓名
      */
-    @Size(min = 5, max = 10, message = "姓名太长")
+    @Length(min = 1, max = 10, message = "姓名太长")
     @NotBlank(message = "姓名不能为空")
     private String username;
 
@@ -35,7 +35,6 @@ public class CreateUserRequest {
 
     @Past(message = "生日日期错误")
     private Date birthday;
-
     @Length(min = 11, max = 11, message = "手机号位数不对")
     private String phone;
 

@@ -28,11 +28,11 @@ spring:
 mybatis:
   mapper-locations: classpath:mapper/*.xml
 #分页
-pagehelper:
-  helperDialect: mysql
-  offsetAsPageNum: true
-  rowBoundsWithCount: true
-  reasonable: false
+#pagehelper:
+#  helperDialect: mysql
+#  offsetAsPageNum: true
+#  rowBoundsWithCount: true
+#  reasonable: false
 #zookeeper
 zk:
   url: localhost:2181

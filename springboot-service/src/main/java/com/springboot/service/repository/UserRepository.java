@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import com.springboot.common.enums.CommonYN;
 import com.springboot.dao.dto.UserDTO;
 import com.springboot.dao.dto.UserDTOExample;
@@ -16,7 +18,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserRepository {
 
-    @Autowired(required = false)
+    @Resource
     UserDTOMapper userDTOMapper;
 
     @Autowired(required = false)

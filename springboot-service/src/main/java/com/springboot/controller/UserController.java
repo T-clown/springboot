@@ -19,6 +19,8 @@ import com.springboot.entity.UpdateUserRequest;
 import com.springboot.entity.User;
 import com.springboot.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.validation.annotation.Validated;
@@ -37,7 +39,6 @@ public class UserController {
 
     @Autowired
     UserService userService;
-
     @PostConstruct
     public void init() {
         log.info("UserController初始化。。。。。。。。。");

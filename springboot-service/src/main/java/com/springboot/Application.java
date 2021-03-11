@@ -1,6 +1,8 @@
 package com.springboot;
 
 import com.springboot.extend.TestApplicationContextInitializer;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,7 +23,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @MapperScan(basePackages = {"com.springboot.dao"})
 @SpringBootApplication(scanBasePackages = "com.springboot", exclude = DataSourceAutoConfiguration.class)
 public class Application {
-
     public static void main(String[] args) {
         /**
          * 该方法返回一个ApplicationContext对象，使用注解的时候返回的具体类型是AnnotationConfigApplicationContext

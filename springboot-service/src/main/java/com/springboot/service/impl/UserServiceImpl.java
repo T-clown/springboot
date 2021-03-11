@@ -47,7 +47,6 @@ public class UserServiceImpl implements UserService {
         UserDTO userDTO = new UserDTO();
         BeanUtils.copyProperties(request, userDTO);
         boolean result = userRepository.update(userDTO);
-        int a = 1 / 0;
         return result;
     }
 

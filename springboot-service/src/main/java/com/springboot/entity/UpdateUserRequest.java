@@ -25,7 +25,7 @@ public class UpdateUserRequest {
     /**
      * 姓名
      */
-    @Size(max = 10, message = "姓名太长")
+    @Length(min = 1,max = 10, message = "姓名太长")
     private String username;
 
     //@NotNull(message = "年龄不能为空")

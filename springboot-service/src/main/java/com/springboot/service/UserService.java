@@ -3,6 +3,7 @@ package com.springboot.service;
 import com.springboot.entity.CreateUserRequest;
 import com.springboot.entity.UpdateUserRequest;
 import com.springboot.entity.User;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 public interface UserService {
     /**
@@ -20,7 +21,6 @@ public interface UserService {
      * @return 返回结果
      */
     User getUserById(Integer id);
-
     /**
      * 删除
      *

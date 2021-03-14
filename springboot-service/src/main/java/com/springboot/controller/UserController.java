@@ -1,6 +1,7 @@
 package com.springboot.controller;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
@@ -17,6 +18,7 @@ import com.springboot.entity.CreateUserRequest;
 import com.springboot.entity.DataSourceInfo;
 import com.springboot.entity.UpdateUserRequest;
 import com.springboot.entity.User;
+import com.springboot.extend.TestFactoryBean;
 import com.springboot.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
@@ -61,6 +63,11 @@ public class UserController {
     private DynamicRoutingDataSource dynamicRoutingDataSource;
     @Autowired
     DataSourceInfo dataSourceInfo;
+    @Autowired
+    private TestFactoryBean testFactoryBean;
+
+    @Resource(name = "&testFactoryBean")
+    private TestFactoryBean testFactoryBean2;
 
     /**
      * 类上@Validated+方法上@Valid
@@ -71,6 +78,8 @@ public class UserController {
     //@DataSource(name = "slave")
     @PostMapping("/{id}")
     protected Result<User> getUserById(@Valid @PathVariable("id") @Max(value = 5, message = "超过 id 的范围了") Integer id) {
+        System.out.println("TestFactoryBean类型  {}"+testFactoryBean.getClass());
+        System.out.println("TestFactoryBean2类型  {}"+testFactoryBean2.getClass());
         if (id == 3) {
             dynamicRoutingDataSource.addDataSource(dataSourceInfo.getProperties());
             DynamicDataSourceContextHolder.setDataSourceKey(dataSourceInfo.getUrl());

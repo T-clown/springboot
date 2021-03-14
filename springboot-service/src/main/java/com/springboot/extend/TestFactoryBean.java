@@ -1,31 +1,30 @@
 package com.springboot.extend;
 
-import com.springboot.extend.TestFactoryBean.TestFactoryInnerBean;
+import com.springboot.entity.User;
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.stereotype.Component;
 
 /**
  * 使用场景：用户可以扩展这个类，来为要实例化的bean作一个代理，
  * 比如为该对象的所有的方法作一个拦截，在调用前后输出一行log，模仿ProxyFactoryBean的功能。
  */
-public class TestFactoryBean implements FactoryBean<TestFactoryInnerBean> {
+@Component
+public class TestFactoryBean implements FactoryBean<User> {
 
     @Override
-    public TestFactoryBean.TestFactoryInnerBean getObject() throws Exception {
+    public User getObject() throws Exception {
         System.out.println("[FactoryBean] getObject");
-        return new TestFactoryBean.TestFactoryInnerBean();
+        return new User();
     }
 
     @Override
     public Class<?> getObjectType() {
-        return TestFactoryBean.TestFactoryInnerBean.class;
+        return User.class;
     }
 
     @Override
     public boolean isSingleton() {
         return true;
-    }
-
-    public static class TestFactoryInnerBean {
     }
 
 }

@@ -28,6 +28,6 @@ public interface UserService {
      */
     void delete(Integer id);
 
-    boolean updateUser(UpdateUserRequest request);
+    boolean updateUser(UpdateUserRequest request) throws Exception;
 
 }

@@ -1,5 +1,6 @@
 package com.springboot.service.impl;
 
+import com.springboot.common.TransactionalUtil;
 import com.springboot.dao.dto.UserDTO;
 import com.springboot.entity.CreateUserRequest;
 import com.springboot.entity.UpdateUserRequest;
@@ -43,7 +44,8 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean updateUser(UpdateUserRequest request) {
+    public boolean updateUser(UpdateUserRequest request) throws Exception {
+        TransactionalUtil.transactional(()->delete(1));
         UserDTO userDTO = new UserDTO();
         BeanUtils.copyProperties(request, userDTO);
         boolean result = userRepository.update(userDTO);

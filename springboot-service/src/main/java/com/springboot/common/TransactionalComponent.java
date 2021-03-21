@@ -8,11 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class TransactionalComponent {
 
     public interface Cell {
-        void run() throws Exception;
+        void run() ;
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public void transactional(Cell cell) throws Exception {
+    public void transactional(Cell cell)  {
         cell.run();
     }
 }

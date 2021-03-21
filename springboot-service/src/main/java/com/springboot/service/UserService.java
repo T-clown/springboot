@@ -13,7 +13,7 @@ public interface UserService {
      * @return 操作结果
      */
     boolean addUser(CreateUserRequest request);
-
+    public void add(CreateUserRequest request);
     /**
      * 获取用户
      *

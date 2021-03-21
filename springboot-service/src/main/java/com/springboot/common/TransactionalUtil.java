@@ -13,7 +13,7 @@ public class TransactionalUtil {
         return transactionalComponent;
     }
 
-    public static void transactional(TransactionalComponent.Cell cell) throws Exception {
+    public static void transactional(TransactionalComponent.Cell cell) {
         getTransactionalComponent().transactional(cell);
     }
 

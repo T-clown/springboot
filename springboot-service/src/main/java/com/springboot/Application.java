@@ -19,6 +19,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
  * @ImportResource注解用于导入Spring的配置文件，让配置文件里面的内容生效，这个注解是放在主入口函数的类上
  */
 //@Import({DynamicDataSourceConfig.class})
+
 @EnableAsync
 @MapperScan(basePackages = {"com.springboot.dao"})
 @SpringBootApplication(scanBasePackages = "com.springboot", exclude = DataSourceAutoConfiguration.class)

@@ -7,26 +7,36 @@ import com.springboot.entity.UpdateUserRequest;
 import com.springboot.entity.User;
 import com.springboot.service.UserService;
 import com.springboot.service.repository.UserRepository;
+import com.springboot.util.SpringContextHolder;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
+@EnableAspectJAutoProxy(exposeProxy = true,proxyTargetClass = true)
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepository userRepository;
 
+
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public boolean addUser(CreateUserRequest request) {
+            TransactionalUtil.transactional(() -> add(request));
+        return true;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void add(CreateUserRequest request) {
         UserDTO userDTO = new UserDTO();
         BeanUtils.copyProperties(request, userDTO);
         userRepository.addUser(userDTO);
-        return true;
+        int a=1/0;
     }
 
     @Override
@@ -45,7 +55,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean updateUser(UpdateUserRequest request) throws Exception {
-        TransactionalUtil.transactional(()->delete(1));
+        TransactionalUtil.transactional(() -> delete(1));
         UserDTO userDTO = new UserDTO();
         BeanUtils.copyProperties(request, userDTO);
         boolean result = userRepository.update(userDTO);

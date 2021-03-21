@@ -15,6 +15,7 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -23,10 +24,12 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  * 基于注解实现
  * 使用 aop 切面记录请求日志信息
  * 执行顺序：环绕通知-->前置通知-->目标方法-->环绕通知-->后置通知-->返回通知
+ * Order指定同一个接口多个切面的执行顺序，值越大越先执行
  */
 //@Aspect
 @Component
 @Slf4j
+@Order(20)
 public class LogAspect {
     private static final String START_TIME = "request-start";
 

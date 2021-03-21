@@ -105,7 +105,7 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    public Result<Boolean> update(@RequestBody @Valid UpdateUserRequest request) {
+    public Result<Boolean> update(@RequestBody @Valid UpdateUserRequest request) throws Exception {
         return ResultUtil.success(userService.updateUser(request));
     }
 

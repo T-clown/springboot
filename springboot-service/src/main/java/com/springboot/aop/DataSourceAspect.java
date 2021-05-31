@@ -27,16 +27,15 @@ public class DataSourceAspect {
         MethodSignature signature = (MethodSignature)point.getSignature();
         Method method = signature.getMethod();
         DataSource dataSource = method.getAnnotation(DataSource.class);
-        //if (dataSource == null) {
-        //    DynamicDataSourceContextHolder.setDataSourceKey("master");
-        //} else {
-        //    String dataSourceName = dataSource.name();
-        //    if (DynamicRoutingDataSource.isExistDataSource(dataSourceName) && !dataSourceName.equals(
-        //        DynamicDataSourceContextHolder.getDataSourceKey())) {
-        //        DynamicDataSourceContextHolder.setDataSourceKey(dataSourceName);
-        //    }
-        //}
-        DynamicDataSourceContextHolder.setDataSourceKey(dataSource.name());
+        if (dataSource == null) {
+            DynamicDataSourceContextHolder.setDataSourceKey("master");
+        } else {
+            String dataSourceName = dataSource.name();
+            if (DynamicRoutingDataSource.isExistDataSource(dataSourceName) && !dataSourceName.equals(
+                DynamicDataSourceContextHolder.getDataSourceKey())) {
+                DynamicDataSourceContextHolder.setDataSourceKey(dataSourceName);
+            }
+        }
         try {
             return point.proceed();
         } finally {

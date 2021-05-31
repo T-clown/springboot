@@ -1,11 +1,14 @@
 package com.springboot.entity;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import cn.hutool.core.bean.BeanUtil;
+import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Maps;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+
+import java.util.Map;
+import java.util.Optional;
 
 @Data
 @Component
@@ -17,11 +20,10 @@ public class DataSourceInfo {
     private String password;
 
     public Map<String, String> getProperties() {
-        Map<String, String> map = new HashMap<>();
-        map.put("driverClassName", this.getDriverClassName());
-        map.put("url", this.getUrl());
-        map.put("username", this.getUsername());
-        map.put("password", this.getPassword());
-        return map;
+        Map<String, String> result= Maps.newHashMap();
+        DataSourceInfo dataSourceInfo=this;
+        Map<String, Object> dataMap = BeanUtil.beanToMap(dataSourceInfo);
+        Optional.ofNullable(dataMap).ifPresent(x->x.forEach((k,v)->result.put(k,String.valueOf(v))));
+        return result;
     }
 }

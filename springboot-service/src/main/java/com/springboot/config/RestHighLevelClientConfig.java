@@ -39,21 +39,21 @@ public class RestHighLevelClientConfig {
     public RestClientBuilder restClientBuilder() {
         RestClientBuilder restClientBuilder = RestClient.builder(new HttpHost(host, port, scheme));
 
-        Header[] defaultHeaders = new Header[] {
-            new BasicHeader("Accept", "*/*"),
-            new BasicHeader("Charset", charSet),
-            //设置token 是为了安全 网关可以验证token来决定是否发起请求 我们这里只做象征性配置
-            new BasicHeader("E_TOKEN", token)
+        Header[] defaultHeaders = new Header[]{
+                new BasicHeader("Accept", "*/*"),
+                new BasicHeader("Charset", charSet),
+                //设置token 是为了安全 网关可以验证token来决定是否发起请求 我们这里只做象征性配置
+                new BasicHeader("E_TOKEN", token)
         };
         restClientBuilder.setDefaultHeaders(defaultHeaders);
         restClientBuilder.setFailureListener(new RestClient.FailureListener() {
             @Override
             public void onFailure(Node node) {
-                log.info("监听某个es节点失败");
+                log.info("节点{}异常", node.getName());
             }
         });
         restClientBuilder.setRequestConfigCallback(builder ->
-            builder.setConnectTimeout(connectTimeOut).setSocketTimeout(socketTimeout));
+                builder.setConnectTimeout(connectTimeOut).setSocketTimeout(socketTimeout));
         return restClientBuilder;
     }
 

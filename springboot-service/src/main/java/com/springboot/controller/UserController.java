@@ -8,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.springboot.annotation.DataSource;
 import com.springboot.annotation.LockKeyParam;
 import com.springboot.annotation.ZkLock;
 import com.springboot.common.DynamicDataSourceContextHolder;
@@ -61,6 +62,7 @@ public class UserController {
 
     @Autowired
     private DynamicRoutingDataSource dynamicRoutingDataSource;
+
     @Autowired
     DataSourceInfo dataSourceInfo;
     @Autowired
@@ -75,8 +77,8 @@ public class UserController {
      * @param id
      * @return
      */
-    //@DataSource(name = "slave")
-    @PostMapping("/{id}")
+    @DataSource(name = "slave")
+    @PostMapping("get/{id}")
     protected Result<User> getUserById(@Valid @PathVariable("id") @Max(value = 5, message = "超过 id 的范围了") Integer id) {
         System.out.println("TestFactoryBean类型  {}"+testFactoryBean.getClass());
         System.out.println("TestFactoryBean2类型  {}"+testFactoryBean2.getClass());

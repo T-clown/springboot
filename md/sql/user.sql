@@ -35,3 +35,22 @@ CREATE TABLE `springboot_user`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+
+
+create table if not exists master.springboot_user
+(
+	id int auto_increment
+		primary key,
+	username varchar(255) null,
+	gender varchar(25) null,
+	birthday datetime null,
+	email varchar(255) null,
+	phone varchar(255) null,
+	create_time datetime null,
+	update_time datetime null,
+	is_deleted smallint null,
+	region varchar(20) null,
+	status smallint null
+);
+

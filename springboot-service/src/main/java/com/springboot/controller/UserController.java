@@ -20,6 +20,7 @@ import com.springboot.entity.DataSourceInfo;
 import com.springboot.entity.UpdateUserRequest;
 import com.springboot.entity.User;
 import com.springboot.extend.TestFactoryBean;
+import com.springboot.service.AccountService;
 import com.springboot.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
@@ -34,6 +35,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @Slf4j
 @Validated
 @RestController
@@ -46,6 +49,9 @@ public class UserController {
     public void init() {
         log.info("UserController初始化。。。。。。。。。");
     }
+
+    @Autowired
+    List<AccountService> accountService;
 
     /**
      * https://mp.weixin.qq.com/s/2RJqnJjwrDop4DTSnjV6yA
@@ -99,7 +105,7 @@ public class UserController {
     @PostMapping("/get")
     public Result<User> get(
         @Valid @RequestParam("name") @Size(max = 6, message = "超过 username 的范围了") @NotBlank String name,
-        @Valid @RequestParam("id") @NotNull(message = "id不能为空") Long id) {
+        @Valid @RequestParam("id") @NotNull(message = "id不能为空") Integer id) {
         User user = new User();
         user.setUsername(name);
         user.setId(id);

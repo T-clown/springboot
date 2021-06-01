@@ -31,6 +31,7 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public void add(CreateUserRequest request) {
         UserDTO userDTO = new UserDTO();
@@ -52,12 +53,12 @@ public class UserServiceImpl implements UserService {
         log.info("删除用户【id】= {}", id);
     }
 
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     @Override
     public boolean updateUser(UpdateUserRequest request) throws Exception {
-        TransactionalUtil.transactional(() -> delete(1));
         UserDTO userDTO = new UserDTO();
         BeanUtils.copyProperties(request, userDTO);
+        int a=1/0;
         boolean result = userRepository.update(userDTO);
         return result;
     }

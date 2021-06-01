@@ -1,6 +1,7 @@
 package com.springboot.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.validation.constraints.Email;
@@ -27,7 +28,7 @@ public class User implements Serializable {
     /**
      * 主键id
      */
-    private Long id;
+    private Integer id;
     /**
      * 姓名
      */
@@ -35,9 +36,6 @@ public class User implements Serializable {
 
 
     private Integer age;
-
-
-    private Date birthday;
 
 
     private String phone;
@@ -51,5 +49,11 @@ public class User implements Serializable {
 
     private String region;
 
-    private Date createTime;
+    private LocalDateTime birthday;
+
+    private Short status;
+
+    private LocalDateTime createTime;
+
+    private LocalDateTime updateTime;
 }

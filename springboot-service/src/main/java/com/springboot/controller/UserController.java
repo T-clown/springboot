@@ -50,9 +50,6 @@ public class UserController {
         log.info("UserController初始化。。。。。。。。。");
     }
 
-    @Autowired
-    List<AccountService> accountService;
-
     /**
      * https://mp.weixin.qq.com/s/2RJqnJjwrDop4DTSnjV6yA
      * https://mp.weixin.qq.com/s/uOUAmdeX88Cv0mXvBtQTnQ

@@ -21,7 +21,7 @@ public class ResultUtil {
     }
 
     public static Result error(ResultCode code, String message) {
-        return new Result(code, message);
+        return new Result(code==null?ResultCode.FAILURE:code, message);
     }
 
     public static Result methodArgumentError(String errorMessage) {

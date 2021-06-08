@@ -55,6 +55,7 @@ public class PropertiesController {
     public Result properties(@RequestParam(value = "name", defaultValue = "美女") String name) {
         accountService.add();
         log.info(JSONUtil.toJsonStr(yellow));
+        yellow.setName("访问8083端口");
         yellow.setId(counter.incrementAndGet());
         return ResultUtil.success(yellow);
     }

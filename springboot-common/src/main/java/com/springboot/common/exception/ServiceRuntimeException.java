@@ -21,6 +21,7 @@ public class ServiceRuntimeException extends RuntimeException {
 
     public ServiceRuntimeException(String message) {
         super(message);
+        this.message=message;
     }
 
     public ServiceRuntimeException(String message, Throwable cause) {

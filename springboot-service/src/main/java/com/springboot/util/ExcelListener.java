@@ -30,6 +30,6 @@ public class ExcelListener<T> extends AnalysisEventListener<T> {
 
     @Override
     public void doAfterAllAnalysed(AnalysisContext analysisContext) {
-
+        log.info( "。。。数据导入结束。。。" );
     }
 }

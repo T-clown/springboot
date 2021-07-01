@@ -21,6 +21,17 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    /**
+     * 未知异常
+     *
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(value = Exception.class)
+    public Result handle(Exception e) {
+        log.error("Unknown error:{}", JSONUtil.toJsonStr(e.getMessage()));
+        return ResultUtil.unknownError(e.getMessage());
+    }
 
     /**
      * 实体参数校验
@@ -62,15 +73,5 @@ public class GlobalExceptionHandler {
         return ResultUtil.error(e.getResultCode(), e.getMessage());
     }
 
-    /**
-     * 未知异常
-     *
-     * @param e
-     * @return
-     */
-    @ExceptionHandler(value = Exception.class)
-    public Result handle(Exception e) {
-        log.error("Unknown error:{}", JSONUtil.toJsonStr(e.getMessage()));
-        return ResultUtil.unknownError(e.getMessage());
-    }
+
 }

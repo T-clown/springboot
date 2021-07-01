@@ -7,12 +7,13 @@
     <result column="gender" jdbcType="VARCHAR" property="gender" />
     <result column="birthday" jdbcType="OTHER" property="birthday" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler" />
     <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="region" jdbcType="VARCHAR" property="region" />
-    <result column="status" jdbcType="SMALLINT" property="status" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="create_time" jdbcType="OTHER" property="createTime" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler" />
     <result column="update_time" jdbcType="OTHER" property="updateTime" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler" />
     <result column="is_deleted" jdbcType="SMALLINT" property="isDeleted" />
+    <result column="region" jdbcType="VARCHAR" property="region" />
+    <result column="status" jdbcType="SMALLINT" property="status" />
+    <result column="pass" jdbcType="BIT" property="pass" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -187,8 +188,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, username, gender, birthday, email, region, status, phone, create_time, update_time, 
-    is_deleted
+    id, username, gender, birthday, email, phone, create_time, update_time, is_deleted, 
+    region, status, pass
   </sql>
   <select id="selectByExample" parameterType="com.springboot.dao.dto.UserDTOExample" resultMap="BaseResultMap">
     select
@@ -225,15 +226,15 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into springboot_user (username, gender, birthday, 
-      email, region, status, 
-      phone, create_time, 
+      email, phone, create_time, 
       update_time, 
-      is_deleted)
+      is_deleted, region, status, 
+      pass)
     values (#{username,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, #{birthday,jdbcType=OTHER,typeHandler=org.apache.ibatis.type.LocalDateTimeTypeHandler}, 
-      #{email,jdbcType=VARCHAR}, #{region,jdbcType=VARCHAR}, #{status,jdbcType=SMALLINT}, 
-      #{phone,jdbcType=VARCHAR}, #{createTime,jdbcType=OTHER,typeHandler=org.apache.ibatis.type.LocalDateTimeTypeHandler}, 
+      #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{createTime,jdbcType=OTHER,typeHandler=org.apache.ibatis.type.LocalDateTimeTypeHandler}, 
       #{updateTime,jdbcType=OTHER,typeHandler=org.apache.ibatis.type.LocalDateTimeTypeHandler}, 
-      #{isDeleted,jdbcType=SMALLINT})
+      #{isDeleted,jdbcType=SMALLINT}, #{region,jdbcType=VARCHAR}, #{status,jdbcType=SMALLINT}, 
+      #{pass,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.springboot.dao.dto.UserDTO">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -253,12 +254,6 @@
       <if test="email != null">
         email,
       </if>
-      <if test="region != null">
-        region,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
       <if test="phone != null">
         phone,
       </if>
@@ -270,6 +265,15 @@
       </if>
       <if test="isDeleted != null">
         is_deleted,
+      </if>
+      <if test="region != null">
+        region,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="pass != null">
+        pass,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -285,12 +289,6 @@
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
       </if>
-      <if test="region != null">
-        #{region,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=SMALLINT},
-      </if>
       <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
       </if>
@@ -302,6 +300,15 @@
       </if>
       <if test="isDeleted != null">
         #{isDeleted,jdbcType=SMALLINT},
+      </if>
+      <if test="region != null">
+        #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="pass != null">
+        #{pass,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -329,12 +336,6 @@
       <if test="record.email != null">
         email = #{record.email,jdbcType=VARCHAR},
       </if>
-      <if test="record.region != null">
-        region = #{record.region,jdbcType=VARCHAR},
-      </if>
-      <if test="record.status != null">
-        status = #{record.status,jdbcType=SMALLINT},
-      </if>
       <if test="record.phone != null">
         phone = #{record.phone,jdbcType=VARCHAR},
       </if>
@@ -346,6 +347,15 @@
       </if>
       <if test="record.isDeleted != null">
         is_deleted = #{record.isDeleted,jdbcType=SMALLINT},
+      </if>
+      <if test="record.region != null">
+        region = #{record.region,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=SMALLINT},
+      </if>
+      <if test="record.pass != null">
+        pass = #{record.pass,jdbcType=BIT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -359,12 +369,13 @@
       gender = #{record.gender,jdbcType=VARCHAR},
       birthday = #{record.birthday,jdbcType=OTHER,typeHandler=org.apache.ibatis.type.LocalDateTimeTypeHandler},
       email = #{record.email,jdbcType=VARCHAR},
-      region = #{record.region,jdbcType=VARCHAR},
-      status = #{record.status,jdbcType=SMALLINT},
       phone = #{record.phone,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=OTHER,typeHandler=org.apache.ibatis.type.LocalDateTimeTypeHandler},
       update_time = #{record.updateTime,jdbcType=OTHER,typeHandler=org.apache.ibatis.type.LocalDateTimeTypeHandler},
-      is_deleted = #{record.isDeleted,jdbcType=SMALLINT}
+      is_deleted = #{record.isDeleted,jdbcType=SMALLINT},
+      region = #{record.region,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=SMALLINT},
+      pass = #{record.pass,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -384,12 +395,6 @@
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
       </if>
-      <if test="region != null">
-        region = #{region,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=SMALLINT},
-      </if>
       <if test="phone != null">
         phone = #{phone,jdbcType=VARCHAR},
       </if>
@@ -402,6 +407,15 @@
       <if test="isDeleted != null">
         is_deleted = #{isDeleted,jdbcType=SMALLINT},
       </if>
+      <if test="region != null">
+        region = #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="pass != null">
+        pass = #{pass,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -411,12 +425,13 @@
       gender = #{gender,jdbcType=VARCHAR},
       birthday = #{birthday,jdbcType=OTHER,typeHandler=org.apache.ibatis.type.LocalDateTimeTypeHandler},
       email = #{email,jdbcType=VARCHAR},
-      region = #{region,jdbcType=VARCHAR},
-      status = #{status,jdbcType=SMALLINT},
       phone = #{phone,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=OTHER,typeHandler=org.apache.ibatis.type.LocalDateTimeTypeHandler},
       update_time = #{updateTime,jdbcType=OTHER,typeHandler=org.apache.ibatis.type.LocalDateTimeTypeHandler},
-      is_deleted = #{isDeleted,jdbcType=SMALLINT}
+      is_deleted = #{isDeleted,jdbcType=SMALLINT},
+      region = #{region,jdbcType=VARCHAR},
+      status = #{status,jdbcType=SMALLINT},
+      pass = #{pass,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="com.springboot.dao.dto.UserDTOExample" resultMap="BaseResultMap">

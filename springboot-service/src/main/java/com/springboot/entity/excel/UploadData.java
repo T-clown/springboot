@@ -1,17 +1,17 @@
 package com.springboot.entity.excel;
 
-import java.util.Date;
-
 import com.alibaba.excel.annotation.ExcelProperty;
-
 import lombok.Data;
+
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 public class UploadData {
     @ExcelProperty("用户名")
     private String username;
     @ExcelProperty("性别")
-    private String sex;
+    private String gender;
     @ExcelProperty("生日")
     private Date birthday;
     @ExcelProperty("邮箱")
@@ -19,5 +19,6 @@ public class UploadData {
     @ExcelProperty("手机")
     private String phone;
     @ExcelProperty("注册时间")
-    private Date createTime;
+    private LocalDateTime createTime;
+
 }

@@ -519,136 +519,6 @@ public class UserDTOExample {
             return (Criteria) this;
         }
 
-        public Criteria andRegionIsNull() {
-            addCriterion("region is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegionIsNotNull() {
-            addCriterion("region is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegionEqualTo(String value) {
-            addCriterion("region =", value, "region");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegionNotEqualTo(String value) {
-            addCriterion("region <>", value, "region");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegionGreaterThan(String value) {
-            addCriterion("region >", value, "region");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegionGreaterThanOrEqualTo(String value) {
-            addCriterion("region >=", value, "region");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegionLessThan(String value) {
-            addCriterion("region <", value, "region");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegionLessThanOrEqualTo(String value) {
-            addCriterion("region <=", value, "region");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegionLike(String value) {
-            addCriterion("region like", value, "region");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegionNotLike(String value) {
-            addCriterion("region not like", value, "region");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegionIn(List<String> values) {
-            addCriterion("region in", values, "region");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegionNotIn(List<String> values) {
-            addCriterion("region not in", values, "region");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegionBetween(String value1, String value2) {
-            addCriterion("region between", value1, value2, "region");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegionNotBetween(String value1, String value2) {
-            addCriterion("region not between", value1, value2, "region");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusIsNull() {
-            addCriterion("status is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusIsNotNull() {
-            addCriterion("status is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusEqualTo(Short value) {
-            addCriterion("status =", value, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusNotEqualTo(Short value) {
-            addCriterion("status <>", value, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusGreaterThan(Short value) {
-            addCriterion("status >", value, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusGreaterThanOrEqualTo(Short value) {
-            addCriterion("status >=", value, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusLessThan(Short value) {
-            addCriterion("status <", value, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusLessThanOrEqualTo(Short value) {
-            addCriterion("status <=", value, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusIn(List<Short> values) {
-            addCriterion("status in", values, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusNotIn(List<Short> values) {
-            addCriterion("status not in", values, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusBetween(Short value1, Short value2) {
-            addCriterion("status between", value1, value2, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusNotBetween(Short value1, Short value2) {
-            addCriterion("status not between", value1, value2, "status");
-            return (Criteria) this;
-        }
-
         public Criteria andPhoneIsNull() {
             addCriterion("phone is null");
             return (Criteria) this;
@@ -896,6 +766,196 @@ public class UserDTOExample {
 
         public Criteria andIsDeletedNotBetween(Short value1, Short value2) {
             addCriterion("is_deleted not between", value1, value2, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionIsNull() {
+            addCriterion("region is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionIsNotNull() {
+            addCriterion("region is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionEqualTo(String value) {
+            addCriterion("region =", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionNotEqualTo(String value) {
+            addCriterion("region <>", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionGreaterThan(String value) {
+            addCriterion("region >", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionGreaterThanOrEqualTo(String value) {
+            addCriterion("region >=", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionLessThan(String value) {
+            addCriterion("region <", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionLessThanOrEqualTo(String value) {
+            addCriterion("region <=", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionLike(String value) {
+            addCriterion("region like", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionNotLike(String value) {
+            addCriterion("region not like", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionIn(List<String> values) {
+            addCriterion("region in", values, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionNotIn(List<String> values) {
+            addCriterion("region not in", values, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionBetween(String value1, String value2) {
+            addCriterion("region between", value1, value2, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionNotBetween(String value1, String value2) {
+            addCriterion("region not between", value1, value2, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusIsNull() {
+            addCriterion("status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusIsNotNull() {
+            addCriterion("status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusEqualTo(Short value) {
+            addCriterion("status =", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotEqualTo(Short value) {
+            addCriterion("status <>", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusGreaterThan(Short value) {
+            addCriterion("status >", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusGreaterThanOrEqualTo(Short value) {
+            addCriterion("status >=", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusLessThan(Short value) {
+            addCriterion("status <", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusLessThanOrEqualTo(Short value) {
+            addCriterion("status <=", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusIn(List<Short> values) {
+            addCriterion("status in", values, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotIn(List<Short> values) {
+            addCriterion("status not in", values, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusBetween(Short value1, Short value2) {
+            addCriterion("status between", value1, value2, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotBetween(Short value1, Short value2) {
+            addCriterion("status not between", value1, value2, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andPassIsNull() {
+            addCriterion("pass is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPassIsNotNull() {
+            addCriterion("pass is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPassEqualTo(Boolean value) {
+            addCriterion("pass =", value, "pass");
+            return (Criteria) this;
+        }
+
+        public Criteria andPassNotEqualTo(Boolean value) {
+            addCriterion("pass <>", value, "pass");
+            return (Criteria) this;
+        }
+
+        public Criteria andPassGreaterThan(Boolean value) {
+            addCriterion("pass >", value, "pass");
+            return (Criteria) this;
+        }
+
+        public Criteria andPassGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("pass >=", value, "pass");
+            return (Criteria) this;
+        }
+
+        public Criteria andPassLessThan(Boolean value) {
+            addCriterion("pass <", value, "pass");
+            return (Criteria) this;
+        }
+
+        public Criteria andPassLessThanOrEqualTo(Boolean value) {
+            addCriterion("pass <=", value, "pass");
+            return (Criteria) this;
+        }
+
+        public Criteria andPassIn(List<Boolean> values) {
+            addCriterion("pass in", values, "pass");
+            return (Criteria) this;
+        }
+
+        public Criteria andPassNotIn(List<Boolean> values) {
+            addCriterion("pass not in", values, "pass");
+            return (Criteria) this;
+        }
+
+        public Criteria andPassBetween(Boolean value1, Boolean value2) {
+            addCriterion("pass between", value1, value2, "pass");
+            return (Criteria) this;
+        }
+
+        public Criteria andPassNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("pass not between", value1, value2, "pass");
             return (Criteria) this;
         }
     }

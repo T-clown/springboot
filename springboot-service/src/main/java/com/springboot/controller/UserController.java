@@ -8,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.alibaba.fastjson.JSON;
 import com.springboot.annotation.DataSource;
 import com.springboot.annotation.LockKeyParam;
 import com.springboot.annotation.ZkLock;
@@ -15,6 +16,7 @@ import com.springboot.common.DynamicDataSourceContextHolder;
 import com.springboot.common.DynamicRoutingDataSource;
 import com.springboot.common.entity.Result;
 import com.springboot.common.util.ResultUtil;
+import com.springboot.dao.dto.UserDTO;
 import com.springboot.entity.CreateUserRequest;
 import com.springboot.entity.DataSourceInfo;
 import com.springboot.entity.UpdateUserRequest;
@@ -22,6 +24,7 @@ import com.springboot.entity.User;
 import com.springboot.extend.TestFactoryBean;
 import com.springboot.service.AccountService;
 import com.springboot.service.UserService;
+import com.springboot.service.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -74,6 +77,9 @@ public class UserController {
     @Resource(name = "&testFactoryBean")
     private TestFactoryBean testFactoryBean2;
 
+    @Autowired
+    private UserRepository userRepository;
+
     /**
      * 类上@Validated+方法上@Valid
      *
@@ -101,12 +107,19 @@ public class UserController {
      */
     @PostMapping("/get")
     public Result<User> get(
-        @Valid @RequestParam("name") @Size(max = 6, message = "超过 username 的范围了") @NotBlank String name,
-        @Valid @RequestParam("id") @NotNull(message = "id不能为空") Integer id) {
+        @Valid @RequestParam(value = "name",required = false) @Size(max = 6, message = "超过 username 的范围了") @NotBlank String name,
+        @Valid @RequestParam(value = "id",required = false) @NotNull(message = "id不能为空") Integer id) {
         User user = new User();
         user.setUsername(name);
         user.setId(id);
         return ResultUtil.success(user);
+    }
+
+    @PostMapping("/get/all")
+    public Result<User> getall() {
+        List<UserDTO> userDTOS = userRepository.getUserDTOS();
+        System.out.println(JSON.toJSONString(userDTOS));
+        return ResultUtil.success(null);
     }
 
     @PostMapping("/update")

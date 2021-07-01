@@ -41,8 +41,10 @@ public class UserRepository {
 
     }
 
-    public List<UserDTO> getUserDTOs() {
-        return userDTOMapper.selectByExample(new UserDTOExample());
+    public List<UserDTO> getUserDTOS() {
+        UserDTOExample example= new UserDTOExample();
+        example.createCriteria().andIsDeletedEqualTo(CommonYN.NO.value());
+        return userDTOMapper.selectByExample(example);
     }
 
     public boolean update(UserDTO userDTO) {

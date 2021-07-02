@@ -37,7 +37,6 @@ public class UserServiceImpl implements UserService {
         UserDTO userDTO = new UserDTO();
         BeanUtils.copyProperties(request, userDTO);
         userRepository.addUser(userDTO);
-        int a=1/0;
     }
 
     @Override

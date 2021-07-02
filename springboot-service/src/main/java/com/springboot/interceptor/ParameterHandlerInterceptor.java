@@ -20,9 +20,8 @@ import org.apache.ibatis.plugin.Signature;
                 type = ParameterHandler.class,
                 method = "setParameters",
                 args = {PreparedStatement.class})
-
 })
-public class ParameterHandlerInterceptor  implements Interceptor {
+public class ParameterHandlerInterceptor implements Interceptor {
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
         return null;
@@ -30,7 +29,10 @@ public class ParameterHandlerInterceptor  implements Interceptor {
 
     @Override
     public Object plugin(Object target) {
-        return Plugin.wrap(target, this);
+        if(target instanceof ParameterHandler) {
+            return Plugin.wrap(target, this);
+        }
+        return target;
     }
 
     @Override

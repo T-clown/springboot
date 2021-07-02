@@ -35,6 +35,7 @@ public class CreateUserRequest {
 
     @Past(message = "生日日期错误")
     private Date birthday;
+
     @Length(min = 11, max = 11, message = "手机号位数不对")
     private String phone;
 

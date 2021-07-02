@@ -1,11 +1,5 @@
 package com.springboot.service.repository;
 
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
-
-import javax.annotation.Resource;
-
 import com.springboot.common.enums.CommonYN;
 import com.springboot.dao.dto.UserDTO;
 import com.springboot.dao.dto.UserDTOExample;
@@ -14,6 +8,10 @@ import com.springboot.dao.extendedMapper.UserMapper;
 import com.springboot.dao.generatedMapper.UserDTOMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import javax.annotation.Resource;
+import java.util.Collections;
+import java.util.List;
 
 @Repository
 public class UserRepository {
@@ -25,9 +23,6 @@ public class UserRepository {
     UserMapper userMapper;
 
     public void addUser(UserDTO userDTO) {
-        userDTO.setIsDeleted(CommonYN.NO.value());
-        userDTO.setCreateTime(LocalDateTime.now());
-        userDTO.setUpdateTime(LocalDateTime.now());
         userMapper.insert(Collections.singletonList(userDTO));
     }
 

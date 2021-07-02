@@ -18,9 +18,9 @@ import org.apache.ibatis.session.RowBounds;
  * 拦截执行器的方法
  */
 @Intercepts({
-    @Signature(type = Executor.class,
-        method = "query",
-        args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class})
+        @Signature(type = Executor.class,
+                method = "query",
+                args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class})
 })
 public class ExecutorInterceptor implements Interceptor {
     @Override
@@ -30,7 +30,10 @@ public class ExecutorInterceptor implements Interceptor {
 
     @Override
     public Object plugin(Object target) {
-        return Plugin.wrap(target, this);
+        if (target instanceof Executor) {
+            return Plugin.wrap(target, this);
+        }
+        return target;
     }
 
     @Override

@@ -24,8 +24,6 @@ public class UserDTO extends UserDTOKey implements Serializable {
 
     private Short status;
 
-    private Boolean pass;
-
     private static final long serialVersionUID = 1L;
 
     public String getUsername() {
@@ -106,13 +104,5 @@ public class UserDTO extends UserDTOKey implements Serializable {
 
     public void setStatus(Short status) {
         this.status = status;
-    }
-
-    public Boolean getPass() {
-        return pass;
-    }
-
-    public void setPass(Boolean pass) {
-        this.pass = pass;
     }
 }

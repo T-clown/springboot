@@ -898,66 +898,6 @@ public class UserDTOExample {
             addCriterion("status not between", value1, value2, "status");
             return (Criteria) this;
         }
-
-        public Criteria andPassIsNull() {
-            addCriterion("pass is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPassIsNotNull() {
-            addCriterion("pass is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPassEqualTo(Boolean value) {
-            addCriterion("pass =", value, "pass");
-            return (Criteria) this;
-        }
-
-        public Criteria andPassNotEqualTo(Boolean value) {
-            addCriterion("pass <>", value, "pass");
-            return (Criteria) this;
-        }
-
-        public Criteria andPassGreaterThan(Boolean value) {
-            addCriterion("pass >", value, "pass");
-            return (Criteria) this;
-        }
-
-        public Criteria andPassGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("pass >=", value, "pass");
-            return (Criteria) this;
-        }
-
-        public Criteria andPassLessThan(Boolean value) {
-            addCriterion("pass <", value, "pass");
-            return (Criteria) this;
-        }
-
-        public Criteria andPassLessThanOrEqualTo(Boolean value) {
-            addCriterion("pass <=", value, "pass");
-            return (Criteria) this;
-        }
-
-        public Criteria andPassIn(List<Boolean> values) {
-            addCriterion("pass in", values, "pass");
-            return (Criteria) this;
-        }
-
-        public Criteria andPassNotIn(List<Boolean> values) {
-            addCriterion("pass not in", values, "pass");
-            return (Criteria) this;
-        }
-
-        public Criteria andPassBetween(Boolean value1, Boolean value2) {
-            addCriterion("pass between", value1, value2, "pass");
-            return (Criteria) this;
-        }
-
-        public Criteria andPassNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("pass not between", value1, value2, "pass");
-            return (Criteria) this;
-        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -14,6 +14,7 @@ import com.springboot.annotation.LockKeyParam;
 import com.springboot.annotation.ZkLock;
 import com.springboot.common.DynamicDataSourceContextHolder;
 import com.springboot.common.DynamicRoutingDataSource;
+import com.springboot.common.entity.Page;
 import com.springboot.common.entity.Result;
 import com.springboot.common.util.ResultUtil;
 import com.springboot.dao.dto.UserDTO;
@@ -107,8 +108,9 @@ public class UserController {
      */
     @PostMapping("/get")
     public Result<User> get(
-        @Valid @RequestParam(value = "name",required = false) @Size(max = 6, message = "超过 username 的范围了") @NotBlank String name,
-        @Valid @RequestParam(value = "id",required = false) @NotNull(message = "id不能为空") Integer id) {
+            @Valid @RequestParam(value = "name",required = false) @Size(max = 6, message = "超过 username 的范围了") @NotBlank String name,
+            @Valid @RequestParam(value = "id",required = false) @NotNull(message = "id不能为空") Integer id, Page page) {
+        log.info("page:{}",JSON.toJSONString(page));
         User user = new User();
         user.setUsername(name);
         user.setId(id);

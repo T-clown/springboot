@@ -45,7 +45,7 @@ public class CreateUserRequest {
     private String gender;
 
     @Email
-    private String email;
+    private String email="5666666";
 
     @Region(message = "region值不在范围内")
     private String region;

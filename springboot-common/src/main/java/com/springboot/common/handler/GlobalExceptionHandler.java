@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
         return ResultUtil.unknownError(e.getMessage());
     }
 
-    /**
+    /**`
      * 实体参数校验
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)

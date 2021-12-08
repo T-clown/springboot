@@ -1,10 +1,12 @@
 package com.springboot.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.springboot.common.TransactionalUtil;
 import com.springboot.dao.dto.UserDTO;
 import com.springboot.entity.CreateUserRequest;
 import com.springboot.entity.UpdateUserRequest;
 import com.springboot.entity.User;
+import com.springboot.entity.UserQueryRequest;
 import com.springboot.service.UserService;
 import com.springboot.service.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -14,13 +16,15 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Slf4j
 @EnableAspectJAutoProxy(exposeProxy = true,proxyTargetClass = true)
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
 
     @Override
@@ -55,8 +59,19 @@ public class UserServiceImpl implements UserService {
     public boolean updateUser(UpdateUserRequest request) throws Exception {
         UserDTO userDTO = new UserDTO();
         BeanUtils.copyProperties(request, userDTO);
-        boolean result = userRepository.update(userDTO);
-        return result;
+        return userRepository.update(userDTO);
+    }
+
+    @Override
+    public List<User> list(UserQueryRequest request) {
+        List<UserDTO> userDTOS = userRepository.getUserDTOS(request);
+        return JSON.parseArray(JSON.toJSONString(userDTOS),User.class);
+    }
+
+    @Override
+    public List<User> listByNames(List<String> names) {
+        List<UserDTO> userDTOS = userRepository.getUserDTOS(names);
+        return JSON.parseArray(JSON.toJSONString(userDTOS),User.class);
     }
 
 }

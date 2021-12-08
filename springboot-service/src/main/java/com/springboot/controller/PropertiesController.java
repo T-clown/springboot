@@ -74,7 +74,6 @@ public class PropertiesController {
         ListenableFuture<SendResult<String, String>> sendResult = kafkaTemplate.send(Constants.KAFKA_TOPIC_NAME, message);
         sendResult.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
 
-
             @Override
             public void onSuccess(SendResult<String, String> result) {
                 log.info("消息发送成功:topic:{},partition:{},key:{},part{}", result.getProducerRecord().topic(), result.getProducerRecord().partition(), result.getProducerRecord().key(), result.getProducerRecord().value());

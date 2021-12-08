@@ -22,6 +22,7 @@ import com.springboot.entity.CreateUserRequest;
 import com.springboot.entity.DataSourceInfo;
 import com.springboot.entity.UpdateUserRequest;
 import com.springboot.entity.User;
+import com.springboot.entity.UserQueryRequest;
 import com.springboot.extend.TestFactoryBean;
 import com.springboot.service.AccountService;
 import com.springboot.service.UserService;
@@ -32,6 +33,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,7 +50,7 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
     @PostConstruct
     public void init() {
         log.info("UserController初始化。。。。。。。。。");
@@ -77,9 +79,6 @@ public class UserController {
 
     @Resource(name = "&testFactoryBean")
     private TestFactoryBean testFactoryBean2;
-
-    @Autowired
-    private UserRepository userRepository;
 
     /**
      * 类上@Validated+方法上@Valid
@@ -117,11 +116,16 @@ public class UserController {
         return ResultUtil.success(user);
     }
 
-    @PostMapping("/get/all")
-    public Result<User> getall() {
-        List<UserDTO> userDTOS = userRepository.getUserDTOS();
-        System.out.println(JSON.toJSONString(userDTOS));
-        return ResultUtil.success(null);
+    @PostMapping("/list")
+    public Result<List<User>> list(@RequestBody UserQueryRequest request) {
+        List<User> users=userService.list(request);
+        return ResultUtil.success(users);
+    }
+
+    @GetMapping("/listByNames")
+    public Result<List<User>> list(@RequestParam List<String> names) {
+        List<User> users=userService.listByNames(names);
+        return ResultUtil.success(users);
     }
 
     @PostMapping("/update")

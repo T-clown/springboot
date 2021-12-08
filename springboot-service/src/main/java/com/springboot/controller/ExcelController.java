@@ -3,6 +3,7 @@ package com.springboot.controller;
 import com.springboot.common.entity.Result;
 import com.springboot.common.util.ResultUtil;
 import com.springboot.dao.dto.UserDTO;
+import com.springboot.entity.UserQueryRequest;
 import com.springboot.entity.excel.DownloadData;
 import com.springboot.entity.excel.UploadData;
 import com.springboot.service.repository.UserRepository;
@@ -11,6 +12,7 @@ import com.springboot.util.ExcelUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,8 +34,8 @@ public class ExcelController {
      * @Desc 批量导出
      **/
     @PostMapping(value = "/export/user")
-    public void exportUser(HttpServletResponse response) {
-        List<UserDTO> userDTOS = userRepository.getUserDTOS();
+    public void exportUser(@RequestBody UserQueryRequest request, HttpServletResponse response) {
+        List<UserDTO> userDTOS = userRepository.getUserDTOS(request);
         List<DownloadData> data = userDTOS.stream().map(x -> BeanCopyUtils.copyProperties(x, DownloadData.class)).collect(Collectors.toList());
         ExcelUtil.exportExcel(response, DownloadData.class, data, "用户信息");
     }

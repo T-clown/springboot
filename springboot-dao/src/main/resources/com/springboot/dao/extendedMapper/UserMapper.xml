@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.springboot.dao.extendedMapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.springboot.dao.dto.UserDTO">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="gender" jdbcType="VARCHAR" property="gender" />
+        <result column="birthday" jdbcType="OTHER" property="birthday" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler" />
+        <result column="email" jdbcType="VARCHAR" property="email" />
+        <result column="phone" jdbcType="VARCHAR" property="phone" />
+        <result column="create_time" jdbcType="OTHER" property="createTime" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler" />
+        <result column="update_time" jdbcType="OTHER" property="updateTime" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler" />
+        <result column="is_deleted" jdbcType="SMALLINT" property="isDeleted" />
+        <result column="region" jdbcType="VARCHAR" property="region" />
+        <result column="status" jdbcType="SMALLINT" property="status" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, username, gender, birthday, email, phone, create_time, update_time, is_deleted,
+    region, status
+    </sql>
+
     <insert id="insert" parameterType="com.springboot.dao.dto.UserDTO">
         insert into springboot_user (
         username,
@@ -22,4 +41,18 @@
             #{item.isDeleted,jdbcType=SMALLINT}
         </foreach>
     </insert>
+
+    <select id="list" parameterType="com.springboot.dao.dto.UserDTOExample" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from springboot_user
+        <where>
+            <if test="names != null and names.size >0">
+                and username in
+                <foreach item="item" index="index" collection="names" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
 </mapper>

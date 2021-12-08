@@ -7,4 +7,6 @@ import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
     void insert(@Param("userDTOS") List<UserDTO> userDTOS);
+
+    List<UserDTO> list(@Param("names") List<String> names);
 }

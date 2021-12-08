@@ -154,4 +154,17 @@ public class ElasticsearchUtil {
         return client.bulk(request, RequestOptions.DEFAULT);
     }
 
+    public static void main(String[] args) throws InterruptedException {
+        StopWatchUtil.start("煮饭");
+        Thread.sleep(1000L);
+        StopWatchUtil.stop();
+        StopWatchUtil.start("吃饭");
+        Thread.sleep(1000L);
+        StopWatchUtil.stop();
+        StopWatchUtil.start("洗碗");
+        Thread.sleep(1000L);
+        String s = StopWatchUtil.prettyPrint();
+        log.info(s);
+    }
+
 }

@@ -1,6 +1,8 @@
 package com.springboot.common.constants;
 
 public class Constants {
+    public static String LINE = "-";
+
     public static String DATABASE = "DATABASE";
 
     /**

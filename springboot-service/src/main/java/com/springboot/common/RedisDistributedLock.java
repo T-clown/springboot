@@ -47,6 +47,11 @@ public class RedisDistributedLock implements DistributedLock {
     }
 
     @Override
+    public boolean tryLock(String lockKey, TimeUnit unit,  int leaseTime) {
+        return tryLock(lockKey,unit,0,leaseTime);
+    }
+
+    @Override
     public void unlock(String lockKey) {
         RLock lock = redissonClient.getLock(lockKey);
         lock.unlock();

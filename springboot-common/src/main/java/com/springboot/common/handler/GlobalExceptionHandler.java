@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ExceptionHandler(value = Exception.class)
-    public Result handle(Exception e) {
+    public Result<String> handle(Exception e) {
         log.error("Unknown error:{}", JSONUtil.toJsonStr(e.getMessage()));
         return ResultUtil.unknownError(e.getMessage());
     }

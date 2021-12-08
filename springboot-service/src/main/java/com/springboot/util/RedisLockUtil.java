@@ -17,7 +17,7 @@ public class RedisLockUtil {
     private static DistributedLock redisDistributedLock;
 
     @Autowired
-    DistributedLock distributedLock;
+    private DistributedLock distributedLock;
 
     @PostConstruct
     public void init() {

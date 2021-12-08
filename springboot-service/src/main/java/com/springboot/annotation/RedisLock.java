@@ -24,7 +24,7 @@ public @interface RedisLock {
      * 轮询锁的时间
      * @return
      */
-    long timeout() default 30;
+    int timeout() default 0;
 
     /**
      * key在redis里存在的时间，1000S

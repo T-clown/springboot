@@ -15,6 +15,8 @@ public interface DistributedLock {
 
     boolean tryLock(String lockKey, TimeUnit unit, int waitTime, int leaseTime);
 
+    boolean tryLock(String lockKey, TimeUnit unit, int leaseTime);
+
     void unlock(String lockKey);
 
     void unlock(RLock lock);

@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
  * 配置文件读取顺序：resources下的config目录文件>resources下的配置文件
  * 读取properties中文会乱码，可转成yml文件解决
  *
+ *  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
  * @import注解主要作用是将类的实例加入到IOC容器中
  */
 @RestController

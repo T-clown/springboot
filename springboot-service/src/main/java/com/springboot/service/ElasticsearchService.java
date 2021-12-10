@@ -1,5 +1,5 @@
 package com.springboot.service;
 
-public interface EsService {
+public interface ElasticsearchService {
     void addData();
 }

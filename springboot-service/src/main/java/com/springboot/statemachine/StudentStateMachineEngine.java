@@ -8,6 +8,7 @@ import com.springboot.service.UserService;
 import com.springboot.service.repository.UserRepository;
 import com.springboot.statemachine.entity.StatusEnum;
 import com.springboot.statemachine.entity.StudentTrigger;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -25,8 +26,7 @@ public class StudentStateMachineEngine implements ApplicationContextAware {
     private UserRepository userService;
 
     public StudentStateMachineEngine() {
-        stateMachineBuilder = StateMachineBuilderFactory.create(StudentStatusMachine.class,
-            ApplicationContext.class);
+        stateMachineBuilder = StateMachineBuilderFactory.create(StudentStatusMachine.class, ApplicationContext.class);
     }
 
     @Override
@@ -36,15 +36,15 @@ public class StudentStateMachineEngine implements ApplicationContextAware {
 
 
     public UserDTO fire(int id, StudentTrigger trigger, StateMachineContext context) {
-        UserDTO UserDTO = userService.getUserDTOById(id);
+        UserDTO UserDTO = userService.getById(id);
         if (Objects.isNull(UserDTO)) {
             throw new RuntimeException("无此学生");
         }
-        //if (ObjectUtils.defaultIfNull(UserDTO.getVersion(), 0).intValue() != context.getVersion()) {
-        //    throw new RuntimeException("版本不对");
-        //}
+//        if (ObjectUtils.defaultIfNull(UserDTO.getVersion(), 0).intValue() != context.getVersion()) {
+//            throw new RuntimeException("版本不对");
+//        }
         context.setUserDTO(UserDTO);
-        short status=0;//UserDTO.getStatus()
+        String status = UserDTO.getStatus();
         //注意：目前所有的状态机执行都是同步的，如果存在异步情况，注意此处的数据返回
         StudentStatusMachine stateMachine = stateMachineBuilder
             .newUntypedStateMachine(

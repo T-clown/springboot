@@ -28,14 +28,14 @@ public class ExcelController {
 
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     /**
      * @Desc 批量导出
      **/
     @PostMapping(value = "/export/user")
     public void exportUser(@RequestBody UserQueryRequest request, HttpServletResponse response) {
-        List<UserDTO> userDTOS = userRepository.getUserDTOS(request);
+        List<UserDTO> userDTOS = userRepository.list(request);
         List<DownloadData> data = userDTOS.stream().map(x -> BeanCopyUtils.copyProperties(x, DownloadData.class)).collect(Collectors.toList());
         ExcelUtil.exportExcel(response, DownloadData.class, data, "用户信息");
     }

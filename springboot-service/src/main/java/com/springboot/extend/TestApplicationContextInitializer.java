@@ -1,5 +1,6 @@
 package com.springboot.extend;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -9,11 +10,12 @@ import org.springframework.context.ConfigurableApplicationContext;
  * 简单来说，就是在容器刷新之前调用此类的initialize方法。这个点允许被用户自己扩展。
  * 用户可以在整个spring容器还没被初始化之前做一些事情。
  */
+@Slf4j
 public class TestApplicationContextInitializer implements ApplicationContextInitializer {
 
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
-        System.out.println("[ApplicationContextInitializer]");
+        log.info("[ApplicationContextInitializer]");
     }
 
 }

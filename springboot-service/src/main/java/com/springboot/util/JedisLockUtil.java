@@ -1,6 +1,7 @@
 package com.springboot.util;
 
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.params.SetParams;
 
 import java.util.Collections;
 /**
@@ -41,8 +42,8 @@ public class JedisLockUtil {
      * @param expireTime 超期时间
      * @return 是否获取成功
      */
-    public static boolean tryLock(Jedis jedis, String lockKey, String requestId, int expireTime) {
-        String result = jedis.set(lockKey, requestId, SET_IF_NOT_EXIST, SET_WITH_EXPIRE_TIME, expireTime);
+    public static boolean tryLock(Jedis jedis, String lockKey, String requestId, long expireTime) {
+        String result = jedis.set(lockKey, requestId,SetParams.setParams().nx().ex(expireTime).px(0L));
         if (LOCK_SUCCESS.equals(result)) {
             return true;
         }

@@ -7,6 +7,7 @@ import javax.validation.Validator;
 
 import cn.hutool.json.JSONUtil;
 import com.springboot.entity.User;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+@Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -75,7 +76,7 @@ public class UserControllerTest {
         user.setEmail("82938390@qq.com");
         Set<ConstraintViolation<User>> violations = validator.validate(user);
         for (ConstraintViolation<User> constraintViolation : violations) {
-            System.out.println(constraintViolation.getMessage());
+            log.info(constraintViolation.getMessage());
         }
     }
 }

@@ -1,46 +1,33 @@
 package com.springboot.controller;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.validation.Valid;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 import com.alibaba.fastjson.JSON;
-import com.springboot.annotation.DataSource;
 import com.springboot.annotation.LockKeyParam;
-import com.springboot.annotation.ZkLock;
-import com.springboot.common.DynamicDataSourceContextHolder;
 import com.springboot.common.DynamicRoutingDataSource;
 import com.springboot.common.entity.Page;
+import com.springboot.common.entity.PageResult;
 import com.springboot.common.entity.Result;
 import com.springboot.common.util.ResultUtil;
-import com.springboot.dao.dto.UserDTO;
 import com.springboot.entity.CreateUserRequest;
 import com.springboot.entity.DataSourceInfo;
 import com.springboot.entity.UpdateUserRequest;
 import com.springboot.entity.User;
 import com.springboot.entity.UserQueryRequest;
 import com.springboot.extend.TestFactoryBean;
-import com.springboot.service.AccountService;
 import com.springboot.service.UserService;
-import com.springboot.service.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @Slf4j
@@ -48,9 +35,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-
     @Autowired
     private UserService userService;
+
     @PostConstruct
     public void init() {
         log.info("UserController初始化。。。。。。。。。");
@@ -65,7 +52,7 @@ public class UserController {
      */
     //@ZkLock(key = "zklock")
     @PostMapping("/add")
-    public Result add(@LockKeyParam(fields = {"username","phone"})@RequestBody @Valid CreateUserRequest request) {
+    public Result add(@LockKeyParam(fields = {"username", "phone"}) @RequestBody @Valid CreateUserRequest request) {
         return ResultUtil.success(userService.addUser(request));
     }
 
@@ -86,15 +73,15 @@ public class UserController {
      * @param id
      * @return
      */
-    @DataSource(name = "slave")
+    // @DataSource(name = "slave")
     @PostMapping("get/{id}")
-    protected Result<User> getUserById(@Valid @PathVariable("id") @Max(value = 5, message = "超过 id 的范围了") Integer id) {
-        System.out.println("TestFactoryBean类型  {}"+testFactoryBean.getClass());
-        System.out.println("TestFactoryBean2类型  {}"+testFactoryBean2.getClass());
-        if (id == 3) {
-            dynamicRoutingDataSource.addDataSource(dataSourceInfo.getProperties());
-            DynamicDataSourceContextHolder.setDataSourceKey(dataSourceInfo.getUrl());
-        }
+    protected Result<User> getUserById(@Valid @PathVariable("id") @Min(value = 0, message = "id最小为1") Integer id) {
+        log.info("TestFactoryBean类型  {}", testFactoryBean.getClass());
+        log.info("TestFactoryBean2类型  {}", testFactoryBean2.getClass());
+//        if (id == 3) {
+//            dynamicRoutingDataSource.addDataSource(dataSourceInfo.getProperties());
+//            DynamicDataSourceContextHolder.setDataSourceKey(dataSourceInfo.getUrl());
+//        }
         return ResultUtil.success(userService.getUserById(id));
     }
 
@@ -102,35 +89,30 @@ public class UserController {
     /**
      * 类上@Validated+方法上@Valid
      *
-     * @param name
      * @return
      */
-    @PostMapping("/get")
-    public Result<User> get(
-            @Valid @RequestParam(value = "name",required = false) @Size(max = 6, message = "超过 username 的范围了") @NotBlank String name,
-            @Valid @RequestParam(value = "id",required = false) @NotNull(message = "id不能为空") Integer id, Page page) {
-        log.info("page:{}",JSON.toJSONString(page));
-        User user = new User();
-        user.setUsername(name);
-        user.setId(id);
-        return ResultUtil.success(user);
+    @PostMapping("/page")
+    public Result<PageResult<User>> page(@RequestBody UserQueryRequest request, Page page) {
+        log.info("page:{}", JSON.toJSONString(page));
+        PageResult<User> pageResult = userService.page(request, page);
+        return ResultUtil.success(pageResult);
     }
 
     @PostMapping("/list")
     public Result<List<User>> list(@RequestBody UserQueryRequest request) {
-        List<User> users=userService.list(request);
+        List<User> users = userService.list(request);
         return ResultUtil.success(users);
     }
 
-    @GetMapping("/listByNames")
-    public Result<List<User>> list(@RequestParam List<String> names) {
-        List<User> users=userService.listByNames(names);
-        return ResultUtil.success(users);
+    @DeleteMapping("/{id}")
+    public Result<Boolean> delete(@PathVariable("id") Integer id) {
+        userService.delete(id);
+        return ResultUtil.success(true);
     }
 
     @PostMapping("/update")
     public Result<Boolean> update(@RequestBody @Valid UpdateUserRequest request) throws Exception {
-        return ResultUtil.success(userService.updateUser(request));
+        return ResultUtil.success(userService.update(request));
     }
 
 }

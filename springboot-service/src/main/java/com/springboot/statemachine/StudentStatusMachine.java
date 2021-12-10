@@ -119,7 +119,7 @@ public class StudentStatusMachine extends AbstractUntypedStateMachine {
 
     @Override
     protected void afterTransitionDeclined(Object fromState, Object event, Object context) {
-        throw new RuntimeException("");
+        throw new RuntimeException("拒绝");
     }
 
     @Override
@@ -136,7 +136,7 @@ public class StudentStatusMachine extends AbstractUntypedStateMachine {
             return getTargetException(targetException);
         }else {
             logger.error("transit failed with unknown exception!", ex);
-            return new RuntimeException("");
+            return new RuntimeException(ex.getMessage());
         }
     }
 }

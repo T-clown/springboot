@@ -1,5 +1,6 @@
 package com.springboot.common;
 
+import com.springboot.handler.CallBack;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Component;
@@ -11,13 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 public class TransactionalComponent {
 
-    public interface Cell {
-        void run() ;
-    }
-
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public void transactional(Cell cell)  {
-        cell.run();
+    public void transactional(CallBack callBack)  {
+        callBack.callback();
     }
 
 
@@ -26,10 +23,11 @@ public class TransactionalComponent {
     @Autowired
     private TransactionDefinition transactionDefinition;
 
-    public void saveAll(){
+    public void execute(CallBack callBack){
         //开启事务
         TransactionStatus transactionStatus = dataSourceTransactionManager.getTransaction(transactionDefinition);
         try{
+            callBack.callback();
             //提交事务
             dataSourceTransactionManager.commit(transactionStatus);
         }catch(Exception e){

@@ -31,23 +31,11 @@ public class StatementHandlerInterceptor implements Interceptor {
     public Object intercept(Invocation invocation) throws Throwable {
         StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
         BoundSql boundSql = statementHandler.getBoundSql();
-        MapperMethod.ParamMap obj = (MapperMethod.ParamMap) boundSql.getParameterObject();
+        Object parameterObject = boundSql.getParameterObject();
         String sql = boundSql.getSql();
-        if (sql.trim().toUpperCase().startsWith("INSERT")) {
-            for (Object param : obj.values()) {
-                if (param instanceof Collection) {
-                    Collection params = (Collection) param;
-                    for (Object o : params) {
-                        insertSetValue(o);
-                    }
-                } else {
-                    insertSetValue(param);
-                }
-            }
-            ReflectUtil.setFieldValue(boundSql, "parameterObject", obj);
-        } else if (sql.trim().toUpperCase().startsWith("UPDATE")) {
-            ReflectUtil.setFieldValue(obj, "updateTime", LocalDateTime.now());
-            ReflectUtil.setFieldValue(boundSql, "parameterObject", obj);
+        if (sql.trim().toUpperCase().startsWith("UPDATE")) {
+            ReflectUtil.setFieldValue(parameterObject, "updateTime", LocalDateTime.now());
+            ReflectUtil.setFieldValue(boundSql, "parameterObject", parameterObject);
         }
         return invocation.proceed();
     }
@@ -70,6 +58,6 @@ public class StatementHandlerInterceptor implements Interceptor {
 
     @Override
     public void setProperties(Properties properties) {
-
+        log.info("properties:{}", properties);
     }
 }

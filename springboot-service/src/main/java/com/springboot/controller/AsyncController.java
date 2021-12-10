@@ -101,7 +101,7 @@ public class AsyncController {
                     asyncContext.getResponse().setContentType("text/html;charset=UTF-8");
                     asyncContext.getResponse().getWriter().println("这是异步的请求返回");
                 } catch (Exception e) {
-                    System.out.println("异常：" + e);
+                    log.info("异常：" + e);
                 }
                 //异步请求完成通知
                 //此时整个请求才完成
@@ -116,14 +116,9 @@ public class AsyncController {
     public Callable<String> callableReq() {
         log.info("外部线程：" + Thread.currentThread().getName());
 
-        return new Callable<String>() {
-
-            @Override
-            public String call() throws Exception {
-                Thread.sleep(10000);
-                System.out.println("内部线程：" + Thread.currentThread().getName());
-                return "callable!";
-            }
+        return () -> { Thread.sleep(10000);
+            log.info("内部线程：" + Thread.currentThread().getName());
+            return "callable!";
         };
     }
 
@@ -149,61 +144,45 @@ public class AsyncController {
 
     @RequestMapping(value = "/email/webAsyncReq", method = GET)
     public WebAsyncTask<String> webAsyncReq () {
-        System.out.println("外部线程：" + Thread.currentThread().getName());
+        log.info("外部线程：" + Thread.currentThread().getName());
         Callable<String> result = () -> {
-            System.out.println("内部线程开始：" + Thread.currentThread().getName());
+            log.info("内部线程开始：" + Thread.currentThread().getName());
             try {
                 TimeUnit.SECONDS.sleep(4);
             } catch (Exception e) {
                 // TODO: handle exception
             }
             log.info("副线程返回");
-            System.out.println("内部线程返回：" + Thread.currentThread().getName());
+            log.info("内部线程返回：" + Thread.currentThread().getName());
             return "success";
         };
         WebAsyncTask<String> wat = new WebAsyncTask<String>(3000L, result);
-        wat.onTimeout(new Callable<String>() {
-
-            @Override
-            public String call() {
-                // TODO Auto-generated method stub
-                return "超时";
-            }
+        wat.onTimeout(() -> {
+            // TODO Auto-generated method stub
+            return "超时";
         });
         return wat;
     }
 
     @RequestMapping(value = "/email/deferredResultReq", method = GET)
     public DeferredResult<String> deferredResultReq () {
-        System.out.println("外部线程：" + Thread.currentThread().getName());
+        log.info("外部线程：" + Thread.currentThread().getName());
         //设置超时时间
-        DeferredResult<String> result = new DeferredResult<String>(60*1000L);
+        DeferredResult<String> result = new DeferredResult<>(6 * 1000L);
         //处理超时事件 采用委托机制
-        result.onTimeout(new Runnable() {
-
-            @Override
-            public void run() {
-                System.out.println("DeferredResult超时");
-                result.setResult("超时了!");
-            }
+        result.onTimeout(() -> {
+            log.warn("DeferredResult超时");
+            result.setResult("超时了!");
         });
-        result.onCompletion(new Runnable() {
-
-            @Override
-            public void run() {
-                //完成后
-                System.out.println("调用完成");
-            }
+        result.onCompletion(() -> {
+            //完成后
+            log.info("调用完成");
         });
-        EXECUTOR.execute(new Runnable() {
-
-            @Override
-            public void run() {
-                //处理业务逻辑
-                System.out.println("内部线程：" + Thread.currentThread().getName());
-                //返回结果
-                result.setResult("DeferredResult!!");
-            }
+        EXECUTOR.execute(() -> {
+            //处理业务逻辑
+            log.info("内部线程：" + Thread.currentThread().getName());
+            //返回结果
+            result.setResult("DeferredResult!!");
         });
         return result;
     }

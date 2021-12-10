@@ -1,11 +1,11 @@
 package com.springboot.service;
 
-import com.springboot.dao.dto.UserDTO;
+import com.springboot.common.entity.Page;
+import com.springboot.common.entity.PageResult;
 import com.springboot.entity.CreateUserRequest;
 import com.springboot.entity.UpdateUserRequest;
 import com.springboot.entity.User;
 import com.springboot.entity.UserQueryRequest;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public interface UserService {
      */
     boolean addUser(CreateUserRequest request);
 
-    public void add(CreateUserRequest request);
+    void add(CreateUserRequest request);
     /**
      * 获取用户
      *
@@ -33,9 +33,10 @@ public interface UserService {
      */
     void delete(Integer id);
 
-    boolean updateUser(UpdateUserRequest request) throws Exception;
+    boolean update(UpdateUserRequest request) throws Exception;
 
     List<User> list(UserQueryRequest request);
 
-    List<User> listByNames(List<String> names);
+
+    PageResult<User> page(UserQueryRequest request, Page page);
 }

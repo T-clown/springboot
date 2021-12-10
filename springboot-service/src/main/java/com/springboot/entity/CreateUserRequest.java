@@ -1,5 +1,6 @@
 package com.springboot.entity;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.validation.constraints.Email;
@@ -21,32 +22,33 @@ import org.hibernate.validator.constraints.Length;
 @Data
 public class CreateUserRequest {
 
-    /**
-     * 姓名
-     */
-    @Length(min = 1, max = 10, message = "姓名太长")
     @NotBlank(message = "姓名不能为空")
+    @Length(min = 1,max = 5, message = "length太大")
+    @Size(min = 1,max = 5,message = "size太大")
     private String username;
 
     //@NotNull(message = "年龄不能为空")
     @Max(value = 100, message = "年龄超过100")
-    @Min(value = 10, message = "年龄不低于10")
+    @Min(value = 10, message = "年龄不低于1")
     private Integer age;
 
     @Past(message = "生日日期错误")
-    private Date birthday;
+    private LocalDateTime birthday;
 
     @Length(min = 11, max = 11, message = "手机号位数不对")
+    @NotBlank(message = "手机号不能为空")
     private String phone;
 
-    @NotNull(message = "性别不能为空")
-    //@JsonDeserialize(using = GenderDeserializer.class)
-    //private GenderType gender;
+    @NotBlank(message = "性别不能为空")
     private String gender;
 
-    @Email
-    private String email="5666666";
+    //@JsonDeserialize(using = GenderDeserializer.class)
+    //private GenderType gender;
+
+    @Email(message = "邮箱格式错误")
+    private String email;
 
     @Region(message = "region值不在范围内")
+    @NotBlank(message = "区域不能为空")
     private String region;
 }

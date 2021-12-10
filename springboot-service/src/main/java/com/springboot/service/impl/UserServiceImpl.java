@@ -1,13 +1,19 @@
 package com.springboot.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.springboot.annotation.LockKeyParam;
+import com.springboot.annotation.RedisLock;
+import com.springboot.common.TransactionalComponent;
 import com.springboot.common.TransactionalUtil;
+import com.springboot.common.entity.Page;
+import com.springboot.common.entity.PageResult;
 import com.springboot.dao.dto.UserDTO;
 import com.springboot.entity.CreateUserRequest;
 import com.springboot.entity.UpdateUserRequest;
 import com.springboot.entity.User;
 import com.springboot.entity.UserQueryRequest;
 import com.springboot.service.UserService;
+import com.springboot.service.converter.UserConverter;
 import com.springboot.service.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -19,17 +25,19 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Slf4j
-@EnableAspectJAutoProxy(exposeProxy = true,proxyTargetClass = true)
+@EnableAspectJAutoProxy(exposeProxy = true, proxyTargetClass = true)
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private TransactionalComponent transactionalComponent;
 
 
     @Override
     public boolean addUser(CreateUserRequest request) {
-            TransactionalUtil.transactional(() -> add(request));
+        TransactionalUtil.transactional(() -> add(request));
         return true;
     }
 
@@ -43,7 +51,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(Integer id) {
-        UserDTO userDTO = userRepository.getUserDTOById(id);
+        UserDTO userDTO = userRepository.getById(id);
         User user = new User();
         BeanUtils.copyProperties(userDTO, user);
         return user;
@@ -51,12 +59,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(Integer id) {
-        log.info("删除用户【id】= {}", id);
+        transactionalComponent.execute(() -> userRepository.delete(id));
     }
 
+    @RedisLock(key = "user")
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean updateUser(UpdateUserRequest request) throws Exception {
+    public boolean update(@LockKeyParam(fields = "id") UpdateUserRequest request) {
         UserDTO userDTO = new UserDTO();
         BeanUtils.copyProperties(request, userDTO);
         return userRepository.update(userDTO);
@@ -64,14 +73,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> list(UserQueryRequest request) {
-        List<UserDTO> userDTOS = userRepository.getUserDTOS(request);
-        return JSON.parseArray(JSON.toJSONString(userDTOS),User.class);
+        List<UserDTO> userDTOS = userRepository.list(request);
+        return JSON.parseArray(JSON.toJSONString(userDTOS), User.class);
     }
 
     @Override
-    public List<User> listByNames(List<String> names) {
-        List<UserDTO> userDTOS = userRepository.getUserDTOS(names);
-        return JSON.parseArray(JSON.toJSONString(userDTOS),User.class);
+    public PageResult<User> page(UserQueryRequest request, Page page) {
+        PageResult<UserDTO> pageResult = userRepository.page(request, page);
+        return UserConverter.convertPageResult(pageResult,UserConverter::convert);
     }
 
 }

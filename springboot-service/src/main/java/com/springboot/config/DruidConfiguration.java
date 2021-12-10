@@ -3,11 +3,12 @@ package com.springboot.config;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
+@Slf4j
 @Configuration
 public class DruidConfiguration {
 
@@ -37,7 +38,7 @@ public class DruidConfiguration {
         // 添加不需要忽略的格式信息
         filterRegistrationBean.addInitParameter("exclusions",
             "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
-        System.out.println("druid初始化成功!");
+        log.info("druid初始化成功!");
         return filterRegistrationBean;
 
     }

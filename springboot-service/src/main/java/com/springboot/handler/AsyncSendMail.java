@@ -35,7 +35,7 @@ public class AsyncSendMail {
                 if (t.getPriority() != Thread.NORM_PRIORITY) {
                     t.setPriority(Thread.NORM_PRIORITY);
                 }
-                System.out.println(t.getName());
+                log.info(t.getName());
                 return t;
             }
         }, new AbortPolicy());

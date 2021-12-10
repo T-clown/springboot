@@ -18,7 +18,7 @@ public class PPageArgumentsResolver implements HandlerMethodArgumentResolver {
     public boolean supportsParameter(MethodParameter methodParameter) {
         // 一个api接口，多个参数，将会多次调用此方法匹配是不是你需要的参数类型
         Class<?> clazz = methodParameter.getParameterType();
-        System.out.println(JSON.toJSONString(methodParameter));
+        log.info(JSON.toJSONString(methodParameter));
         log.info("===============【参数装配】clazz={}",clazz.getName());
         //return Page.class.getName().equalsIgnoreCase(clazz.getName());
         return false;

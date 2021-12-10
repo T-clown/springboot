@@ -2,6 +2,7 @@ package com.springboot.extend;
 
 import java.lang.reflect.Constructor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.SmartInstantiationAwareBeanPostProcessor;
 import org.springframework.stereotype.Service;
@@ -15,24 +16,25 @@ import org.springframework.stereotype.Service;
  * getEarlyBeanReference：该触发点发生在postProcessAfterInstantiation之后，当有循环依赖的场景，当bean实例化好之后，为了防止有循环依赖，会提前暴露回调方法，用于bean
  * 实例化的后置处理。这个方法就是在提前暴露的回调方法中触发。
  */
+@Slf4j
 //@Service
 public class TestSmartInstantiationAwareBeanPostProcessor implements SmartInstantiationAwareBeanPostProcessor {
 
     @Override
     public Class<?> predictBeanType(Class<?> beanClass, String beanName) throws BeansException {
-        System.out.println("[TestSmartInstantiationAwareBeanPostProcessor] predictBeanType " + beanName);
+        log.info("[TestSmartInstantiationAwareBeanPostProcessor] predictBeanType " + beanName);
         return beanClass;
     }
 
     @Override
     public Constructor<?>[] determineCandidateConstructors(Class<?> beanClass, String beanName) throws BeansException {
-        System.out.println("[TestSmartInstantiationAwareBeanPostProcessor] determineCandidateConstructors " + beanName);
+        log.info("[TestSmartInstantiationAwareBeanPostProcessor] determineCandidateConstructors " + beanName);
         return null;
     }
 
     @Override
     public Object getEarlyBeanReference(Object bean, String beanName) throws BeansException {
-        System.out.println("[TestSmartInstantiationAwareBeanPostProcessor] getEarlyBeanReference " + beanName);
+        log.info("[TestSmartInstantiationAwareBeanPostProcessor] getEarlyBeanReference " + beanName);
         return bean;
     }
 

@@ -39,11 +39,9 @@ public class PersistenceModule {
     @Autowired
     private DataSourceTransactionManager transactionManager;
     @Autowired
-    UserService userService;
+    private UserRepository userRepository;
     @Autowired
-    UserRepository userRepository;
-    @Autowired
-    DistributedLock distributedLock;
+    private DistributedLock distributedLock;
 
 
     /**
@@ -68,8 +66,7 @@ public class PersistenceModule {
      */
     @OnTransitionBegin
     @ListenerOrder(1)
-    public void getTransaction(StatusEnum from, StudentTrigger event,
-                               StateMachineContext context) {
+    public void getTransaction(StatusEnum from, StudentTrigger event, StateMachineContext context) {
         DefaultTransactionDefinition def = new DefaultTransactionDefinition();
         def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
         TransactionStatus status = transactionManager.getTransaction(def);
@@ -88,7 +85,7 @@ public class PersistenceModule {
             UserDTO userDTO = context.getUserDTO();
             TransactionStatus transactionStatus = context.getTransactionStatus();
             //持久化
-            //userDTO.setStatus(to.getValue());
+            userDTO.setStatus(to.getValue());
             //userService.updateUser(UserDTO, context.getOperator());
             userRepository.update(userDTO);
             //事务提交
@@ -150,8 +147,8 @@ public class PersistenceModule {
     public void autoPaying(StatusEnum from, StatusEnum to,
                            StateMachineContext stateMachineContext,
                            UntypedStateMachine stateMachine) {
-        if (to == StatusEnum.PAYING) {
-            stateMachine.fire(StudentTrigger.AUTO_PAY_EVENT, stateMachineContext);
+        if (to == StatusEnum.RECESS) {
+            stateMachine.fire(StudentTrigger.SLEEP, stateMachineContext);
         }
     }
 

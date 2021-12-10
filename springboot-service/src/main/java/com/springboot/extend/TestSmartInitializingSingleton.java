@@ -1,5 +1,6 @@
 package com.springboot.extend;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.stereotype.Service;
 
@@ -9,11 +10,12 @@ import org.springframework.stereotype.Service;
  *
  * 使用场景：用户可以扩展此接口在对所有单例对象初始化完毕后，做一些后置的业务处理。
  */
+@Slf4j
 @Service
 public class TestSmartInitializingSingleton implements SmartInitializingSingleton {
 
     @Override
     public void afterSingletonsInstantiated() {
-        System.out.println("[TestSmartInitializingSingleton]");
+        log.info("[TestSmartInitializingSingleton]");
     }
 }

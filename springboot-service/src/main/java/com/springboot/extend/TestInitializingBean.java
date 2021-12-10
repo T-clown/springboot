@@ -1,5 +1,6 @@
 package com.springboot.extend;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 
 /**
@@ -8,11 +9,12 @@ import org.springframework.beans.factory.InitializingBean;
  *
  * 使用场景：用户实现此接口，来进行系统启动的时候一些业务指标的初始化工作。
  */
+@Slf4j
 public class TestInitializingBean implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        System.out.println("[InitializingBean] TestInitializingBean");
+        log.info("[InitializingBean] TestInitializingBean");
     }
 
 }

@@ -1,11 +1,12 @@
 package com.springboot.statemachine.demo;
 
+import lombok.extern.slf4j.Slf4j;
 import org.squirrelframework.foundation.fsm.StateMachineBuilderFactory;
 import org.squirrelframework.foundation.fsm.UntypedStateMachine;
 import org.squirrelframework.foundation.fsm.UntypedStateMachineBuilder;
 import org.squirrelframework.foundation.fsm.annotation.StateMachineParameters;
 import org.squirrelframework.foundation.fsm.impl.AbstractUntypedStateMachine;
-
+@Slf4j
 public class QuickStartSample {
 
     // 1. Define State Machine Event
@@ -17,12 +18,12 @@ public class QuickStartSample {
     @StateMachineParameters(stateType=String.class, eventType=FSMEvent.class, contextType=Integer.class)
     static class StateMachineSample extends AbstractUntypedStateMachine {
         protected void fromAToB(String from, String to, FSMEvent event, Integer context) {
-            System.out.println("Transition from '"+from+"' to '"+to+"' on event '"+event+
+            log.info("Transition from '"+from+"' to '"+to+"' on event '"+event+
                 "' with context '"+context+"'.");
         }
 
         protected void ontoB(String from, String to, FSMEvent event, Integer context) {
-            System.out.println("Entry State \'"+to+"\'.");
+            log.info("Entry State \'"+to+"\'.");
         }
     }
 
@@ -36,6 +37,6 @@ public class QuickStartSample {
         UntypedStateMachine fsm = builder.newStateMachine("A");
         fsm.fire(FSMEvent.ToB, 10);
 
-        System.out.println("Current state is "+fsm.getCurrentState());
+        log.info("Current state is "+fsm.getCurrentState());
     }
 }

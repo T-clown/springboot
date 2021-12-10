@@ -6,9 +6,9 @@ public enum StudentTrigger {
      *
      */
     ASSIGN_EVENT("自动分配"),
-    FINANCE_APPROVED_EVENT("财务审核通过"),
-    FINANCE_UNAPPROVED_EVENT("财务审核未通过"),
-    AUTO_PAY_EVENT("自动打款");
+    EAT("吃饭"),
+    ATTEND_CLASS("上课"),
+    SLEEP("睡觉");
 
     private String desc;
 

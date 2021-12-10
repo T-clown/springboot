@@ -1,5 +1,6 @@
 package com.springboot.extend;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
@@ -8,11 +9,12 @@ import org.springframework.stereotype.Service;
  *
  * 使用场景：用户扩展此接口，进行启动项目之后一些业务的预处理。
  */
+@Slf4j
 @Service
 public class TestCommandLineRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("[TestCommandLineRunner]");
+        log.info("[TestCommandLineRunner]");
     }
 }

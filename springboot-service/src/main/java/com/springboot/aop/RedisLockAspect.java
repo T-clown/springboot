@@ -33,7 +33,7 @@ import java.lang.reflect.Method;
 @Slf4j
 public class RedisLockAspect {
 
-    private static final String KEY_PREFIX = "DISTRIBUTED_LOCK_";
+    private static final String KEY_PREFIX = "DISTRIBUTED_LOCK";
 
     private static final String KEY_SEPARATOR = "_";
 
@@ -62,15 +62,19 @@ public class RedisLockAspect {
             throw new ServiceRuntimeException("分布式锁键不能为空");
         }
         String lockKey = buildLockKey(redisLock, method, args);
+        boolean lock=false;
         try {
+             lock = RedisLockUtil.tryLock(lockKey, redisLock.timeUnit(), redisLock.timeout(), redisLock.expireTime());
             // 假设上锁成功，以后拿到的都是 false
-            if (RedisLockUtil.tryLock(lockKey,redisLock.timeUnit(),redisLock.timeout(),redisLock.expireTime())) {
+            if (lock) {
                 return point.proceed();
             } else {
                 throw new ServiceRuntimeException("请勿重复提交");
             }
         } finally {
-            RedisLockUtil.unlock(lockKey);
+            if(lock){
+                RedisLockUtil.unlock(lockKey);
+            }
         }
     }
 

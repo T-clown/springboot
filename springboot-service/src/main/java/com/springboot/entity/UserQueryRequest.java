@@ -2,11 +2,12 @@ package com.springboot.entity;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-
+@Validated
 @Data
 public class UserQueryRequest {
 
@@ -23,8 +24,8 @@ public class UserQueryRequest {
 
     private String gender;
 
-    @Email
-    private String email="5666666";
+    @Email(message = "邮箱格式不正确")
+    private String email;
 
 
 }

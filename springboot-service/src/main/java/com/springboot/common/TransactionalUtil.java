@@ -1,5 +1,6 @@
 package com.springboot.common;
 
+import com.springboot.handler.CallBack;
 import com.springboot.util.SpringContextHolder;
 
 public class TransactionalUtil {
@@ -13,7 +14,7 @@ public class TransactionalUtil {
         return transactionalComponent;
     }
 
-    public static void transactional(TransactionalComponent.Cell cell) {
+    public static void transactional(CallBack cell) {
         getTransactionalComponent().transactional(cell);
     }
 

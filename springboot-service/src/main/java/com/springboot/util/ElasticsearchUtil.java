@@ -80,24 +80,24 @@ public class ElasticsearchUtil {
     /**
      * 判断 index 是否存在
      */
-    public static boolean indexExists(String indexName) {
+    public static boolean indexExist(String indexName) {
         GetIndexRequest request = new GetIndexRequest(indexName);
         try {
             return client.indices().exists(request, RequestOptions.DEFAULT);
         } catch (IOException e) {
-            log.error("e:{}", e);
+            log.error("Elasticsearch indexExist error:{}", e.getMessage());
             throw new ServiceRuntimeException(ES_ERROR);
         }
     }
 
-    public static String addData(String index, String type, String id, JSONObject object) {
-        IndexRequest indexRequest = new IndexRequest(index, type, id);
+    public static String addData(String index, JSONObject object) {
+        IndexRequest indexRequest = new IndexRequest(index);
         try {
             indexRequest.source(mapper.writeValueAsString(object), XContentType.JSON);
             IndexResponse indexResponse = client.index(indexRequest, RequestOptions.DEFAULT);
             return indexResponse.getId();
         } catch (Exception e) {
-            log.error("e:{}", e);
+            log.error("Elasticsearch addData error :{}", e.getMessage());
             throw new ServiceRuntimeException(ES_ERROR);
         }
     }
@@ -106,21 +106,21 @@ public class ElasticsearchUtil {
      * 搜索
      */
     public static SearchResponse search(String field, String key, String rangeField, String
-        from, String to, String termField, String termVal,
+            from, String to, String termField, String termVal,
                                         String... indexNames) {
         SearchRequest request = new SearchRequest(indexNames);
 
         SearchSourceBuilder builder = new SearchSourceBuilder();
         BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder();
         boolQueryBuilder.must(new MatchQueryBuilder(field, key)).must(new RangeQueryBuilder(rangeField).from(from)
-            .to(to)).must(new TermQueryBuilder(termField, termVal));
+                .to(to)).must(new TermQueryBuilder(termField, termVal));
         builder.query(boolQueryBuilder);
         request.source(builder);
         log.info("[搜索语句为:{}]", request.source().toString());
         try {
             return client.search(request, RequestOptions.DEFAULT);
         } catch (IOException e) {
-            log.error("e:{}", e);
+            log.error("Elasticsearch search error:{}", e.getMessage());
             throw new ServiceRuntimeException(ES_ERROR);
         }
     }
@@ -130,16 +130,16 @@ public class ElasticsearchUtil {
      *
      * @param indexName
      * @param isAutoId  使用自动id 还是使用传入对象的id
-     * @param source
+     * @param data
      * @return
      * @throws IOException
      */
-    public static BulkResponse importAll(String indexName, boolean isAutoId, String source) throws IOException {
-        if (StringUtils.isBlank(source)) {
+    public static BulkResponse batchImport(String indexName, boolean isAutoId, String data) throws IOException {
+        if (StringUtils.isBlank(data)) {
             throw new ServiceRuntimeException(ES_ERROR, "数据为空");
         }
         BulkRequest request = new BulkRequest();
-        JsonNode jsonNode = mapper.readTree(source);
+        JsonNode jsonNode = mapper.readTree(data);
 
         if (jsonNode.isArray()) {
             for (JsonNode node : jsonNode) {
@@ -147,24 +147,11 @@ public class ElasticsearchUtil {
                     request.add(new IndexRequest(indexName).source(node.asText(), XContentType.JSON));
                 } else {
                     request.add(new IndexRequest(indexName).id(node.get("id").asText())
-                        .source(node.asText(), XContentType.JSON));
+                            .source(node.asText(), XContentType.JSON));
                 }
             }
         }
         return client.bulk(request, RequestOptions.DEFAULT);
-    }
-
-    public static void main(String[] args) throws InterruptedException {
-        StopWatchUtil.start("煮饭");
-        Thread.sleep(1000L);
-        StopWatchUtil.stop();
-        StopWatchUtil.start("吃饭");
-        Thread.sleep(1000L);
-        StopWatchUtil.stop();
-        StopWatchUtil.start("洗碗");
-        Thread.sleep(1000L);
-        String s = StopWatchUtil.prettyPrint();
-        log.info(s);
     }
 
 }

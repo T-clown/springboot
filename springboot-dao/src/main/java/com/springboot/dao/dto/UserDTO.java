@@ -14,15 +14,15 @@ public class UserDTO extends UserDTOKey implements Serializable {
 
     private String phone;
 
+    private String region;
+
+    private String status;
+
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;
 
     private Short isDeleted;
-
-    private String region;
-
-    private Short status;
 
     private static final long serialVersionUID = 1L;
 
@@ -66,6 +66,22 @@ public class UserDTO extends UserDTOKey implements Serializable {
         this.phone = phone == null ? null : phone.trim();
     }
 
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region == null ? null : region.trim();
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status == null ? null : status.trim();
+    }
+
     public LocalDateTime getCreateTime() {
         return createTime;
     }
@@ -88,21 +104,5 @@ public class UserDTO extends UserDTOKey implements Serializable {
 
     public void setIsDeleted(Short isDeleted) {
         this.isDeleted = isDeleted;
-    }
-
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region == null ? null : region.trim();
-    }
-
-    public Short getStatus() {
-        return status;
-    }
-
-    public void setStatus(Short status) {
-        this.status = status;
     }
 }

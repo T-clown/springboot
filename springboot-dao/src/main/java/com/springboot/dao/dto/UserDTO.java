@@ -1,22 +1,26 @@
 package com.springboot.dao.dto;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class UserDTO extends UserDTOKey implements Serializable {
     private String username;
 
-    private String sex;
+    private String gender;
 
-    private Date birthday;
+    private LocalDateTime birthday;
 
     private String email;
 
     private String phone;
 
-    private Date createTime;
+    private String region;
 
-    private Date updateTime;
+    private String status;
+
+    private LocalDateTime createTime;
+
+    private LocalDateTime updateTime;
 
     private Short isDeleted;
 
@@ -30,19 +34,19 @@ public class UserDTO extends UserDTOKey implements Serializable {
         this.username = username == null ? null : username.trim();
     }
 
-    public String getSex() {
-        return sex;
+    public String getGender() {
+        return gender;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex == null ? null : sex.trim();
+    public void setGender(String gender) {
+        this.gender = gender == null ? null : gender.trim();
     }
 
-    public Date getBirthday() {
+    public LocalDateTime getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDateTime birthday) {
         this.birthday = birthday;
     }
 
@@ -62,19 +66,35 @@ public class UserDTO extends UserDTOKey implements Serializable {
         this.phone = phone == null ? null : phone.trim();
     }
 
-    public Date getCreateTime() {
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region == null ? null : region.trim();
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status == null ? null : status.trim();
+    }
+
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
+    public LocalDateTime getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(LocalDateTime updateTime) {
         this.updateTime = updateTime;
     }
 

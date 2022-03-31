@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Configuration;
 /**
  * 基于接口实现aop配置
  */
-
 @Configuration
 public class InterfaceAopConfig {
+
     public static final String execution = "@annotation(com.springboot.annotation.Pointcut)";
 
     @Bean

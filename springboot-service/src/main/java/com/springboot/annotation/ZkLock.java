@@ -26,10 +26,10 @@ public @interface ZkLock {
     /**
      * 锁释放时间，默认五秒
      */
-    long timeout() default 5 * 1000;
+    long timeout() default 30;
 
     /**
      * 时间格式，默认：毫秒
      */
-    TimeUnit timeUnit() default TimeUnit.MILLISECONDS;
+    TimeUnit timeUnit() default TimeUnit.SECONDS;
 }

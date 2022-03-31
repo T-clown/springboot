@@ -1,7 +1,10 @@
 package com.springboot.config;
 
+import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -18,13 +21,18 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @ApiModel 标注于实体类上
  * @ApiModelProperty 标注于实体类属性上，用于说明各属性含义
  * @ApiIgnore 用于标注在不想被Swagger扫描的类或者方法及属性上
+ * https://doc.xiaominfo.com/knife4j/springboot.html
  */
 @Configuration
 @EnableSwagger2
+@EnableKnife4j
+@Import(BeanValidatorPluginsConfiguration.class)
 public class Swagger2Config {
     @Bean
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo())
+            //分组名称
+            .groupName("2.0.3版本")
             .select()
             //扫描该包下的所有需要在Swagger中展示的API，@ApiIgnore注解标注的除外
             .apis(RequestHandlerSelectors.basePackage("com.springboot.controller"))
@@ -36,7 +44,8 @@ public class Swagger2Config {
         return new ApiInfoBuilder()
             .title("springboot")
             .description("学习springboot")
-            .contact(new Contact("Yangkai.Shen", "http://xkcoding.com", "237497819@qq.com"))
+            .termsOfServiceUrl("http://localhost:8999/")
+            .contact(new Contact("Ti93", "https://doc.xiaominfo.com/knife4j/springboot.html#maven%E5%BC%95%E7%94%A8", "414162330@qq.com"))
             .version("1.0.0-SNAPSHOT")
             .build();
     }

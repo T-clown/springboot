@@ -1,98 +1,107 @@
 package com.springboot.service.impl;
 
-import java.util.Map;
-
-import com.google.common.collect.Maps;
+import com.alibaba.fastjson.JSON;
+import com.springboot.annotation.LockKeyParam;
+import com.springboot.annotation.RedisLock;
+import com.springboot.common.TransactionalComponent;
+import com.springboot.common.TransactionalUtil;
+import com.springboot.common.entity.Page;
+import com.springboot.common.entity.PageResult;
+import com.springboot.common.exception.ServiceRuntimeException;
 import com.springboot.dao.dto.UserDTO;
-import com.springboot.dao.dto.UserDTOExample;
-import com.springboot.dao.dto.UserDTOExample.Criteria;
-import com.springboot.dao.dto.UserDTOKey;
+import com.springboot.entity.CreateUserRequest;
+import com.springboot.entity.UpdateUserRequest;
 import com.springboot.entity.User;
+import com.springboot.entity.UserQueryRequest;
+import com.springboot.service.CallBackService;
 import com.springboot.service.UserService;
-import com.springboot.statemachine.StateMachineContext.Operator;
+import com.springboot.service.converter.UserConverter;
+import com.springboot.service.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
 @Slf4j
+@EnableAspectJAutoProxy(exposeProxy = true, proxyTargetClass = true)
+@Service
 public class UserServiceImpl implements UserService {
-    /**
-     * 模拟数据库
-     */
-    private static final Map<Long, User> DATABASES = Maps.newConcurrentMap();
 
-    //@Autowired
-    //UserDTOMapper userDTOMapper;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private TransactionalComponent transactionalComponent;
 
-    /**
-     * 初始化数据
-     */
-    static {
+    @Autowired
+    private CallBackService callBackService;
 
-    }
 
-    /**
-     * 保存或修改用户
-     *
-     * @param user 用户对象
-     * @return 操作结果
-     */
-    @CachePut(value = "user", key = "#user.id")
+    //@Transactional(rollbackFor = Exception.class)
     @Override
-    public User saveOrUpdate(User user) {
-        DATABASES.put(user.getId(), user);
-        log.info("保存用户【user】= {}", user);
-        return user;
+    public boolean addUser(CreateUserRequest request) {
+        //TransactionalUtil.transactional(() -> add(request));
+        UserDTO userDTO = new UserDTO();
+        BeanUtils.copyProperties(request, userDTO);
+        userRepository.addUser(userDTO);
+        callBackService.execute(()-> asyncLog(userDTO.getUsername()));
+        return true;
+    }
+    private void asyncLog(String username){
+        CompletableFuture<Void> completableFuture = CompletableFuture.runAsync(() -> log(username));
+        //log(username);
+    }
+    private void log(String userName){
+        try {
+            Thread.sleep(1000L);
+            log.info("用户:{}已添加",userName);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
-    /**
-     * 获取用户
-     *
-     * @param id key值
-     * @return 返回结果
-     */
-    @Cacheable(value = "user", key = "#id")
     @Override
-    public User get(Long id) {
-        // 我们假设从数据库读取
-        log.info("查询用户【id】= {}", id);
-        return DATABASES.get(id);
+    @Transactional(rollbackFor = Exception.class)
+    public void add(CreateUserRequest request) {
+        UserDTO userDTO = new UserDTO();
+        BeanUtils.copyProperties(request, userDTO);
+        userRepository.addUser(userDTO);
     }
 
-    /**
-     * 删除
-     *
-     * @param id key值
-     */
-    @CacheEvict(value = "user", key = "#id")
     @Override
-    public void delete(Long id) {
-        DATABASES.remove(id);
-        log.info("删除用户【id】= {}", id);
+    public User getUserById(Integer id) {
+        UserDTO userDTO = userRepository.getById(id);
+        return UserConverter.convert(userDTO);
     }
 
+    @Override
+    public void delete(Integer id) {
+        transactionalComponent.execute(() -> userRepository.delete(id));
+    }
+
+    @RedisLock(key = "user")
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void updateStudent(UserDTO userDTO, Operator operator){
-        UserDTOExample example=new UserDTOExample();
-        Criteria criteria= example.createCriteria();
-        //criteria.andIdEqualTo(11);
-        //UserDTO.setName("赵日天");
-        //UserDTO.setClassId(3);
-        //UserDTO.setSex("男");
-       // UserDTOMapper.updateByExampleSelective(userDTO,example);
-       // int a = 2 / 0;
+    public boolean update(@LockKeyParam(fields = "id") UpdateUserRequest request) {
+        UserDTO userDTO = new UserDTO();
+        BeanUtils.copyProperties(request, userDTO);
+        return userRepository.update(userDTO);
     }
 
     @Override
-    public UserDTO getStudent(int id) {
-        UserDTOKey key=new UserDTOKey();
-       // key.setId(id);
-       // return userDTOMapper.selectByPrimaryKey(key);
-        return null;
+    public List<User> list(UserQueryRequest request) {
+        List<UserDTO> userDTOS = userRepository.list(request);
+        return JSON.parseArray(JSON.toJSONString(userDTOS), User.class);
     }
+
+    @Override
+    public PageResult<User> page(UserQueryRequest request, Page page) {
+        PageResult<UserDTO> pageResult = userRepository.page(request, page);
+        return UserConverter.convertPageResult(pageResult,UserConverter::convert);
+    }
+
 }

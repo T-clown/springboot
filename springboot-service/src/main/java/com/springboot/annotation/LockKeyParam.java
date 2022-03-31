@@ -9,6 +9,7 @@ import java.lang.annotation.Target;
 
 /**
  * 分布式锁动态key注解，配置之后key的值会动态获取参数内容
+ * 如果一个使用了@Inherited修饰的annotation类型被用于一个class，则这个annotation将被用于该class的子类
  * @author clown
  */
 @Target({ElementType.PARAMETER})

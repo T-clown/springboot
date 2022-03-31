@@ -24,16 +24,16 @@ public @interface RedisLock {
      * 轮询锁的时间
      * @return
      */
-    long timeout() default 2*1000;
+    int timeout() default 0;
 
     /**
      * key在redis里存在的时间，1000S
      * @return
      */
-    int expireTime() default 1000;
+    int expireTime() default 30;
 
     /**
      * 时间格式，默认：毫秒
      */
-    TimeUnit timeUnit() default TimeUnit.MILLISECONDS;
+    TimeUnit timeUnit() default TimeUnit.SECONDS;
 }

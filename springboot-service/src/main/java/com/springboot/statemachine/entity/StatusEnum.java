@@ -9,30 +9,30 @@ public enum StatusEnum {
     /**
      *
      */
-    NEW_APPLICATION(1, "新申请"),
-    FINANCIAL_AUDIT(2, "待财务审核"),
-    PAYING(3, "待打款"),
-    SUCCESS(4, "提现成功"),
-    FAIl(5, "提现失败");
+    NEW_APPLICATION("NEW_APPLICATION", "新申请"),
+    ATTEND_CLASS("ATTEND_CLASS", "上课"),
+    RECESS("RECESS", "放假"),
+    SUCCESS("SUCCESS", "成功"),
+    FAIl("FAIl", "入学失败");
 
-    short value;
+    String value;
     String desc;
 
-    StatusEnum(int value, String desc) {
-        this.value = (short)value;
+    StatusEnum(String value, String desc) {
+        this.value = value;
         this.desc = desc;
     }
 
-    public static StatusEnum getEnum(short value) {
+    public static StatusEnum getEnum(String value) {
         for (StatusEnum statusEnum : StatusEnum.values()) {
-            if (statusEnum.value == value) {
+            if (statusEnum.value.equals(value)) {
                 return statusEnum;
             }
         }
         throw new RuntimeException( "无法解析:" + value + "对应的提现单状态");
     }
 
-    public short getValue() {
+    public String getValue() {
         return value;
     }
 

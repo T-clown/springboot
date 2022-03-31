@@ -1,34 +1,42 @@
 package com.springboot.service;
 
-import com.springboot.dao.dto.UserDTO;
+import com.springboot.common.entity.Page;
+import com.springboot.common.entity.PageResult;
+import com.springboot.entity.CreateUserRequest;
+import com.springboot.entity.UpdateUserRequest;
 import com.springboot.entity.User;
-import com.springboot.statemachine.StateMachineContext.Operator;
+import com.springboot.entity.UserQueryRequest;
+
+import java.util.List;
 
 public interface UserService {
     /**
      * 保存或修改用户
      *
-     * @param user 用户对象
+     * @param request 用户对象
      * @return 操作结果
      */
-    User saveOrUpdate(User user);
+    boolean addUser(CreateUserRequest request);
 
+    void add(CreateUserRequest request);
     /**
      * 获取用户
      *
      * @param id key值
      * @return 返回结果
      */
-    User get(Long id);
-
+    User getUserById(Integer id);
     /**
      * 删除
      *
      * @param id key值
      */
-    void delete(Long id);
+    void delete(Integer id);
 
-     void updateStudent(UserDTO studentDTO, Operator operator);
+    boolean update(UpdateUserRequest request) throws Exception;
 
-     UserDTO getStudent(int id);
+    List<User> list(UserQueryRequest request);
+
+
+    PageResult<User> page(UserQueryRequest request, Page page);
 }

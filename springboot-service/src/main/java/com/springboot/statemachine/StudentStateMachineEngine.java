@@ -2,10 +2,13 @@ package com.springboot.statemachine;
 
 import java.util.Objects;
 
+import com.springboot.common.exception.ServiceRuntimeException;
 import com.springboot.dao.dto.UserDTO;
 import com.springboot.service.UserService;
+import com.springboot.service.repository.UserRepository;
 import com.springboot.statemachine.entity.StatusEnum;
 import com.springboot.statemachine.entity.StudentTrigger;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -17,14 +20,13 @@ import org.squirrelframework.foundation.fsm.UntypedStateMachineBuilder;
 
 @Service
 public class StudentStateMachineEngine implements ApplicationContextAware {
-    protected UntypedStateMachineBuilder stateMachineBuilder = null;
+    protected UntypedStateMachineBuilder stateMachineBuilder;
     protected ApplicationContext applicationContext = null;
     @Autowired
-    private UserService userService;
+    private UserRepository userService;
 
     public StudentStateMachineEngine() {
-        stateMachineBuilder = StateMachineBuilderFactory.create(StudentStatusMachine.class,
-            ApplicationContext.class);
+        stateMachineBuilder = StateMachineBuilderFactory.create(StudentStatusMachine.class, ApplicationContext.class);
     }
 
     @Override
@@ -34,15 +36,15 @@ public class StudentStateMachineEngine implements ApplicationContextAware {
 
 
     public UserDTO fire(int id, StudentTrigger trigger, StateMachineContext context) {
-        UserDTO UserDTO = userService.getStudent(id);
+        UserDTO UserDTO = userService.getById(id);
         if (Objects.isNull(UserDTO)) {
             throw new RuntimeException("无此学生");
         }
-        //if (ObjectUtils.defaultIfNull(UserDTO.getVersion(), 0).intValue() != context.getVersion()) {
-        //    throw new RuntimeException("版本不对");
-        //}
+//        if (ObjectUtils.defaultIfNull(UserDTO.getVersion(), 0).intValue() != context.getVersion()) {
+//            throw new RuntimeException("版本不对");
+//        }
         context.setUserDTO(UserDTO);
-        short status=0;//UserDTO.getStatus()
+        String status = UserDTO.getStatus();
         //注意：目前所有的状态机执行都是同步的，如果存在异步情况，注意此处的数据返回
         StudentStatusMachine stateMachine = stateMachineBuilder
             .newUntypedStateMachine(
@@ -55,7 +57,7 @@ public class StudentStateMachineEngine implements ApplicationContextAware {
         try {
             stateMachine.fire(trigger, context);
         } catch (Exception e) {
-            throw e;
+            throw new ServiceRuntimeException();
         }
         return UserDTO;
     }

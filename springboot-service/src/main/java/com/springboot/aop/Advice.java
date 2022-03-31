@@ -11,6 +11,7 @@ import org.springframework.aop.ThrowsAdvice;
 
 /**
  * 基于接口实现AOP
+ * 切点配置InterfaceAopConfig
  */
 @Slf4j
 public class Advice implements MethodInterceptor, MethodBeforeAdvice, AfterReturningAdvice, ThrowsAdvice {
@@ -32,7 +33,7 @@ public class Advice implements MethodInterceptor, MethodBeforeAdvice, AfterRetur
         // 执行完方法的返回值：调用proceed()方法，就会触发切入点方法执行
         Object returnValue = invocation.proceed();
         log.info("===========结束进入around环绕方法！=========== ");
-        System.out.println("输出：" + args[0] + ";" + method + ";" + target + ";" + returnValue );
+        log.info("输出：" + args[0] + ";" + method + ";" + target + ";" + returnValue );
         return returnValue;
     }
 

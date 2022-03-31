@@ -13,6 +13,6 @@ public class TestApplicationRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        log.info("[ApplicationRunner]  run");
+        log.error("[ApplicationRunner]  run");
     }
 }

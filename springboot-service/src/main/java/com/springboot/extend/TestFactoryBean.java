@@ -15,7 +15,7 @@ public class TestFactoryBean implements FactoryBean<User> {
 
     @Override
     public User getObject() throws Exception {
-        log.info("[FactoryBean] getObject");
+        log.error("[FactoryBean] getObject");
         return new User();
     }
 

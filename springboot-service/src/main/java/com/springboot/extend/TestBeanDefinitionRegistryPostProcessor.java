@@ -18,12 +18,12 @@ public class TestBeanDefinitionRegistryPostProcessor implements BeanDefinitionRe
 
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
-        log.info("[BeanDefinitionRegistryPostProcessor] postProcessBeanDefinitionRegistry");
+        log.error("[BeanDefinitionRegistryPostProcessor] postProcessBeanDefinitionRegistry");
     }
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        log.info("[BeanDefinitionRegistryPostProcessor] postProcessBeanFactory");
+        log.error("[BeanDefinitionRegistryPostProcessor] postProcessBeanFactory");
     }
 
 }

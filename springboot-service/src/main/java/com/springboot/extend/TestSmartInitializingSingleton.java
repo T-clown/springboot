@@ -16,6 +16,6 @@ public class TestSmartInitializingSingleton implements SmartInitializingSingleto
 
     @Override
     public void afterSingletonsInstantiated() {
-        log.info("[TestSmartInitializingSingleton]");
+        log.error("[TestSmartInitializingSingleton]");
     }
 }

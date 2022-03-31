@@ -17,24 +17,30 @@ import org.springframework.stereotype.Service;
  * 实例化的后置处理。这个方法就是在提前暴露的回调方法中触发。
  */
 @Slf4j
-//@Service
+@Service
 public class TestSmartInstantiationAwareBeanPostProcessor implements SmartInstantiationAwareBeanPostProcessor {
 
     @Override
     public Class<?> predictBeanType(Class<?> beanClass, String beanName) throws BeansException {
-        log.info("[TestSmartInstantiationAwareBeanPostProcessor] predictBeanType " + beanName);
+        if(TestSmartInstantiationAwareBeanPostProcessor.class.equals(beanClass)) {
+            log.error("[TestSmartInstantiationAwareBeanPostProcessor] predictBeanType " + beanName);
+        }
         return beanClass;
     }
 
     @Override
     public Constructor<?>[] determineCandidateConstructors(Class<?> beanClass, String beanName) throws BeansException {
-        log.info("[TestSmartInstantiationAwareBeanPostProcessor] determineCandidateConstructors " + beanName);
+        if(TestSmartInstantiationAwareBeanPostProcessor.class.equals(beanClass)) {
+            log.error("[TestSmartInstantiationAwareBeanPostProcessor] determineCandidateConstructors " + beanName);
+        }
         return null;
     }
 
     @Override
     public Object getEarlyBeanReference(Object bean, String beanName) throws BeansException {
-        log.info("[TestSmartInstantiationAwareBeanPostProcessor] getEarlyBeanReference " + beanName);
+        if(bean instanceof TestSmartInstantiationAwareBeanPostProcessor) {
+            log.error("[TestSmartInstantiationAwareBeanPostProcessor] getEarlyBeanReference " + beanName);
+        }
         return bean;
     }
 

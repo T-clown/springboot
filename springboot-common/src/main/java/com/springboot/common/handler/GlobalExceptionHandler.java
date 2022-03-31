@@ -29,22 +29,23 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = Exception.class)
     public Result<String> handle(Exception e) {
-        log.error("Unknown error:{}", JSONUtil.toJsonStr(e.getMessage()));
+        log.error("Unknown error :", e);
         return ResultUtil.unknownError(e.getMessage());
     }
 
-    /**`
+    /**
+     * `
      * 实体参数校验
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Result handle(MethodArgumentNotValidException e) {
         Map<String, String> errors = new HashMap<>();
         e.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError)error).getField();
+            String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
-        log.error("Entity Parameter error:{}", JSONUtil.toJsonStr(errors));
+        log.error("Entity Parameter error:", e);
         // String errorMessage=e.getBindingResult().getFieldError().getDefaultMessage();
         return ResultUtil.methodArgumentError(JSONUtil.toJsonStr(errors));
     }
@@ -57,7 +58,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(ConstraintViolationException.class)
     public Result handle(ConstraintViolationException e) {
-        log.error("Single Parameter error:{}", JSONUtil.toJsonStr(e.getMessage()));
+        log.error("Single Parameter error:", e);
         return ResultUtil.methodArgumentError(e.getMessage());
     }
 
@@ -69,7 +70,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(ServiceRuntimeException.class)
     public Result handle(ServiceRuntimeException e) {
-        log.error("ServiceRuntimeException:{}", JSONUtil.toJsonStr(e.getMessage()));
+        log.error("ServiceRuntimeException:", e);
         return ResultUtil.error(e.getResultCode(), e.getMessage());
     }
 

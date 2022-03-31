@@ -15,6 +15,6 @@ public class TestCommandLineRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        log.info("[TestCommandLineRunner]");
+        log.error("[TestCommandLineRunner]");
     }
 }

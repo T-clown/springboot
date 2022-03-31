@@ -14,7 +14,7 @@ public class TestInitializingBean implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        log.info("[InitializingBean] TestInitializingBean");
+        log.error("[InitializingBean] TestInitializingBean");
     }
 
 }

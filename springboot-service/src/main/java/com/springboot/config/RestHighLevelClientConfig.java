@@ -20,19 +20,19 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RestHighLevelClientConfig {
 
-    @Value("${es.host}")
+    @Value("${elasticsearch.host}")
     private String host;
-    @Value("${es.port}")
+    @Value("${elasticsearch.port}")
     private int port;
-    @Value("${es.scheme}")
+    @Value("${elasticsearch.scheme}")
     private String scheme;
-    @Value("${es.token}")
+    @Value("${elasticsearch.token}")
     private String token;
-    @Value("${es.charset}")
+    @Value("${elasticsearch.charset}")
     private String charSet;
-    @Value("${es.client.connectTimeOut}")
+    @Value("${elasticsearch.client.connectTimeOut}")
     private int connectTimeOut;
-    @Value("${es.client.socketTimeout}")
+    @Value("${elasticsearch.client.socketTimeout}")
     private int socketTimeout;
 
     @Bean

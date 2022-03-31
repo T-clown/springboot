@@ -7,11 +7,13 @@ import com.springboot.common.TransactionalComponent;
 import com.springboot.common.TransactionalUtil;
 import com.springboot.common.entity.Page;
 import com.springboot.common.entity.PageResult;
+import com.springboot.common.exception.ServiceRuntimeException;
 import com.springboot.dao.dto.UserDTO;
 import com.springboot.entity.CreateUserRequest;
 import com.springboot.entity.UpdateUserRequest;
 import com.springboot.entity.User;
 import com.springboot.entity.UserQueryRequest;
+import com.springboot.service.CallBackService;
 import com.springboot.service.UserService;
 import com.springboot.service.converter.UserConverter;
 import com.springboot.service.repository.UserRepository;
@@ -23,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @EnableAspectJAutoProxy(exposeProxy = true, proxyTargetClass = true)
@@ -34,11 +37,31 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private TransactionalComponent transactionalComponent;
 
+    @Autowired
+    private CallBackService callBackService;
 
+
+    //@Transactional(rollbackFor = Exception.class)
     @Override
     public boolean addUser(CreateUserRequest request) {
-        TransactionalUtil.transactional(() -> add(request));
+        //TransactionalUtil.transactional(() -> add(request));
+        UserDTO userDTO = new UserDTO();
+        BeanUtils.copyProperties(request, userDTO);
+        userRepository.addUser(userDTO);
+        callBackService.execute(()-> asyncLog(userDTO.getUsername()));
         return true;
+    }
+    private void asyncLog(String username){
+        CompletableFuture<Void> completableFuture = CompletableFuture.runAsync(() -> log(username));
+        //log(username);
+    }
+    private void log(String userName){
+        try {
+            Thread.sleep(1000L);
+            log.info("用户:{}已添加",userName);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -52,9 +75,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(Integer id) {
         UserDTO userDTO = userRepository.getById(id);
-        User user = new User();
-        BeanUtils.copyProperties(userDTO, user);
-        return user;
+        return UserConverter.convert(userDTO);
     }
 
     @Override

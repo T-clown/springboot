@@ -37,7 +37,7 @@ public class UserMapperTest extends SpringbootApplicationTests {
 
     @Test
     public void properties(){
-        propertiesController.properties("");
+        //propertiesController.properties("");
     }
 
 }

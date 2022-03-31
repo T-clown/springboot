@@ -18,7 +18,7 @@ public abstract class AbstractImportSelector<A extends Annotation> implements Im
     @Override
     public final String[] selectImports(AnnotationMetadata annotationMetadata) {
         Class<?> annType = GenericTypeResolver.resolveTypeArgument(getClass(), AbstractImportSelector.class);
-        Assert.state(annType != null, "Unresolvable type argument for AdviceModeImportSelector");
+        Assert.state(annType != null, "Unresolvable type argument for AbstractImportSelector");
         MergedAnnotations annotations = annotationMetadata.getAnnotations();
         MergedAnnotation<Annotation> mergedAnnotation = annotations.get(annType.getName());
         CommonYN mode = mergedAnnotation.getEnum("mode", CommonYN.class);

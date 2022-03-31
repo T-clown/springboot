@@ -15,7 +15,7 @@ public class TestBeanFactoryAware implements BeanFactoryAware {
 
     @Override
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-        log.info("[TestBeanFactoryAware] " + beanFactory.getBean(TestBeanFactoryAware.class).getClass()
+        log.error("[TestBeanFactoryAware] 设置BeanFactory" + beanFactory.getBean(TestBeanFactoryAware.class).getClass()
             .getSimpleName());
     }
 }

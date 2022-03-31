@@ -12,12 +12,16 @@ import org.springframework.core.annotation.AnnotationUtils;
 
 /**
  * 限流注解，添加了 {@link AliasFor} 必须通过 {@link AnnotationUtils} 获取，才会生效
- * @author 难受哦
+ * 令牌桶限流
+ * 按照固定速率往桶中添加令牌，请求是否被处理需要看桶中令牌是否足够，当令牌数减为零时则拒绝新的请求
+ * 允许瞬时并发请求
+ * RateLimiter只能用于单机的限流，如果想要集群限流，则需要引入 redis或者阿里开源的 sentinel中间件
+ * @author
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface RateLimiter {
+public @interface TokenRateLimiter {
     int NOT_LIMITED = 0;
 
     /**

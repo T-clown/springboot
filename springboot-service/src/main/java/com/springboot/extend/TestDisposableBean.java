@@ -3,6 +3,8 @@ package com.springboot.extend;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.DisposableBean;
 
+import javax.annotation.PreDestroy;
+
 /**
  * 其触发时机为当此对象销毁时，会自动执行这个方法。
  * 比如说运行applicationContext.registerShutdownHook时，就会触发这个方法。
@@ -11,7 +13,12 @@ import org.springframework.beans.factory.DisposableBean;
 public class TestDisposableBean implements DisposableBean {
     @Override
     public void destroy() throws Exception {
-        log.info("[DisposableBean] TestDisposableBean");
+        log.error("[DisposableBean] TestDisposableBean");
+    }
+
+    @PreDestroy
+    public void preDestroy(){
+        log.error("[DisposableBean] PreDestroy");
     }
 
 }

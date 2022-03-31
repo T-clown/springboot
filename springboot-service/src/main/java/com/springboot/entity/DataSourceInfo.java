@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Data
 @Component
-@ConfigurationProperties(prefix = "master.datasource")
+@ConfigurationProperties(prefix = "cluster.datasource")
 public class DataSourceInfo {
     private String driverClassName;
     private String url;

@@ -13,12 +13,19 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.DateSerializer;
+import com.fasterxml.jackson.databind.ser.std.NumberSerializer;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.springboot.enums.GenderType;
 import com.springboot.serializer.GenderDeserializer;
+import com.springboot.serializer.LocalDateTimeToLongSerializer;
 import com.springboot.validator.Region;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.hibernate.validator.constraints.Length;
 
 @Data
@@ -53,7 +60,15 @@ public class User implements Serializable {
 
     private Short status;
 
+    @JsonSerialize(using = DateSerializer.class)
+    private Date date = new Date();
+
+    //@JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonSerialize(using = LocalDateTimeToLongSerializer.class)
     private LocalDateTime createTime;
 
+    //@JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonSerialize(using = LocalDateTimeToLongSerializer.class)
     private LocalDateTime updateTime;
+
 }

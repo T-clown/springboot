@@ -16,14 +16,15 @@ import org.springframework.context.annotation.Primary;
 @Configuration
 public class DynamicDataSourceConfig {
 
+
     @Bean
-    @ConfigurationProperties("spring.datasource.druid.master")
+    @ConfigurationProperties("spring.datasource.master")
     public DataSource masterDataSource() {
         return DruidDataSourceBuilder.create().build();
     }
 
     @Bean
-    @ConfigurationProperties("spring.datasource.druid.slave")
+    @ConfigurationProperties("spring.datasource.slave")
     public DataSource slaveDataSource() {
         return DruidDataSourceBuilder.create().build();
     }

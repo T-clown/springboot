@@ -1,24 +1,21 @@
 package com.springboot.entity;
 
-import java.time.LocalDateTime;
-import java.util.Date;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.PositiveOrZero;
-import javax.validation.constraints.Size;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.springboot.enums.GenderType;
 import com.springboot.serializer.GenderDeserializer;
 import com.springboot.validator.Region;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 @Data
 public class UpdateUserRequest {
@@ -45,11 +42,11 @@ public class UpdateUserRequest {
     @NotBlank(message = "手机号不能为空")
     private String phone;
 
-    @NotBlank(message = "性别不能为空")
-    private String gender;
+//    @NotBlank(message = "性别不能为空")
+//    private String gender;
 
-    //@JsonDeserialize(using = GenderDeserializer.class)
-    //private GenderType gender;
+    @JsonDeserialize(using = GenderDeserializer.class)
+    private GenderType gender;
 
     @Email(message = "邮箱格式错误")
     private String email;

@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
  * 该类主要的扩展点有以下5个方法，主要在bean生命周期的两大阶段：实例化阶段和初始化阶段
  */
 @Slf4j
-//@Service
+@Service
 public class TestInstantiationAwareBeanPostProcessor implements InstantiationAwareBeanPostProcessor {
     /**
      * 初始化bean之前，相当于把bean注入spring上下文之前
@@ -27,7 +27,9 @@ public class TestInstantiationAwareBeanPostProcessor implements InstantiationAwa
      */
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        log.info("[TestInstantiationAwareBeanPostProcessor] before initialization " + beanName);
+        if(bean instanceof TestInstantiationAwareBeanPostProcessor) {
+            log.error("[TestInstantiationAwareBeanPostProcessor] before initialization " + beanName);
+        }
         return bean;
     }
 
@@ -40,7 +42,9 @@ public class TestInstantiationAwareBeanPostProcessor implements InstantiationAwa
      */
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        log.info("[TestInstantiationAwareBeanPostProcessor] after initialization " + beanName);
+        if(bean instanceof TestInstantiationAwareBeanPostProcessor) {
+            log.info("[TestInstantiationAwareBeanPostProcessor] after initialization " + beanName);
+        }
         return bean;
     }
 
@@ -53,7 +57,9 @@ public class TestInstantiationAwareBeanPostProcessor implements InstantiationAwa
      */
     @Override
     public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
-        log.info("[TestInstantiationAwareBeanPostProcessor] before instantiation " + beanName);
+        if(beanClass .equals( TestInstantiationAwareBeanPostProcessor.class)) {
+            log.info("[TestInstantiationAwareBeanPostProcessor] before instantiation " + beanName);
+        }
         return null;
     }
 
@@ -66,8 +72,18 @@ public class TestInstantiationAwareBeanPostProcessor implements InstantiationAwa
      */
     @Override
     public boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException {
-        log.info("[TestInstantiationAwareBeanPostProcessor] after instantiation " + beanName);
+        if(bean instanceof TestInstantiationAwareBeanPostProcessor) {
+            log.info("[TestInstantiationAwareBeanPostProcessor] after instantiation " + beanName);
+        }
         return true;
+    }
+
+    @Override
+    public PropertyValues postProcessProperties(PropertyValues pvs, Object bean, String beanName) throws BeansException {
+        if(bean instanceof TestInstantiationAwareBeanPostProcessor) {
+            log.error("[TestInstantiationAwareBeanPostProcessor] postProcessProperties " + beanName);
+        }
+        return InstantiationAwareBeanPostProcessor.super.postProcessProperties(pvs, bean, beanName);
     }
 
     /**
@@ -82,7 +98,9 @@ public class TestInstantiationAwareBeanPostProcessor implements InstantiationAwa
     @Override
     public PropertyValues postProcessPropertyValues(PropertyValues pvs, PropertyDescriptor[] pds, Object bean,
                                                     String beanName) throws BeansException {
-        log.info("[TestInstantiationAwareBeanPostProcessor] postProcessPropertyValues " + beanName);
+        if(bean instanceof TestInstantiationAwareBeanPostProcessor) {
+            log.error("[TestInstantiationAwareBeanPostProcessor] postProcessPropertyValues " + beanName);
+        }
         return pvs;
     }
 }

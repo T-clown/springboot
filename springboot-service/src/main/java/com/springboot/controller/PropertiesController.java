@@ -2,12 +2,20 @@ package com.springboot.controller;
 
 import cn.hutool.json.JSONUtil;
 import com.springboot.annotation.ImportSelector;
-import com.springboot.annotation.RateLimiter;
+import com.springboot.annotation.TokenRateLimiter;
 import com.springboot.common.constants.Constants;
+import com.springboot.common.entity.Page;
 import com.springboot.common.entity.Result;
 import com.springboot.common.enums.CommonYN;
 import com.springboot.common.util.ResultUtil;
+import com.springboot.delay.DelayDTO;
+import com.springboot.delay.RedisDelayKey;
+import com.springboot.delay.RedisDelayQueue;
+import com.springboot.entity.DelayTask;
+import com.springboot.entity.RedisDataEntity;
 import com.springboot.entity.Yellow;
+import com.springboot.util.LocalDateTimeUtil;
+import com.springboot.util.RedisDelayTaskService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +27,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.DispatcherServlet;
 
+import java.util.Date;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.DelayQueue;
+import java.util.concurrent.Delayed;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -46,16 +61,23 @@ public class PropertiesController {
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
+    private DelayQueue<DelayTask> delayQueue = new DelayQueue<>();
+    @Autowired
+    private RedisDelayTaskService redisDelayTaskService;
 
-    @RateLimiter(value = 0.5, timeout = 300)
+    @Autowired
+    private RedisDelayQueue redisDelayQueue;
+
+
+    //@TokenRateLimiter(qps = 0.5)
     @GetMapping(value = "/yellow")
     public Result properties(@RequestParam(value = "name", defaultValue = "美女") String name) {
-        log.info(JSONUtil.toJsonStr(yellow));
+        //redisDelayTaskService.addQueue(new RedisDataEntity<>(yellow, 30L, "测试"));
+        redisDelayQueue.addQueue(RedisDelayKey.getBizOneQueueKey(),new DelayDTO(String.valueOf(counter.incrementAndGet())),30,TimeUnit.SECONDS);
         yellow.setName("访问8083端口");
         yellow.setId(counter.incrementAndGet());
         return ResultUtil.success(yellow);
     }
-
 
     @PostMapping("/send")
     public Result send(@RequestParam("message") String message) {

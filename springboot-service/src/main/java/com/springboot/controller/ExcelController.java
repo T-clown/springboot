@@ -9,6 +9,7 @@ import com.springboot.entity.excel.UploadData;
 import com.springboot.service.repository.UserRepository;
 import com.springboot.util.BeanCopyUtils;
 import com.springboot.util.ExcelUtil;
+import com.springboot.util.PPTToImageUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,6 +49,17 @@ public class ExcelController {
     @PostMapping("/upload/user")
     public Result upload(MultipartFile file) {
         ExcelUtil.upload(file, UploadData.class, this::convert, t -> userRepository.addUser(t));
+        return ResultUtil.success();
+    }
+
+    /**
+     * 文件上传
+     */
+    @PostMapping("/upload/ppt")
+    public Result pptToImage(MultipartFile file) throws IOException {
+        String path = "/Users/hrtps/tmp";
+        File file1=new File("/Users/hrtps/Desktop/测试.pdf");
+        PPTToImageUtil.convertPdf2Png(file1, path);
         return ResultUtil.success();
     }
 

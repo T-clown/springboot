@@ -16,12 +16,12 @@ public class TestBeanNameAware implements BeanNameAware {
 
 
     public TestBeanNameAware() {
-        log.info("NormalBean constructor");
+        log.error("NormalBean 执行构造方法");
     }
 
     @Override
     public void setBeanName(String name) {
-        log.info("[BeanNameAware] " + name);
+        log.error("[BeanNameAware  属性赋值] " + name);
     }
 
     /**
@@ -32,7 +32,7 @@ public class TestBeanNameAware implements BeanNameAware {
      */
     @PostConstruct
     public void init(){
-        log.info("[PostConstruct] TestBeanNameAware");
+        log.error("[PostConstruct] TestBeanNameAware");
     }
 
 }

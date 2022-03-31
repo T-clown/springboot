@@ -24,7 +24,7 @@ public class UserRepository {
     @Resource
     private UserDTOMapper userDTOMapper;
 
-    @Autowired(required = false)
+    @Autowired
     private UserMapper userMapper;
 
     public void addUser(UserDTO userDTO) {
@@ -69,10 +69,6 @@ public class UserRepository {
         }
         criteria.andIsDeletedEqualTo(CommonYN.NO.value());
         return userDTOMapper.selectByExample(example);
-    }
-
-    public List<UserDTO> list(List<String> names) {
-        return userMapper.list(names);
     }
 
     public boolean update(UserDTO userDTO) {

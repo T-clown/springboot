@@ -15,7 +15,7 @@ public class TestApplicationContextInitializer implements ApplicationContextInit
 
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
-        log.info("[ApplicationContextInitializer]");
+        log.error("步骤1：[ApplicationContextInitializer]"+applicationContext);
     }
 
 }

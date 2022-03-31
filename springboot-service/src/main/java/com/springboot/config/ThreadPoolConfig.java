@@ -42,8 +42,8 @@ public class ThreadPoolConfig {
      */
     private static final String threadNamePrefix = "Async-Service-";
 
-    @Bean("taskExecutor") // bean的名称，默认为首字母小写的方法名
-    public ThreadPoolTaskExecutor taskExecutor() {
+    @Bean("asyncTaskExecutor") // bean的名称，默认为首字母小写的方法名
+    public ThreadPoolTaskExecutor asyncTaskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(corePoolSize);
         executor.setMaxPoolSize(maxPoolSize);

@@ -1,8 +1,12 @@
 package com.springboot.controller;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import com.alibaba.fastjson.JSON;
+import com.springboot.annotation.DataSource;
 import com.springboot.annotation.LockKeyParam;
 import com.springboot.common.DynamicRoutingDataSource;
+import com.springboot.common.HystrixComponent;
 import com.springboot.common.entity.Page;
 import com.springboot.common.entity.PageResult;
 import com.springboot.common.entity.Result;
@@ -73,16 +77,13 @@ public class UserController {
      * @param id
      * @return
      */
-    // @DataSource(name = "slave")
+    @DataSource(name = "master")
     @PostMapping("get/{id}")
     protected Result<User> getUserById(@Valid @PathVariable("id") @Min(value = 0, message = "id最小为1") Integer id) {
         log.info("TestFactoryBean类型  {}", testFactoryBean.getClass());
         log.info("TestFactoryBean2类型  {}", testFactoryBean2.getClass());
-//        if (id == 3) {
-//            dynamicRoutingDataSource.addDataSource(dataSourceInfo.getProperties());
-//            DynamicDataSourceContextHolder.setDataSourceKey(dataSourceInfo.getUrl());
-//        }
-        return ResultUtil.success(userService.getUserById(id));
+        User userById = userService.getUserById(id);
+        return ResultUtil.success(userById);
     }
 
 
@@ -97,10 +98,12 @@ public class UserController {
         PageResult<User> pageResult = userService.page(request, page);
         return ResultUtil.success(pageResult);
     }
+    @Autowired
+    private HystrixComponent hystrixComponent;
 
     @PostMapping("/list")
     public Result<List<User>> list(@RequestBody UserQueryRequest request) {
-        List<User> users = userService.list(request);
+        List<User> users = hystrixComponent.getUsers();
         return ResultUtil.success(users);
     }
 
@@ -113,6 +116,14 @@ public class UserController {
     @PostMapping("/update")
     public Result<Boolean> update(@RequestBody @Valid UpdateUserRequest request) throws Exception {
         return ResultUtil.success(userService.update(request));
+    }
+
+    public static void main(String[] args) {
+        User source=new User();
+        User target=new User();
+        target.setUsername("aaa");
+        BeanUtil.copyProperties(source, target, CopyOptions.create().setIgnoreNullValue(true).ignoreNullValue());
+        System.out.println(JSON.toJSONString(target));
     }
 
 }

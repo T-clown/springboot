@@ -1,4 +1,4 @@
-es:
+elasticsearch:
   host: localhost
   port: 9200
   token: es-token

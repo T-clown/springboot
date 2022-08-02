@@ -11,7 +11,7 @@ public abstract class BaseTask {
     /**
      * 任务执行错误次数
      */
-    private int errorTimes = 1;
+    private int errorTimes=1;
 
     /**
      * 任务唯一标识

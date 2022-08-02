@@ -15,16 +15,16 @@ import org.slf4j.LoggerFactory;
 // 有个很重要的点 ExcelUploadListener 不能被spring管理，要每次读取excel都要new,然后里面用到spring可以构造方法传进去
 public class ExcelListener<T,R> extends AnalysisEventListener<T> {
     private static final Logger logger = LoggerFactory.getLogger(ExcelListener.class);
-    private static final int BATCH_COUNT = 5;
-    private List<R> result = Lists.newArrayList();
+    private static final int BATCH_COUNT = 1000;
+    private final List<R> result = Lists.newArrayList();
 
     /**
      * 当然如果不用存储这个对象没用。
      */
 
-    private Function<T,R> converter;
+    private final Function<T,R> converter;
 
-    private Consumer<List<R>> consumer;
+    private final Consumer<List<R>> consumer;
 
 
     /**

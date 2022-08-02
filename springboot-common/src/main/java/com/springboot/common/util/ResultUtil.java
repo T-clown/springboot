@@ -7,7 +7,7 @@ public class ResultUtil {
     public ResultUtil() {
     }
 
-    public static Result success() {
+    public static Result<Void> success() {
         return new Result(ResultCode.SUCCESS);
     }
 

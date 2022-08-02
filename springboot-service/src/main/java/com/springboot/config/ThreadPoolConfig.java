@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 /**
  * 线程池配置
@@ -57,6 +58,17 @@ public class ThreadPoolConfig {
         // 初始化
         executor.initialize();
         return executor;
+    }
+
+    @Bean
+    public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
+        ThreadPoolTaskScheduler syncScheduler = new ThreadPoolTaskScheduler();
+        syncScheduler.setPoolSize(5);
+        // 这里给线程设置名字，主要是为了在项目能够更快速的定位错误。
+        syncScheduler.setThreadGroupName("定时任务线程池");
+        syncScheduler.setThreadNamePrefix("threadPoolTaskScheduler-");
+        syncScheduler.initialize();
+        return syncScheduler;
     }
 
     @Bean

@@ -9,13 +9,22 @@ import java.text.NumberFormat;
 
 public class StopWatchUtil {
 
-    private static ThreadLocal<StopWatch> threadLocal = ThreadLocal.withInitial(() -> new StopWatch("StopWatch"));
+    //private static ThreadLocal<StopWatch> threadLocal = ThreadLocal.withInitial(() -> new StopWatch("StopW111atch"));
+    private static final ThreadLocal<StopWatch> STOPWATCH = new ThreadLocal<>();
 
     public static StopWatch getCurrentStopWatch() {
-        StopWatch stopWatch = threadLocal.get();
+        StopWatch stopWatch = STOPWATCH.get();
         if (stopWatch == null) {
             stopWatch = new StopWatch("StopWatch");
-            threadLocal.set(stopWatch);
+            STOPWATCH.set(stopWatch);
+        }
+        return stopWatch;
+    }
+    public static StopWatch getCurrentStopWatch(String id) {
+        StopWatch stopWatch = STOPWATCH.get();
+        if (stopWatch == null) {
+            stopWatch = new StopWatch(id);
+            STOPWATCH.set(stopWatch);
         }
         return stopWatch;
     }
@@ -25,6 +34,13 @@ public class StopWatchUtil {
             getCurrentStopWatch().stop();
         }
         getCurrentStopWatch().start(taskname);
+    }
+
+    public static void start(String id,String taskname) {
+        if (getCurrentStopWatch(id).isRunning()) {
+            getCurrentStopWatch(id).stop();
+        }
+        getCurrentStopWatch(id).start(taskname);
     }
 
     public static void stop() {
@@ -62,9 +78,9 @@ public class StopWatchUtil {
             sb.append("---------------------------------------------\n");
             sb.append("Task name\t\t%\t\t\t\t秒\n");
             sb.append("---------------------------------------------\n");
-            NumberFormat nf = NumberFormat.getNumberInstance();
-            nf.setMinimumIntegerDigits(4);
-            nf.setGroupingUsed(false);
+//            NumberFormat nf = NumberFormat.getNumberInstance();
+//            nf.setMinimumIntegerDigits(4);
+//            nf.setGroupingUsed(false);
             NumberFormat pf = NumberFormat.getPercentInstance();
             pf.setMinimumIntegerDigits(2);
             pf.setMaximumFractionDigits(2);
@@ -73,7 +89,8 @@ public class StopWatchUtil {
                 sb.append(task.getTaskName()).append("\t\t\t");
                 BigDecimal divide = BigDecimal.valueOf(task.getTimeNanos()).divide(BigDecimal.valueOf(currentStopWatch.getTotalTimeNanos()), MathContext.DECIMAL32);
                 sb.append(pf.format(divide)).append("\t\t\t");
-                sb.append(nf.format(task.getTimeSeconds())).append("\n");
+                //sb.append(nf.format(task.getTimeSeconds())).append("\n");
+                sb.append(task.getTimeSeconds()).append("\n");
             }
         }
         removeStopWatch();
@@ -81,6 +98,6 @@ public class StopWatchUtil {
     }
 
     public static void removeStopWatch() {
-        threadLocal.remove();
+        STOPWATCH.remove();
     }
 }

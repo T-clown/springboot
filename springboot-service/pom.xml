@@ -35,10 +35,6 @@
                     <groupId>org.elasticsearch.client</groupId>
                 </exclusion>
                 <exclusion>
-                    <artifactId>hibernate-validator</artifactId>
-                    <groupId>org.hibernate.validator</groupId>
-                </exclusion>
-                <exclusion>
                     <artifactId>jackson-databind</artifactId>
                     <groupId>com.fasterxml.jackson.core</groupId>
                 </exclusion>
@@ -50,6 +46,10 @@
                     <artifactId>mysql-connector-java</artifactId>
                     <groupId>mysql</groupId>
                 </exclusion>
+<!--                <exclusion>-->
+<!--                    <artifactId>hibernate-validator</artifactId>-->
+<!--                    <groupId>org.hibernate.validator</groupId>-->
+<!--                </exclusion>-->
             </exclusions>
         </dependency>
         <dependency>
@@ -73,10 +73,6 @@
                     <groupId>org.elasticsearch.client</groupId>
                 </exclusion>
                 <exclusion>
-                    <artifactId>hibernate-validator</artifactId>
-                    <groupId>org.hibernate.validator</groupId>
-                </exclusion>
-                <exclusion>
                     <artifactId>jackson-databind</artifactId>
                     <groupId>com.fasterxml.jackson.core</groupId>
                 </exclusion>
@@ -88,6 +84,10 @@
                     <artifactId>mysql-connector-java</artifactId>
                     <groupId>mysql</groupId>
                 </exclusion>
+<!--                <exclusion>-->
+<!--                    <artifactId>hibernate-validator</artifactId>-->
+<!--                    <groupId>org.hibernate.validator</groupId>-->
+<!--                </exclusion>-->
             </exclusions>
         </dependency>
 
@@ -134,6 +134,12 @@
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>fastjson</artifactId>
+                    <groupId>com.alibaba</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!--生成数据库文档-->
         <dependency>
@@ -183,6 +189,11 @@
         </dependency>
 
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+            <version>2.5.9</version>
+        </dependency>
 
     </dependencies>
 

@@ -6,6 +6,7 @@ import com.springboot.dao.dto.UserDTO;
 import com.springboot.entity.UserQueryRequest;
 import com.springboot.entity.excel.DownloadData;
 import com.springboot.entity.excel.UploadData;
+import com.springboot.entity.excel.UploadTestData;
 import com.springboot.service.repository.UserRepository;
 import com.springboot.util.BeanCopyUtils;
 import com.springboot.util.ExcelUtil;
@@ -47,8 +48,14 @@ public class ExcelController {
      * 文件上传
      */
     @PostMapping("/upload/user")
-    public Result upload(MultipartFile file) {
+    public Result<Void> upload(MultipartFile file) {
         ExcelUtil.upload(file, UploadData.class, this::convert, t -> userRepository.addUser(t));
+        return ResultUtil.success();
+    }
+
+    @PostMapping("/upload/test")
+    public Result<Void> uploadTest(MultipartFile file) {
+        ExcelUtil.upload(file, UploadTestData.class, this::convert, this::convert);
         return ResultUtil.success();
     }
 
@@ -56,7 +63,7 @@ public class ExcelController {
      * 文件上传
      */
     @PostMapping("/upload/ppt")
-    public Result pptToImage(MultipartFile file) throws IOException {
+    public Result<Void> pptToImage(MultipartFile file) throws IOException {
         String path = "/Users/hrtps/tmp";
         File file1=new File("/Users/hrtps/Desktop/测试.pdf");
         PPTToImageUtil.convertPdf2Png(file1, path);
@@ -65,5 +72,13 @@ public class ExcelController {
 
     private UserDTO convert(UploadData uploadData) {
         return BeanCopyUtils.copyProperties(uploadData, UserDTO.class);
+    }
+
+    private UploadTestData convert(UploadTestData uploadData) {
+        return uploadData;
+    }
+
+    private void convert(List<UploadTestData> uploadData) {
+        System.out.println();
     }
 }

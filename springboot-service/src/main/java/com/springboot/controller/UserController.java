@@ -18,8 +18,10 @@ import com.springboot.entity.User;
 import com.springboot.entity.UserQueryRequest;
 import com.springboot.extend.TestFactoryBean;
 import com.springboot.service.UserService;
+import com.springboot.util.StopWatchUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StopWatch;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -94,8 +96,10 @@ public class UserController {
      */
     @PostMapping("/page")
     public Result<PageResult<User>> page(@RequestBody UserQueryRequest request, Page page) {
+         StopWatchUtil.start("测试","获取用户列表");
         log.info("page:{}", JSON.toJSONString(page));
         PageResult<User> pageResult = userService.page(request, page);
+        log.info(StopWatchUtil.prettyPrint());
         return ResultUtil.success(pageResult);
     }
     @Autowired

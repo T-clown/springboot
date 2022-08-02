@@ -1,5 +1,7 @@
 package com.springboot.delay;
 
+import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSON;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -12,4 +14,5 @@ public class DelayDTO extends BaseTask{
     public String taskIdentity() {
         return id;
     }
+
 }

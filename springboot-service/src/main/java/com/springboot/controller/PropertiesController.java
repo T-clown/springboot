@@ -1,6 +1,7 @@
 package com.springboot.controller;
 
 import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSON;
 import com.springboot.annotation.ImportSelector;
 import com.springboot.annotation.TokenRateLimiter;
 import com.springboot.common.constants.Constants;
@@ -25,11 +26,13 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.DispatcherServlet;
 
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.DelayQueue;
 import java.util.concurrent.Delayed;
@@ -77,6 +80,12 @@ public class PropertiesController {
         yellow.setName("访问8083端口");
         yellow.setId(counter.incrementAndGet());
         return ResultUtil.success(yellow);
+    }
+
+    @PostMapping("/test")
+    public Result test(@RequestBody List<Long> ids){
+        log.info(JSON.toJSONString(ids));
+        return ResultUtil.success();
     }
 
     @PostMapping("/send")

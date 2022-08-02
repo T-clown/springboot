@@ -37,10 +37,10 @@
                     <artifactId>elasticsearch-rest-high-level-client</artifactId>
                     <groupId>org.elasticsearch.client</groupId>
                 </exclusion>
-                <exclusion>
-                    <artifactId>hibernate-validator</artifactId>
-                    <groupId>org.hibernate.validator</groupId>
-                </exclusion>
+<!--                <exclusion>-->
+<!--                    <artifactId>hibernate-validator</artifactId>-->
+<!--                    <groupId>org.hibernate.validator</groupId>-->
+<!--                </exclusion>-->
                 <exclusion>
                     <artifactId>jedis</artifactId>
                     <groupId>redis.clients</groupId>
@@ -49,6 +49,10 @@
                     <artifactId>mysql-connector-java</artifactId>
                     <groupId>mysql</groupId>
                 </exclusion>
+<!--                <exclusion>-->
+<!--                    <artifactId>hibernate-validator</artifactId>-->
+<!--                    <groupId>org.hibernate.validator</groupId>-->
+<!--                </exclusion>-->
             </exclusions>
         </dependency>
 

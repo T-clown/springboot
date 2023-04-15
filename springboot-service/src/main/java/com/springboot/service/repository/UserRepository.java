@@ -27,8 +27,10 @@ public class UserRepository {
     @Autowired
     private UserMapper userMapper;
 
-    public void addUser(UserDTO userDTO) {
+    public Integer addUser(UserDTO userDTO) {
+        userDTO.setIsDeleted((short) 0);
         userMapper.insert(Collections.singletonList(userDTO));
+        return userDTO.getId();
     }
 
     public void addUser(List<UserDTO> userDTO) {

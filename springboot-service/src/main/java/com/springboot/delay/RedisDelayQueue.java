@@ -7,6 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBlockingQueue;
 import org.redisson.api.RDelayedQueue;
 import org.redisson.api.RedissonClient;
+import org.redisson.client.codec.StringCodec;
+import org.redisson.codec.FstCodec;
+import org.redisson.codec.JacksonCodec;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -48,7 +51,7 @@ public class RedisDelayQueue {
      * @return 队列
      */
     RBlockingQueue<String> getBlockingQueue(String queueName) {
-        return blockingQueueMap.computeIfAbsent(queueName, k -> redissonClient.getBlockingQueue(queueName));
+        return blockingQueueMap.computeIfAbsent(queueName, k -> redissonClient.getBlockingQueue(queueName,new StringCodec()));
     }
 
     /**
@@ -60,7 +63,7 @@ public class RedisDelayQueue {
     RDelayedQueue<String> getDelayQueue(String queueName) {
         return delayedQueueMap.computeIfAbsent(queueName, k -> {
             RBlockingQueue<String> blockingQueue = blockingQueueMap.computeIfAbsent(queueName,
-                    t -> redissonClient.getBlockingQueue(queueName));
+                    t -> redissonClient.getBlockingQueue(queueName,new StringCodec()));
             return redissonClient.getDelayedQueue(blockingQueue);
         });
     }

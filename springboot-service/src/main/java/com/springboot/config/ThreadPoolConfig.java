@@ -46,9 +46,9 @@ public class ThreadPoolConfig {
     @Bean("asyncTaskExecutor") // bean的名称，默认为首字母小写的方法名
     public ThreadPoolTaskExecutor asyncTaskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(corePoolSize);
-        executor.setMaxPoolSize(maxPoolSize);
-        executor.setQueueCapacity(queueCapacity);
+        executor.setCorePoolSize(1);
+        executor.setMaxPoolSize(2);
+        executor.setQueueCapacity(5);
         executor.setKeepAliveSeconds(keepAliveTime);
         executor.setThreadNamePrefix(threadNamePrefix);
 

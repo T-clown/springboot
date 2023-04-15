@@ -2,21 +2,12 @@ package com.springboot.delay;
 
 public class RedisDelayKey {
     /**
-     * 业务1队列key
+     * 业务队列key
      */
-    private static final String BIZ_ONE_QUEUE_KEY = "biz_one_queue";
+    private static final String DELAY_QUEUE_KEY = "DELAY_QUEUE";
 
-    public static String getBizOneQueueKey() {
-        return BIZ_ONE_QUEUE_KEY;
-    }
-
-    /**
-     * 业务2队列key
-     */
-    private static final String BIZ_TWO_QUEUE_KEY = "biz_two_queue";
-
-    public static String getBizTwoQueueKey() {
-        return BIZ_TWO_QUEUE_KEY;
+    public static String getDelayQueueKey() {
+        return DELAY_QUEUE_KEY;
     }
 
 }

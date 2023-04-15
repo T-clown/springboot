@@ -1,5 +1,7 @@
 package com.springboot.controller;
 
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.util.ListUtils;
 import com.springboot.common.entity.Result;
 import com.springboot.common.util.ResultUtil;
 import com.springboot.dao.dto.UserDTO;
@@ -11,6 +13,8 @@ import com.springboot.service.repository.UserRepository;
 import com.springboot.util.BeanCopyUtils;
 import com.springboot.util.ExcelUtil;
 import com.springboot.util.PPTToImageUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,9 +26,13 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Api(tags = {"Excel导入导出"})
 @Slf4j
 @RestController
 @RequestMapping("/excel")
@@ -37,6 +45,7 @@ public class ExcelController {
     /**
      * @Desc 批量导出
      **/
+    @ApiOperation("批量导出用户")
     @PostMapping(value = "/export/user")
     public void exportUser(@RequestBody UserQueryRequest request, HttpServletResponse response) {
         List<UserDTO> userDTOS = userRepository.list(request);
@@ -44,6 +53,44 @@ public class ExcelController {
         ExcelUtil.exportExcel(response, DownloadData.class, data, "用户信息");
     }
 
+    @PostMapping(value = "/export/user2")
+    public void exportUser2(HttpServletResponse response) throws IOException {
+        // 这里注意 有同学反应使用swagger 会导致各种问题，请直接用浏览器或者用postman
+        response.setContentType("application/vnd.ms-excel");
+        //response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        //response.setCharacterEncoding("utf-8");
+        // 这里URLEncoder.encode可以防止中文乱码 当然和easyexcel没有关系
+        //String fileName = URLEncoder.encode("测试", StandardCharsets.UTF_8).replaceAll("\\+", "%20");
+        String fileName = URLEncoder.encode("测试", StandardCharsets.UTF_8);
+        response.setHeader("Content-disposition", "attachment;filename*=utf-8''" + fileName + ".xlsx");
+        EasyExcel.write(response.getOutputStream()).head(head()).sheet("模板").doWrite(dataList());
+    }
+    private List<List<String>> head() {
+        List<List<String>> list = ListUtils.newArrayList();
+        List<String> head0 = ListUtils.newArrayList();
+        head0.add("字符串" + System.currentTimeMillis());
+        head0.add("字符串" +"aaa");
+        List<String> head1 = ListUtils.newArrayList();
+        head1.add("数字" + System.currentTimeMillis());
+        List<String> head2 = ListUtils.newArrayList();
+        head2.add("日期" + System.currentTimeMillis());
+        list.add(head0);
+        list.add(head1);
+        list.add(head2);
+        return list;
+    }
+
+    private List<List<Object>> dataList() {
+        List<List<Object>> list = ListUtils.newArrayList();
+        for (int i = 0; i < 10; i++) {
+            List<Object> data = ListUtils.newArrayList();
+            data.add("字符串" + i);
+            data.add(new Date());
+            data.add(0.56);
+            list.add(data);
+        }
+        return list;
+    }
     /**
      * 文件上传
      */

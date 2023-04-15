@@ -20,9 +20,8 @@ public class RedisListenerConfig {
     }
 
     @Bean
-    @SuppressWarnings("unchecked")
     public RedisScript<Long> limitRedisScript() {
-        DefaultRedisScript redisScript = new DefaultRedisScript<>();
+        DefaultRedisScript<Long> redisScript = new DefaultRedisScript<Long>();
         redisScript.setScriptSource(new ResourceScriptSource(new ClassPathResource("script/limit.lua")));
         redisScript.setResultType(Long.class);
         return redisScript;

@@ -22,6 +22,7 @@ import org.squirrelframework.foundation.component.SquirrelSingletonProvider;
 import org.squirrelframework.foundation.exception.SquirrelRuntimeException;
 import org.squirrelframework.foundation.exception.TransitionException;
 import org.squirrelframework.foundation.fsm.ConverterProvider;
+import org.squirrelframework.foundation.fsm.annotation.OnBeforeActionExecuted;
 import org.squirrelframework.foundation.fsm.annotation.State;
 import org.squirrelframework.foundation.fsm.annotation.StateMachineParameters;
 import org.squirrelframework.foundation.fsm.annotation.States;
@@ -30,53 +31,53 @@ import org.squirrelframework.foundation.fsm.annotation.Transitions;
 import org.squirrelframework.foundation.fsm.impl.AbstractUntypedStateMachine;
 
 @StateMachineParameters(stateType = StatusEnum.class, eventType = StudentTrigger.class,
-    contextType = StateMachineContext.class)
+        contextType = StateMachineContext.class)
 @States({
-    @State(name = "NEW_APPLICATION", initialState = true),
-    @State(name = "FINANCIAL_AUDIT"),
-    @State(name = "PAYING"),
-    @State(name = "SUCCESS", isFinal = true, entryCallMethod = "paySuccess"),
-    @State(name = "FAIl", isFinal = true, entryCallMethod = "payFailed")
+        @State(name = "NEW_APPLICATION", initialState = true),
+        @State(name = "FINANCIAL_AUDIT"),
+        @State(name = "PAYING"),
+        @State(name = "SUCCESS", isFinal = true, entryCallMethod = "paySuccess"),
+        @State(name = "FAIl", isFinal = true, entryCallMethod = "payFailed")
 })
 @Transitions({
-    @Transit(
-        from = "NEW_APPLICATION",
-        to = "FINANCIAL_AUDIT",
-        on = "ASSIGN_EVENT",
-        callMethod = "financialAuditStatus",
-        when = SchoolStatusToHolidayStatusCondition.class
-    ),
-    @Transit(
-        from = "NEW_APPLICATION",
-        to = "PAYING",
-        on = "ASSIGN_EVENT",
-        when = ApplyStatusToSckoolCondition.class
-    ),
-    @Transit(
-        from = "FINANCIAL_AUDIT",
-        to = "PAYING",
-        on = "FINANCE_APPROVED_EVENT"
-    ),
-    @Transit(
-        from = "FINANCIAL_AUDIT",
-        to = "FAIl",
-        on = "FINANCE_UNAPPROVED_EVENT"
-    ),
-    @Transit(
-        from = "PAYING",
-        to = "SUCCESS",
-        on = "AUTO_PAY_EVENT",
-        callMethod = "pay"
-    )
+        @Transit(
+                from = "NEW_APPLICATION",
+                to = "FINANCIAL_AUDIT",
+                on = "ASSIGN_EVENT",
+                callMethod = "financialAuditStatus",
+                when = SchoolStatusToHolidayStatusCondition.class
+        ),
+        @Transit(
+                from = "NEW_APPLICATION",
+                to = "PAYING",
+                on = "ASSIGN_EVENT",
+                when = ApplyStatusToSckoolCondition.class
+        ),
+        @Transit(
+                from = "FINANCIAL_AUDIT",
+                to = "PAYING",
+                on = "FINANCE_APPROVED_EVENT"
+        ),
+        @Transit(
+                from = "FINANCIAL_AUDIT",
+                to = "FAIl",
+                on = "FINANCE_UNAPPROVED_EVENT"
+        ),
+        @Transit(
+                from = "PAYING",
+                to = "SUCCESS",
+                on = "AUTO_PAY_EVENT",
+                callMethod = "pay"
+        )
 })
 public class StudentStatusMachine extends AbstractUntypedStateMachine {
     static {
         ConverterProvider.INSTANCE.register(StatusEnum.class, new StatusConverter());
         ConverterProvider.INSTANCE.register(StudentTrigger.class, new TriggerConverter());
         ExecutorService autoRefundExecutorPool = new ThreadPoolExecutor(
-            5, 5, 30, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(),
-            new BasicThreadFactory.Builder().namingPattern("autoRefundThread-%d").daemon(false).build(),
-            new CallerRunsPolicy());
+                5, 5, 30, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(),
+                new BasicThreadFactory.Builder().namingPattern("autoRefundThread-%d").daemon(false).build(),
+                new CallerRunsPolicy());
         SquirrelSingletonProvider.getInstance().register(ExecutorService.class, autoRefundExecutorPool);
         Runtime.getRuntime().addShutdownHook(new Thread(autoRefundExecutorPool::shutdown));
     }
@@ -90,7 +91,7 @@ public class StudentStatusMachine extends AbstractUntypedStateMachine {
 
     public void financialAuditStatus(StatusEnum fromState, StatusEnum toState,
                                      StudentTrigger event, StateMachineContext stateMachineContext)
-        throws RuntimeException {
+            throws RuntimeException {
         //生成工单
         UserDTO UserDTO = stateMachineContext.getUserDTO();
         //其他业务操作,然后给UserDTO赋值
@@ -98,7 +99,7 @@ public class StudentStatusMachine extends AbstractUntypedStateMachine {
 
     public void pay(StatusEnum fromState, StatusEnum toState,
                     StudentTrigger event, StateMachineContext stateMachineContext)
-        throws RuntimeException {
+            throws RuntimeException {
         UserDTO UserDTO = stateMachineContext.getUserDTO();
 
     }
@@ -129,12 +130,12 @@ public class StudentStatusMachine extends AbstractUntypedStateMachine {
 
     private RuntimeException getTargetException(Throwable ex) {
         if (ex instanceof TransitionException) {
-            Throwable targetException = ((TransitionException)ex).getTargetException();
+            Throwable targetException = ((TransitionException) ex).getTargetException();
             return getTargetException(targetException);
         } else if (ex instanceof SquirrelRuntimeException) {
-            Throwable targetException = ((SquirrelRuntimeException)ex).getTargetException();
+            Throwable targetException = ((SquirrelRuntimeException) ex).getTargetException();
             return getTargetException(targetException);
-        }else {
+        } else {
             logger.error("transit failed with unknown exception!", ex);
             return new RuntimeException(ex.getMessage());
         }

@@ -15,6 +15,7 @@ import java.util.List;
  */
 @Component
 public class HystrixComponent {
+
     @Autowired
     private UserService userService;
 
@@ -33,7 +34,6 @@ public class HystrixComponent {
     public List<User> getUsers() {
         //远程调用其他服务
         List<User> result = userService.list(new UserQueryRequest());
-        int a=1/0;
         return result;
     }
 

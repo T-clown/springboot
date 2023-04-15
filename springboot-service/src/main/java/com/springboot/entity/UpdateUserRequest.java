@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.springboot.enums.GenderType;
 import com.springboot.serializer.GenderDeserializer;
 import com.springboot.validator.Region;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -16,7 +17,7 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-
+@ApiModel("张三")
 @Data
 public class UpdateUserRequest {
     @NotNull(message = "id不能为空")

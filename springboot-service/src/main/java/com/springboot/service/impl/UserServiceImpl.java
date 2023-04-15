@@ -1,5 +1,7 @@
 package com.springboot.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import com.alibaba.fastjson.JSON;
 import com.springboot.annotation.LockKeyParam;
 import com.springboot.annotation.RedisLock;
@@ -14,18 +16,22 @@ import com.springboot.entity.UpdateUserRequest;
 import com.springboot.entity.User;
 import com.springboot.entity.UserQueryRequest;
 import com.springboot.service.CallBackService;
+import com.springboot.service.TransactionListener;
 import com.springboot.service.UserService;
 import com.springboot.service.converter.UserConverter;
 import com.springboot.service.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ThreadPoolExecutor;
 
 @Slf4j
 @EnableAspectJAutoProxy(exposeProxy = true, proxyTargetClass = true)
@@ -40,20 +46,44 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private CallBackService callBackService;
 
+    @Autowired
+    private ThreadPoolExecutor threadPoolExecutor;
 
-    //@Transactional(rollbackFor = Exception.class)
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
+
+    @Autowired
+    private TransactionTemplate transactionTemplate;
+
+
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean addUser(CreateUserRequest request) {
         //TransactionalUtil.transactional(() -> add(request));
         UserDTO userDTO = new UserDTO();
         BeanUtils.copyProperties(request, userDTO);
         userRepository.addUser(userDTO);
-        callBackService.execute(()-> asyncLog(userDTO.getUsername()));
+        applicationEventPublisher.publishEvent(new TransactionListener.UserTransactionEvent("单元评分", request.getUsername()));
+        transactionTemplate.execute(status-> {
+            int result=0;
+            try{
+               result= userRepository.addUser(userDTO);
+            }catch (Exception e){
+                status.setRollbackOnly();
+            }
+            return result;
+        });
+        //callBackService.execute(()->threadPoolExecutor.execute(()->asyncLog(request.getUsername())) );
         return true;
     }
     private void asyncLog(String username){
-        CompletableFuture<Void> completableFuture = CompletableFuture.runAsync(() -> log(username));
-        //log(username);
+        //CompletableFuture<Void> completableFuture = CompletableFuture.runAsync(() -> log(username));
+        //log(username);;
+        UserQueryRequest request=new UserQueryRequest();
+        request.setUsername(username);
+        List<User> list = list(request);
+        log.info("添加用户:{}",JSON.toJSONString(list));
+
     }
     private void log(String userName){
         try {
@@ -88,7 +118,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean update(@LockKeyParam(fields = "id") UpdateUserRequest request) {
         UserDTO userDTO = new UserDTO();
-        BeanUtils.copyProperties(request, userDTO);
+        BeanUtil.copyProperties(request, userDTO, CopyOptions.create().ignoreNullValue());
         return userRepository.update(userDTO);
     }
 

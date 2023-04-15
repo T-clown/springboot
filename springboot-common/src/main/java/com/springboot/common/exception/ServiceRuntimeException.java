@@ -6,22 +6,24 @@ public class ServiceRuntimeException extends RuntimeException {
     ResultCode resultCode;
     String message;
 
-    public ServiceRuntimeException() {}
+    public ServiceRuntimeException() {
+    }
 
     public ServiceRuntimeException(ResultCode resultCode) {
         super(resultCode.getMessage());
-        this.resultCode=resultCode;
-        this.message=resultCode.getMessage();
+        this.resultCode = resultCode;
+        this.message = resultCode.getMessage();
     }
+
     public ServiceRuntimeException(ResultCode resultCode, String message) {
         super(message);
-        this.resultCode=resultCode;
-        this.message=message;
+        this.resultCode = resultCode;
+        this.message = message;
     }
 
     public ServiceRuntimeException(String message) {
         super(message);
-        this.message=message;
+        this.message = message;
     }
 
     public ServiceRuntimeException(String message, Throwable cause) {
@@ -33,12 +35,12 @@ public class ServiceRuntimeException extends RuntimeException {
         super(cause);
     }
 
-    public ResultCode getResultCode(){
+    public ResultCode getResultCode() {
         return resultCode;
     }
 
     @Override
-    public String getMessage(){
+    public String getMessage() {
         return message;
     }
 }

@@ -16,9 +16,10 @@ import com.springboot.annotation.LockKeyParam;
 import com.springboot.enums.GenderType;
 import com.springboot.serializer.GenderDeserializer;
 import com.springboot.validator.Region;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
-
+@ApiModel("张三")
 @Data
 public class CreateUserRequest {
 

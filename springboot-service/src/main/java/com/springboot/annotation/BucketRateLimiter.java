@@ -1,5 +1,6 @@
 package com.springboot.annotation;
 
+import com.springboot.aop.RateLimiterAspect;
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.core.annotation.AnnotationUtils;
 
@@ -13,6 +14,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * 漏桶限流
  * @Author
+ * @see com.springboot.aop.RateLimiterAspect
+ * {@link RateLimiterAspect#rateLimit()}
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

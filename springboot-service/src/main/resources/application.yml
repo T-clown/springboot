@@ -9,6 +9,11 @@ spring:
   profiles:
     include:
       mysql,kafka,redis,elasticsearch,hystrix
+  main:
+    allow-circular-references: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   servlet:
     multipart:
       max-file-size: 100MB
@@ -40,7 +45,7 @@ spring:
       pool-prepared-statements: true
       max-pool-prepared-statement-per-connection-size: 20
       # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
-      filters: stat,wall,log4j
+      #filters: stat,wall,log4j
       # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
       connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
     slave: # 从数据源
@@ -66,7 +71,7 @@ spring:
       pool-prepared-statements: true
       max-pool-prepared-statement-per-connection-size: 20
       # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
-      filters: stat,wall,log4j
+      #filters: stat,wall,log4j
       # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
       connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
 mybatis:
@@ -89,6 +94,7 @@ zk:
 p:
   name: ${com.properties.name}
   price: 3999
+  cache-name: 测试
 com:
   properties:
     name: '等闲变却故人心'

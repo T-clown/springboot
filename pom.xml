@@ -13,7 +13,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.9</version>
+        <version>2.7.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -21,13 +21,13 @@
         <module>springboot-dao</module>
         <module>springboot-service</module>
         <module>springboot-common</module>
-        <module>springboot-oauth</module>
+        <module>springboot-auth</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.11</java.version>
+        <java.version>17</java.version>
     </properties>
 
     <dependencyManagement>
@@ -121,7 +121,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
-            <version>1.2.8</version>
+            <version>1.2.16</version>
         </dependency>
 
 
@@ -129,7 +129,7 @@
         <dependency>
             <groupId>eu.bitwalker</groupId>
             <artifactId>UserAgentUtils</artifactId>
-            <version>1.20</version>
+            <version>1.21</version>
         </dependency>
 
         <dependency>
@@ -141,7 +141,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.15</version>
+            <version>8.0.29</version>
         </dependency>
 
         <!-- redis -->
@@ -154,13 +154,13 @@
         <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson-spring-boot-starter</artifactId>
-            <version>3.17.3</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>jackson-databind</artifactId>
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                </exclusion>
-            </exclusions>
+            <version>3.17.7</version>
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <artifactId>jackson-databind</artifactId>-->
+<!--                    <groupId>com.fasterxml.jackson.core</groupId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
         </dependency>
 
         <!-- curator 版本4.1.0 对应 zookeeper 版本 3.5.x -->
@@ -168,7 +168,7 @@
         <dependency>
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-recipes</artifactId>
-            <version>5.2.0</version>
+            <version>5.3.0</version>
             <exclusions>
                 <exclusion>
                     <artifactId>guava</artifactId>
@@ -184,7 +184,7 @@
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-            <version>3.7.0</version>
+            <version>4.2.3</version>
         </dependency>
         <!--kafka-->
         <dependency>
@@ -201,7 +201,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
-            <version>1.2.8</version>
+            <version>1.2.16</version>
         </dependency>
 
 
@@ -209,7 +209,7 @@
         <dependency>
             <groupId>org.squirrelframework</groupId>
             <artifactId>squirrel-foundation</artifactId>
-            <version>0.3.8</version>
+            <version>0.3.10</version>
             <exclusions>
                 <exclusion>
                     <artifactId>guava</artifactId>
@@ -222,17 +222,17 @@
             </exclusions>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.restcomm.fsm/squirrel-foundation -->
-        <dependency>
-            <groupId>org.restcomm.fsm</groupId>
-            <artifactId>squirrel-foundation</artifactId>
-            <version>0.3.9.11</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>guava</artifactId>
-                    <groupId>com.google.guava</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.restcomm.fsm</groupId>-->
+<!--            <artifactId>squirrel-foundation</artifactId>-->
+<!--            <version>0.3.9.11</version>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <artifactId>guava</artifactId>-->
+<!--                    <groupId>com.google.guava</groupId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
 
         <!-- Swagger依赖 -->
         <dependency>
@@ -266,7 +266,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>easyexcel</artifactId>
-            <version>3.1.1</version>
+            <version>3.2.1</version>
         </dependency>
 
         <!--google retry-->
@@ -290,7 +290,7 @@
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
             <artifactId>elasticsearch-rest-high-level-client</artifactId>
-            <version>7.15.0</version>
+            <version>7.17.9</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.elasticsearch.client</groupId>
@@ -305,14 +305,15 @@
         <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
-            <version>7.15.0</version>
+<!--            <version>8.3.3</version>-->
+            <version>8.6.2</version>
         </dependency>
 
         <!--rest low client high client以来低版本client所以需要引入-->
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
             <artifactId>elasticsearch-rest-client</artifactId>
-            <version>7.15.0</version>
+            <version>8.6.2</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
@@ -369,12 +370,12 @@
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
-            <version>1.4.1.Final</version>
+            <version>1.5.3.Final</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
-            <version>1.4.1.Final</version>
+            <version>1.5.3.Final</version>
         </dependency>
 
         <!--监控报警-->
@@ -429,7 +430,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
+            <version>1.18.26</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

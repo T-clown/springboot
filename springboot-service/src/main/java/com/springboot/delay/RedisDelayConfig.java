@@ -25,9 +25,9 @@ public class RedisDelayConfig {
 
     @Bean(value = "delayEngine", destroyMethod = "destroy")
     public RedisDelayEngine<DelayDTO> taskStartDelayEngine() {
-        log.info("考试开始延时任务引擎初始化");
+        log.info("----------------延时任务引擎初始化----------------");
         RedisDelayEngine<DelayDTO> redisDelayEngine = new RedisDelayEngine<>(redisDelayQueue,
-                RedisDelayKey.getBizOneQueueKey(), t -> delayTaskHandler.handler(t), DelayDTO.class,asyncTaskExecutor);
+                RedisDelayKey.getDelayQueueKey(), t -> delayTaskHandler.handler(t), DelayDTO.class,asyncTaskExecutor);
         redisDelayEngine.setTryTimes(3);
         redisDelayEngine.setReTryDelay(5000L);
         return redisDelayEngine;

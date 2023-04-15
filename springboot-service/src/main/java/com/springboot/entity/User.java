@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.DateSerializer;
@@ -19,6 +20,7 @@ import com.fasterxml.jackson.databind.ser.std.NumberSerializer;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.springboot.enums.GenderType;
+import com.springboot.serializer.DateToLongSerializer;
 import com.springboot.serializer.GenderDeserializer;
 import com.springboot.serializer.LocalDateTimeToLongSerializer;
 import com.springboot.validator.Region;
@@ -29,8 +31,6 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.hibernate.validator.constraints.Length;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class User implements Serializable {
     /**
      * 主键id
@@ -63,12 +63,21 @@ public class User implements Serializable {
     @JsonSerialize(using = DateSerializer.class)
     private Date date = new Date();
 
+    private Date date2 = null;
+
+    @JsonSerialize(using = DateToLongSerializer.class)
+    private Date date3;
+
+    @JsonSerialize(using = DateToLongSerializer.class)
+    private Date date4 = new Date();
+
     //@JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonSerialize(using = LocalDateTimeToLongSerializer.class)
     private LocalDateTime createTime;
 
     //@JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonSerialize(using = LocalDateTimeToLongSerializer.class)
+    @JsonFormat
     private LocalDateTime updateTime;
 
 }

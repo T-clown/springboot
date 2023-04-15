@@ -1,5 +1,6 @@
 package com.springboot;
 
+import cn.hippo4j.core.enable.EnableDynamicThreadPool;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,6 +14,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 //@Import({DynamicDataSourceConfig.class})
 //@EnableWebMvc
 //@EnableHystrix
+@EnableDynamicThreadPool
 @EnableAsync
 @MapperScan(basePackages = {"com.springboot.dao"})
 @SpringBootApplication(scanBasePackages = "com.springboot", exclude = DataSourceAutoConfiguration.class)
@@ -24,6 +26,7 @@ public class Application {
          */
         //启动方式1
         SpringApplication.run(Application.class, args);
+
         //启动方式2
 //        SpringApplication application = new SpringApplication(Application.class);
 //        application.addInitializers(new TestApplicationContextInitializer());

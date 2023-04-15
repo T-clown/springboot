@@ -1,5 +1,6 @@
 package com.springboot.delay;
 
+import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -131,7 +132,8 @@ public class RedisDelayEngine<T extends BaseTask> {
                     }
 
                     if (StringUtils.isNotEmpty(data)) {
-                        T t = JSON.parseObject(data, classType);
+                       // T t = JSON.parseObject(data, classType);
+                        T t = JSONUtil.toBean(data, classType);
                         if (t == null) {
                             log.error("延时队列元素json解析异常:{}", data);
                             continue;

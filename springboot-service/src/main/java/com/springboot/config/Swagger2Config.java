@@ -13,6 +13,7 @@ import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
 /**
  * @Api 标注在Controller类上，tags和value的值会展示在web界面对应接口描述上
@@ -21,7 +22,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @ApiModel 标注于实体类上
  * @ApiModelProperty 标注于实体类属性上，用于说明各属性含义
  * @ApiIgnore 用于标注在不想被Swagger扫描的类或者方法及属性上
- * https://doc.xiaominfo.com/knife4j/springboot.html
  */
 @Configuration
 @EnableSwagger2
@@ -30,9 +30,15 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class Swagger2Config {
     @Bean
     public Docket createRestApi() {
-        return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo())
+        return new Docket(DocumentationType.SWAGGER_2).apiInfo(new ApiInfoBuilder()
+                        .title("SpringBoot")
+                        .description("SpringBoot")
+                        .termsOfServiceUrl("http://localhost:8088/")
+                        .contact(new Contact("Ti93", "https://doc.xiaominfo.com/knife4j/springboot.html#maven%E5%BC%95%E7%94%A8", "414162330@qq.com"))
+                        .version("1.0.0-SNAPSHOT")
+                        .build())
             //分组名称
-            .groupName("2.0.3版本")
+            .groupName("用户管理")
             .select()
             //扫描该包下的所有需要在Swagger中展示的API，@ApiIgnore注解标注的除外
             .apis(RequestHandlerSelectors.basePackage("com.springboot.controller"))
@@ -40,14 +46,5 @@ public class Swagger2Config {
             .build();
     }
 
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-            .title("springboot")
-            .description("学习springboot")
-            .termsOfServiceUrl("http://localhost:8999/")
-            .contact(new Contact("Ti93", "https://doc.xiaominfo.com/knife4j/springboot.html#maven%E5%BC%95%E7%94%A8", "414162330@qq.com"))
-            .version("1.0.0-SNAPSHOT")
-            .build();
-    }
 
 }

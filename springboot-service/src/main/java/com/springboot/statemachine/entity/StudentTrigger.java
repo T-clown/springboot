@@ -1,6 +1,8 @@
 package com.springboot.statemachine.entity;
 
+import lombok.Getter;
 
+@Getter
 public enum StudentTrigger {
     /**
      *
@@ -10,7 +12,7 @@ public enum StudentTrigger {
     ATTEND_CLASS("上课"),
     SLEEP("睡觉");
 
-    private String desc;
+    private final String desc;
 
     StudentTrigger(String desc) {
         this.desc = desc;

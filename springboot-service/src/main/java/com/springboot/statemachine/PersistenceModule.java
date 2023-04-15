@@ -34,6 +34,7 @@ import org.squirrelframework.foundation.fsm.annotation.OnTransitionException;
  */
 @Service
 public class PersistenceModule {
+
     private static final Logger logger = LoggerFactory.getLogger(PersistenceModule.class);
 
     @Autowired

@@ -2,7 +2,7 @@ package com.springboot.service.converter;
 
 import com.springboot.common.entity.PageResult;
 import com.springboot.dao.dto.UserDTO;
-import com.springboot.entity.User;
+import com.springboot.domain.entity.User;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Optional;

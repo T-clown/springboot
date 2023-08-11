@@ -3,7 +3,7 @@ package com.springboot.service;
 
 import com.alibaba.fastjson.JSON;
 import com.springboot.dao.dto.UserDTO;
-import com.springboot.entity.UserQueryRequest;
+import com.springboot.domain.entity.UserQueryRequest;
 import com.springboot.service.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

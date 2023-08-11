@@ -1,0 +1,2 @@
+adaptive=com.springboot.common.spi.factory.AdaptiveExtensionFactory
+spi=com.springboot.common.spi.factory.SpiExtensionFactory

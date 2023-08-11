@@ -1,7 +1,7 @@
 package com.springboot.service;
 
-import javax.mail.MessagingException;
 
+import jakarta.mail.MessagingException;
 
 public interface MailService {
     /**

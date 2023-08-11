@@ -19,6 +19,8 @@ public enum ResultCode {
     UNKNOWN_ERROR(-3, "未知错误"),
     ES_ERROR(-4, "ES执行错误"),
 
+    EXCEL_DOWNLOAD_ERROR(-5, "Excel导出失败"),
+
     ;
 
     final int code;

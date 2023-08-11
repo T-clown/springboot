@@ -3,18 +3,16 @@ package com.springboot.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import com.alibaba.fastjson.JSON;
-import com.springboot.annotation.LockKeyParam;
-import com.springboot.annotation.RedisLock;
+import com.springboot.common.aop.annotation.LockKeyParam;
+import com.springboot.common.aop.annotation.RedisLock;
 import com.springboot.common.TransactionalComponent;
-import com.springboot.common.TransactionalUtil;
 import com.springboot.common.entity.Page;
 import com.springboot.common.entity.PageResult;
-import com.springboot.common.exception.ServiceRuntimeException;
 import com.springboot.dao.dto.UserDTO;
-import com.springboot.entity.CreateUserRequest;
-import com.springboot.entity.UpdateUserRequest;
-import com.springboot.entity.User;
-import com.springboot.entity.UserQueryRequest;
+import com.springboot.domain.entity.CreateUserRequest;
+import com.springboot.domain.entity.UpdateUserRequest;
+import com.springboot.domain.entity.User;
+import com.springboot.domain.entity.UserQueryRequest;
 import com.springboot.service.CallBackService;
 import com.springboot.service.TransactionListener;
 import com.springboot.service.UserService;
@@ -30,7 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadPoolExecutor;
 
 @Slf4j
@@ -64,11 +61,11 @@ public class UserServiceImpl implements UserService {
         BeanUtils.copyProperties(request, userDTO);
         userRepository.addUser(userDTO);
         applicationEventPublisher.publishEvent(new TransactionListener.UserTransactionEvent("单元评分", request.getUsername()));
-        transactionTemplate.execute(status-> {
-            int result=0;
-            try{
-               result= userRepository.addUser(userDTO);
-            }catch (Exception e){
+        transactionTemplate.execute(status -> {
+            Long result = 0L;
+            try {
+                result = userRepository.addUser(userDTO);
+            } catch (Exception e) {
                 status.setRollbackOnly();
             }
             return result;
@@ -76,40 +73,42 @@ public class UserServiceImpl implements UserService {
         //callBackService.execute(()->threadPoolExecutor.execute(()->asyncLog(request.getUsername())) );
         return true;
     }
-    private void asyncLog(String username){
+
+    private void asyncLog(String username) {
         //CompletableFuture<Void> completableFuture = CompletableFuture.runAsync(() -> log(username));
         //log(username);;
-        UserQueryRequest request=new UserQueryRequest();
+        UserQueryRequest request = new UserQueryRequest();
         request.setUsername(username);
         List<User> list = list(request);
-        log.info("添加用户:{}",JSON.toJSONString(list));
+        log.info("添加用户:{}", JSON.toJSONString(list));
 
     }
-    private void log(String userName){
+
+    private void log(String userName) {
         try {
             Thread.sleep(1000L);
-            log.info("用户:{}已添加",userName);
+            log.info("用户:{}已添加", userName);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void add(CreateUserRequest request) {
+    //@Transactional(rollbackFor = Exception.class)
+    public Long add(CreateUserRequest request) {
         UserDTO userDTO = new UserDTO();
         BeanUtils.copyProperties(request, userDTO);
-        userRepository.addUser(userDTO);
+        return userRepository.addUser(userDTO);
     }
 
     @Override
-    public User getUserById(Integer id) {
+    public User getUserById(Long id) {
         UserDTO userDTO = userRepository.getById(id);
         return UserConverter.convert(userDTO);
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete(Long id) {
         transactionalComponent.execute(() -> userRepository.delete(id));
     }
 
@@ -131,7 +130,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public PageResult<User> page(UserQueryRequest request, Page page) {
         PageResult<UserDTO> pageResult = userRepository.page(request, page);
-        return UserConverter.convertPageResult(pageResult,UserConverter::convert);
+        return UserConverter.convertPageResult(pageResult, UserConverter::convert);
     }
 
 }

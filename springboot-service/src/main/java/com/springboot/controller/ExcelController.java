@@ -2,19 +2,21 @@ package com.springboot.controller;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.util.ListUtils;
+import com.alibaba.fastjson.JSON;
 import com.springboot.common.entity.Result;
-import com.springboot.common.util.ResultUtil;
+import com.springboot.common.utils.ResultUtil;
 import com.springboot.dao.dto.UserDTO;
-import com.springboot.entity.UserQueryRequest;
-import com.springboot.entity.excel.DownloadData;
-import com.springboot.entity.excel.UploadData;
-import com.springboot.entity.excel.UploadTestData;
+import com.springboot.domain.entity.UserQueryRequest;
+import com.springboot.domain.entity.excel.DownloadData;
+import com.springboot.domain.entity.excel.UploadData;
+import com.springboot.domain.entity.excel.UploadTestData;
 import com.springboot.service.repository.UserRepository;
-import com.springboot.util.BeanCopyUtils;
-import com.springboot.util.ExcelUtil;
-import com.springboot.util.PPTToImageUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import com.springboot.utils.BeanCopyUtils;
+import com.springboot.utils.excel.easyexcel.ExcelUtil;
+import com.springboot.utils.PPTToImageUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,16 +25,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-@Api(tags = {"Excel导入导出"})
+@Tag(name = "Excel导入导出")
 @Slf4j
 @RestController
 @RequestMapping("/excel")
@@ -45,7 +45,7 @@ public class ExcelController {
     /**
      * @Desc 批量导出
      **/
-    @ApiOperation("批量导出用户")
+    @Operation(summary = "批量导出用户")
     @PostMapping(value = "/export/user")
     public void exportUser(@RequestBody UserQueryRequest request, HttpServletResponse response) {
         List<UserDTO> userDTOS = userRepository.list(request);
@@ -65,6 +65,23 @@ public class ExcelController {
         response.setHeader("Content-disposition", "attachment;filename*=utf-8''" + fileName + ".xlsx");
         EasyExcel.write(response.getOutputStream()).head(head()).sheet("模板").doWrite(dataList());
     }
+
+
+    @PostMapping(value = "/download")
+    public Result<Void> download(HttpServletResponse response) throws IOException {
+        // 这里注意 有同学反应使用swagger 会导致各种问题，请直接用浏览器或者用postman
+        response.setContentType("application/vnd.ms-excel");
+        //response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        //response.setCharacterEncoding("utf-8");
+        // 这里URLEncoder.encode可以防止中文乱码 当然和easyexcel没有关系
+        //String fileName = URLEncoder.encode("测试", StandardCharsets.UTF_8).replaceAll("\\+", "%20");
+        String fileName = URLEncoder.encode("测试", StandardCharsets.UTF_8);
+        response.setHeader("Content-disposition", "attachment;filename*=utf-8''" + fileName + ".xlsx");
+        EasyExcel.write(response.getOutputStream()).head(head()).sheet("模板").doWrite(dataList());
+        //AbstractMessageConverterMethodProcessor
+        return ResultUtil.success();
+    }
+
     private List<List<String>> head() {
         List<List<String>> list = ListUtils.newArrayList();
         List<String> head0 = ListUtils.newArrayList();
@@ -126,6 +143,6 @@ public class ExcelController {
     }
 
     private void convert(List<UploadTestData> uploadData) {
-        System.out.println();
+        log.info(JSON.toJSONString(uploadData));
     }
 }

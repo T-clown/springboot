@@ -1,6 +1,6 @@
 package com.springboot.service;
 
-import com.springboot.entity.User;
+import com.springboot.domain.entity.User;
 
 public abstract class TestAbstractStrategy implements Stragegy {
     protected UserService userService;
@@ -9,9 +9,9 @@ public abstract class TestAbstractStrategy implements Stragegy {
         this.userService = userService;
     }
 
-    public abstract User test(Integer userId);
+    public abstract User test(Long userId);
 
-    protected User getUserById(Integer userId){
+    protected User getUserById(Long userId){
         return userService.getUserById(userId);
     }
 }

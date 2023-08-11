@@ -1,6 +1,6 @@
 package com.springboot.service;
 
-import com.springboot.annotation.ImportSelector;
+import com.springboot.common.aop.annotation.ImportSelector;
 import com.springboot.common.enums.CommonYN;
 
 public class PayConfigurationSelector extends AbstractImportSelector<ImportSelector> {

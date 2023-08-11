@@ -2,11 +2,11 @@ package com.springboot.test.test;
 
 import java.util.Set;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
 
 import cn.hutool.json.JSONUtil;
-import com.springboot.entity.User;
+import com.springboot.domain.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;

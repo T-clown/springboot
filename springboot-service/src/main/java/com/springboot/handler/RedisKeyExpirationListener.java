@@ -5,6 +5,10 @@ import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.listener.KeyExpirationEventMessageListener;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.stereotype.Component;
+
+/**
+ * redis键失效监听
+ */
 @Slf4j
 @Component
 public class RedisKeyExpirationListener extends KeyExpirationEventMessageListener {

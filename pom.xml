@@ -5,7 +5,7 @@
 
     <groupId>springboot</groupId>
     <artifactId>springboot</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>springboot</name>
@@ -13,7 +13,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.3</version>
+        <version>3.1.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -21,13 +21,14 @@
         <module>springboot-dao</module>
         <module>springboot-service</module>
         <module>springboot-common</module>
-        <module>springboot-auth</module>
+        <module>springboot-client</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>
+        <springboot.version>3.1.0</springboot.version>
     </properties>
 
     <dependencyManagement>
@@ -35,6 +36,11 @@
             <dependency>
                 <groupId>springboot</groupId>
                 <artifactId>springboot-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>springboot</groupId>
+                <artifactId>springboot-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -47,16 +53,16 @@
                 <artifactId>springboot-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
-<!--            <dependency>-->
-<!--                <groupId>org.springframework.cloud</groupId>-->
-<!--                <artifactId>spring-cloud-commons</artifactId>-->
-<!--                <version>2.2.3.RELEASE</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>org.springframework.cloud</groupId>-->
-<!--                <artifactId>spring-cloud-starter-hystrix</artifactId>-->
-<!--                <version>1.4.7.RELEASE</version>-->
-<!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>org.springframework.cloud</groupId>-->
+            <!--                <artifactId>spring-cloud-commons</artifactId>-->
+            <!--                <version>2.2.3.RELEASE</version>-->
+            <!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>org.springframework.cloud</groupId>-->
+            <!--                <artifactId>spring-cloud-starter-hystrix</artifactId>-->
+            <!--                <version>1.4.7.RELEASE</version>-->
+            <!--            </dependency>-->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
@@ -73,6 +79,14 @@
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-core</artifactId>
                 <version>1.4.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-dependencies</artifactId>
+                <version>4.1.0</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
 
@@ -135,13 +149,13 @@
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>2.2.0</version>
+            <version>3.0.2</version>
         </dependency>
 
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.29</version>
+            <version>8.0.33</version>
         </dependency>
 
         <!-- redis -->
@@ -154,13 +168,7 @@
         <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson-spring-boot-starter</artifactId>
-            <version>3.17.7</version>
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <artifactId>jackson-databind</artifactId>-->
-<!--                    <groupId>com.fasterxml.jackson.core</groupId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
+            <version>3.23.2</version>
         </dependency>
 
         <!-- curator 版本4.1.0 对应 zookeeper 版本 3.5.x -->
@@ -184,7 +192,7 @@
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-            <version>4.2.3</version>
+            <version>4.3.1</version>
         </dependency>
         <!--kafka-->
         <dependency>
@@ -221,46 +229,30 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.restcomm.fsm/squirrel-foundation -->
-<!--        <dependency>-->
-<!--            <groupId>org.restcomm.fsm</groupId>-->
-<!--            <artifactId>squirrel-foundation</artifactId>-->
-<!--            <version>0.3.9.11</version>-->
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <artifactId>guava</artifactId>-->
-<!--                    <groupId>com.google.guava</groupId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
-<!--        </dependency>-->
 
-        <!-- Swagger依赖 -->
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>3.0.0</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>mapstruct</artifactId>
-                    <groupId>org.mapstruct</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <!-- Swagger-UI依赖 -->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>3.0.0</version>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
         </dependency>
 
-        <!-- validator -->
-<!--        <dependency>-->
-<!--            <groupId>org.hibernate.validator</groupId>-->
-<!--            <artifactId>hibernate-validator</artifactId>-->
-<!--            <version>7.0.1.Final</version>-->
-<!--        </dependency>-->
-
-
+        <!--        &lt;!&ndash; Swagger依赖 &ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>io.springfox</groupId>-->
+        <!--            <artifactId>springfox-swagger2</artifactId>-->
+        <!--            <version>3.0.0</version>-->
+        <!--            <exclusions>-->
+        <!--                <exclusion>-->
+        <!--                    <artifactId>mapstruct</artifactId>-->
+        <!--                    <groupId>org.mapstruct</groupId>-->
+        <!--                </exclusion>-->
+        <!--            </exclusions>-->
+        <!--        </dependency>-->
+        <!--        &lt;!&ndash; Swagger-UI依赖 &ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>io.springfox</groupId>-->
+        <!--            <artifactId>springfox-swagger-ui</artifactId>-->
+        <!--            <version>3.0.0</version>-->
+        <!--        </dependency>-->
 
         <!--alibaba easyexcel-->
         <dependency>
@@ -285,79 +277,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
-        <!--elasticsearch-->
-        <dependency>
-            <groupId>org.elasticsearch.client</groupId>
-            <artifactId>elasticsearch-rest-high-level-client</artifactId>
-            <version>7.17.9</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.elasticsearch.client</groupId>
-                    <artifactId>elasticsearch-rest-client</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.elasticsearch</groupId>
-                    <artifactId>elasticsearch</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.elasticsearch</groupId>
-            <artifactId>elasticsearch</artifactId>
-<!--            <version>8.3.3</version>-->
-            <version>8.6.2</version>
-        </dependency>
-
-        <!--rest low client high client以来低版本client所以需要引入-->
-        <dependency>
-            <groupId>org.elasticsearch.client</groupId>
-            <artifactId>elasticsearch-rest-client</artifactId>
-            <version>8.6.2</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
-<!--        <dependency>-->
-<!--            <groupId>com.fasterxml.jackson.core</groupId>-->
-<!--            <artifactId>jackson-databind</artifactId>-->
-<!--            <version>2.13.1</version>-->
-<!--        </dependency>-->
-        <!--增强swagger-->
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-spring-boot-starter</artifactId>
-            <version>3.0.3</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>guava</artifactId>
-                    <groupId>com.google.guava</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>jackson-databind</artifactId>
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>swagger-annotations</artifactId>
-                    <groupId>io.swagger</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>swagger-models</artifactId>
-                    <groupId>io.swagger</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>mapstruct</artifactId>
-                    <groupId>org.mapstruct</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-
-        <!--监控sql日志,log4jdbc监控jdbc层-->
-        <!--<dependency>-->
-        <!--<groupId>org.bgee.log4jdbc-log4j2</groupId>-->
-        <!--<artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>-->
-        <!--<version>1.16</version>-->
-        <!--</dependency>-->
 
         <!--p6spy-->
         <dependency>
@@ -398,13 +317,6 @@
             <artifactId>micrometer-registry-prometheus</artifactId>
         </dependency>
 
-
-        <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign -->
-        <!--<dependency>-->
-        <!--<groupId>org.springframework.cloud</groupId>-->
-        <!--<artifactId>spring-cloud-starter-openfeign</artifactId>-->
-        <!--<version>3.0.1</version>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
@@ -426,13 +338,14 @@
             <artifactId>commons-beanutils</artifactId>
             <version>1.9.4</version>
         </dependency>
-        <!-- lombok -->
+
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.26</version>
-            <scope>provided</scope>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.1.Final</version>
         </dependency>
+
+
     </dependencies>
 
 </project>

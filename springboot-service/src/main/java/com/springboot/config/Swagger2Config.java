@@ -1,49 +1,50 @@
 package com.springboot.config;
 
+import cn.hutool.core.util.RandomUtil;
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import org.springdoc.core.customizers.GlobalOpenApiCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
-/**
- * @Api 标注在Controller类上，tags和value的值会展示在web界面对应接口描述上
- * @ApiOperation 标注在具体接口方法上，用于描述具体方法的特性
- * @ApiImplicitParams 标注在方法上，用于描述对应接口参数的意义
- * @ApiModel 标注于实体类上
- * @ApiModelProperty 标注于实体类属性上，用于说明各属性含义
- * @ApiIgnore 用于标注在不想被Swagger扫描的类或者方法及属性上
- */
+import java.util.HashMap;
+import java.util.Map;
+
+
 @Configuration
-@EnableSwagger2
 @EnableKnife4j
-@Import(BeanValidatorPluginsConfiguration.class)
 public class Swagger2Config {
     @Bean
-    public Docket createRestApi() {
-        return new Docket(DocumentationType.SWAGGER_2).apiInfo(new ApiInfoBuilder()
-                        .title("SpringBoot")
-                        .description("SpringBoot")
-                        .termsOfServiceUrl("http://localhost:8088/")
-                        .contact(new Contact("Ti93", "https://doc.xiaominfo.com/knife4j/springboot.html#maven%E5%BC%95%E7%94%A8", "414162330@qq.com"))
-                        .version("1.0.0-SNAPSHOT")
-                        .build())
-            //分组名称
-            .groupName("用户管理")
-            .select()
-            //扫描该包下的所有需要在Swagger中展示的API，@ApiIgnore注解标注的除外
-            .apis(RequestHandlerSelectors.basePackage("com.springboot.controller"))
-            .paths(PathSelectors.any())
-            .build();
+    public GlobalOpenApiCustomizer orderGlobalOpenApiCustomizer() {
+        return openApi -> {
+            if (openApi.getTags()!=null){
+                openApi.getTags().forEach(tag -> {
+                    Map<String,Object> map=new HashMap<>();
+                    map.put("x-order", RandomUtil.randomInt(0,100));
+                    tag.setExtensions(map);
+                });
+            }
+            if(openApi.getPaths()!=null){
+                openApi.addExtension("x-test123","333");
+                openApi.getPaths().addExtension("x-abb", RandomUtil.randomInt(1,100));
+            }
+
+        };
+    }
+
+    @Bean
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .info(new Info()
+                        .title("SpringBoot管理系统API")
+                        .version("1.0")
+                        .description( "SpringBoot管理系统")
+                        .termsOfService("http://doc.xiaominfo.com")
+                        .license(new License().name("Apache 2.0")
+                                .name("用户管理")
+                                .url("http://doc.xiaominfo.com")));
     }
 
 

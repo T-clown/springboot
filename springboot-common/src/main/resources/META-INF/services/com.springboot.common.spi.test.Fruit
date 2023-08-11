@@ -1,0 +1,2 @@
+apple=com.springboot.common.spi.test.AppleFruitImpl
+banana=com.springboot.common.spi.test.BananaFruitImpl

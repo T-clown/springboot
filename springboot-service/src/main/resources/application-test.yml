@@ -1,0 +1,13 @@
+zk:
+  url: localhost:2181
+  timeout: 1000
+  retry: 3
+
+p:
+  name: ${com.properties.name}
+  price: 3999
+  cache-name: 测试
+com:
+  properties:
+    name: '等闲变却故人心'
+    title: '却道故人心易变'

@@ -26,6 +26,7 @@ import org.springframework.beans.factory.support.DefaultSingletonBeanRegistry;
                 args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class})
 })
 public class ExecutorInterceptor implements Interceptor {
+
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
         return invocation.proceed();

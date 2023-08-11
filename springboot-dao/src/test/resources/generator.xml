@@ -44,7 +44,7 @@
 
         <!-- tableName:想要生成的数据库表,自动化工具会根据该表的结构生成相应的vo对象 -->
         <table tableName="springboot_user" domainObjectName="UserDTO">
-            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
+<!--            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>-->
             <columnOverride column="create_time" property="createTime" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler" jdbcType="OTHER" javaType="java.time.LocalDateTime" />
             <columnOverride column="update_time" property="updateTime" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler" jdbcType="OTHER" javaType="java.time.LocalDateTime" />
             <columnOverride column="birthday" property="birthday" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler" jdbcType="OTHER" javaType="java.time.LocalDateTime" />

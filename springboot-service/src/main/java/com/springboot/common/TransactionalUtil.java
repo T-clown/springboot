@@ -1,7 +1,7 @@
 package com.springboot.common;
 
 import com.springboot.handler.CallBack;
-import com.springboot.util.SpringContextHolder;
+import com.springboot.utils.SpringContextHolder;
 
 public class TransactionalUtil {
 

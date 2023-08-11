@@ -3,12 +3,12 @@ server:
   servlet:
     context-path: /springboot
 
-
+#====================================spring Config===============================================
 
 spring:
   profiles:
     include:
-      mysql,kafka,redis,elasticsearch,hystrix
+      mysql,kafka,redis,hystrix,seata,test
   main:
     allow-circular-references: true
   mvc:
@@ -74,8 +74,24 @@ spring:
       #filters: stat,wall,log4j
       # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
       connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+
+
 mybatis:
   config-location: classpath:/mybatis-config.xml
+
+
+#打印sql
+#logging:
+#  level:
+#    com.springboot.dao.generatedMapper.UserDTOMapper.selectByPrimaryKey: trace # 改成你的mapper文件所在包路径
+
+###打印sql
+sqlprinter:
+  show: true
+  format: true
+  filter:
+  # - com.github.dreamroute.sqlprinter.boot.mapper.UserMapper.selectById
+  # - com.github.dreamroute.sqlprinter.boot.mapper.UserMapper.selectAll
 #
 #mybatis:
 #  mapper-locations: classpath:mapper/*.xml
@@ -85,21 +101,7 @@ mybatis:
 #  offsetAsPageNum: true
 #  rowBoundsWithCount: true
 #  reasonable: false
-#zookeeper
-zk:
-  url: localhost:2181
-  timeout: 1000
-  retry: 3
-
-p:
-  name: ${com.properties.name}
-  price: 3999
-  cache-name: 测试
-com:
-  properties:
-    name: '等闲变却故人心'
-    title: '却道故人心易变'
-
+#====================================management Config===============================================
 management:
   # 端点信息接口使用的端口，为了和主系统接口使用的端口进行分离
   server:
@@ -116,3 +118,15 @@ management:
       exposure:
         include: '*'
       base-path: /actuator
+#====================================gateway Config===============================================
+api:
+  gateway:
+    http:
+      app-name: order
+      version: gray_1.0
+      port: 8088
+      admin-url: 127.0.0.1:9001
+#====================================nacos Config===============================================
+nacos:
+  discovery:
+    server-addr: 127.0.0.1:8848

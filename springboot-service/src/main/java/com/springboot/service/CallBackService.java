@@ -1,22 +1,10 @@
 package com.springboot.service;
 
-import com.alibaba.fastjson.JSON;
-import com.springboot.dao.dto.UserDTO;
-import com.springboot.entity.User;
-import com.springboot.entity.UserQueryRequest;
 import com.springboot.handler.CallBack;
-import com.springboot.service.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEvent;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.event.TransactionPhase;
-import org.springframework.transaction.event.TransactionalEventListener;
 import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
-
-import java.util.List;
 
 /**
  * 事务提交后执行

@@ -1,34 +1,44 @@
 package com.springboot.controller;
 
-import cn.hutool.aop.proxy.ProxyFactory;
-import cn.hutool.core.lang.generator.SnowflakeGenerator;
 import com.alibaba.fastjson.JSON;
-import com.mysql.cj.jdbc.Driver;
 import com.springboot.common.entity.Result;
-import com.springboot.common.util.ResultUtil;
-import com.springboot.delay.DelayDTO;
-import com.springboot.delay.RedisDelayKey;
-import com.springboot.delay.RedisDelayQueue;
-import com.springboot.entity.Phone;
-import com.springboot.util.RedisLockUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import com.springboot.common.utils.ResultUtil;
+import com.springboot.controller.cycle.TestBeanA;
+import com.springboot.common.delay.handler.DelayDTO;
+import com.springboot.common.delay.RedisDelayKey;
+import com.springboot.common.delay.RedisDelayQueue;
+import com.springboot.domain.entity.Phone;
+import com.springboot.common.extension.ImportAnnotation;
+import com.springboot.common.extension.plugin.SmsRequest;
+import com.springboot.common.extension.plugin.SmsService;
+import com.springboot.common.extension.plugin.SmsType;
+import com.springboot.handler.AsyncHandler;
+import com.springboot.utils.RedisLockUtil;
+import io.netty.util.concurrent.Promise;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.api.RLock;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Import;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.lang.reflect.Field;
-import java.sql.DriverManager;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Api(tags = {"工具测试"})
+@Tag(name = "工具测试", description = "工具测试")
 @RestController(value = "/tool")
 @Slf4j
-public class ToolController {
+@Import({ImportAnnotation.ImportOne.class, ImportAnnotation.ImportTwoSelector.class, ImportAnnotation.ImportThreeRegistrar.class})
+public class ToolController implements ApplicationContextAware {
     AtomicInteger counter = new AtomicInteger();
 
     @Autowired
@@ -37,66 +47,126 @@ public class ToolController {
     @Autowired
     private Phone phone;
 
-    @ApiOperation("延迟任务")
+    @Autowired
+    private SmsService smsService;
+
+    @Operation(summary = "延迟任务")
     @PostMapping(value = "/delay/task")
-    public Result<Void> delayTask() {
+    public Result<Void> delayTask(@RequestParam Integer count,@RequestParam Long delayTime ) {
         log.info(JSON.toJSONString(phone));
         log.info(Phone.cache);
-        redisDelayQueue.addQueue(RedisDelayKey.getDelayQueueKey(), new DelayDTO(String.valueOf(counter.incrementAndGet())), 6, TimeUnit.SECONDS);
+        Promise
+        for (Integer i = 0; i < count; i++) {
+            redisDelayQueue.addQueue(RedisDelayKey.DELAY_QUEUE_KEY, new DelayDTO(String.valueOf(counter.incrementAndGet())), delayTime, TimeUnit.SECONDS);
+            //redisDelayQueue.addQueue(RedisDelayKey.DELAY_QUEUE_KEY2, new DelayDTO(String.valueOf(counter.incrementAndGet())), delayTime, TimeUnit.SECONDS);
+            //redisDelayQueue.addQueue(RedisDelayKey.DELAY_QUEUE_KEY3, new DelayDTO(String.valueOf(counter.incrementAndGet())), delayTime, TimeUnit.SECONDS);
+        }
         return ResultUtil.success();
     }
 
-    @ApiOperation("分布式锁")
+    @Operation(summary = "分布式锁")
     @PostMapping(value = "/redis/lock")
-    public Result<Void> redisLock() throws InterruptedException {
-        boolean lock = RedisLockUtil.tryLock("lock", 0, 60);
+    public Result<Void> redisLock() {
+       // boolean lock = RedisLockUtil.tryLock("distribute-lock", 0, 60);
+        boolean lock = RedisLockUtil.tryLock("distribute-lock");
         log.info("线程[{}]获取分布式锁结果:{}", Thread.currentThread().getId(), lock);
         return ResultUtil.success();
     }
 
     @Autowired
-    private ThreadPoolExecutor threadPoolExecutor;
+    private CacheManager cacheManager;
 
-    private static final ThreadLocal<String> THREAD_LOCAL = ThreadLocal.withInitial(() -> "ThreadLocal初始值");
+    @Operation(summary = "缓存")
+    @PostMapping(value = "/cache")
+    public Result<String> cache() {
+        Cache cache = cacheManager.getCache("cache");
+        String value = null;
+        if (cache != null) {
+            value = cache.get("key", () -> {
+                log.info("加载缓存");
+                return "缓存";
+            });
+        }
+        return ResultUtil.success(value);
+    }
 
-    @ApiOperation("测试")
-    @PostMapping(value = "/test")
-    public Result<Void> redisLock(boolean gc) throws InterruptedException {
-        threadPoolExecutor.setCorePoolSize(1000);
-        threadPoolExecutor.execute(() -> test(gc));
+    @Operation(summary = "重定向")
+    @PostMapping(value = "/redirect")
+    public Result<String> redirect(HttpServletResponse response) {
+        try {
+            response.sendRedirect("/cache");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ResultUtil.success("");
+    }
+
+    @Operation(summary = "sms")
+    @PostMapping(value = "/sms")
+    public Result<Void> sms() {
+        SmsRequest smsRequest = SmsRequest.builder().message("你好").smsType(SmsType.ALIYUN).build();
+        smsService.sendSms(smsRequest);
         return ResultUtil.success();
     }
 
-    private void test(boolean gc) {
-        try {
-            THREAD_LOCAL.set(Thread.currentThread().getName());
-            TimeUnit.SECONDS.sleep(30);
-            if (gc) {
-                System.gc();
-                Runtime.getRuntime().gc();
-            }
-            Thread t = Thread.currentThread();
-            Class<? extends Thread> clz = t.getClass();
-            Field field = clz.getDeclaredField("threadLocals");
-            field.setAccessible(true);
-            Object threadLocalMap = field.get(t);
-            Class<?> tlmClass = threadLocalMap.getClass();
-            Field tableField = tlmClass.getDeclaredField("table");
-            tableField.setAccessible(true);
-            Object[] arr = (Object[]) tableField.get(threadLocalMap);
-            for (Object o : arr) {
-                if (o != null) {
-                    Class<?> entryClass = o.getClass();
-                    Field valueField = entryClass.getDeclaredField("value");
-                    Field referenceField = entryClass.getSuperclass().getSuperclass().getDeclaredField("referent");
-                    valueField.setAccessible(true);
-                    referenceField.setAccessible(true);
-                    log.info("弱引用key:[{}],值:[{}]", referenceField.get(o), valueField.get(o));
-                }
-            }
-        } catch (Exception e) {
+    @Autowired
+    ImportAnnotation.ImportOne importOne;
 
-        }
+    @Autowired(required = false)
+    ImportAnnotation.ImportTwo importTwo;
+
+    @Autowired(required = false)
+    ImportAnnotation.ImportThree importThreeb;
+
+    @Operation(summary = "import注解测试")
+    @PostMapping(value = "/import/test")
+    public Result<Void> importTest() {
+        importOne.importOne();
+        importTwo.importOne();
+        importThreeb.importOne();
+        return ResultUtil.success();
     }
 
+//    @Lazy
+//    @Autowired
+//    private TestBeanA testBeanA;
+
+    @Operation(summary = "循环依赖测试")
+    @PostMapping(value = "/cycle/test")
+    public Result<Void> cycle() {
+        TestBeanA testBeanA = applicationContext.getBean(TestBeanA.class);
+        testBeanA.test();
+        return ResultUtil.success();
+    }
+
+    @Operation(summary = "dubbo远程调用")
+    @PostMapping(value = "/dubbo/test")
+    public Result<Void> dubbo() {
+        return ResultUtil.success();
+    }
+
+    @Autowired
+    private AsyncHandler asyncHandler;
+
+    @Operation(summary = "异步调用测试")
+    @PostMapping(value = "/async/test")
+    public Result<Void> async() {
+        asyncHandler.async(0);
+        return ResultUtil.success();
+    }
+
+
+    @Operation(summary = "AOP日志")
+    @PostMapping(value = "/aop/log")
+    public Result<String> log(@RequestParam Long id) {
+        String log = asyncHandler.log(id);
+        return ResultUtil.success(log);
+    }
+
+    private ApplicationContext applicationContext;
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
 }

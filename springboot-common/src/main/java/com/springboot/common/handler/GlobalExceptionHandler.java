@@ -7,8 +7,8 @@ import javax.validation.ConstraintViolationException;
 
 import cn.hutool.json.JSONUtil;
 import com.springboot.common.entity.Result;
-import com.springboot.common.util.ResultUtil;
-import com.springboot.common.exception.ServiceRuntimeException;
+import com.springboot.common.utils.ResultUtil;
+import com.springboot.common.exception.ServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -69,8 +69,8 @@ public class GlobalExceptionHandler {
      * @param e
      * @return
      */
-    @ExceptionHandler(ServiceRuntimeException.class)
-    public Result<Void> handle(ServiceRuntimeException e) {
+    @ExceptionHandler(ServiceException.class)
+    public Result<Void> handle(ServiceException e) {
         log.error("ServiceRuntimeException:", e);
         return ResultUtil.error(e.getResultCode(), e.getMessage());
     }

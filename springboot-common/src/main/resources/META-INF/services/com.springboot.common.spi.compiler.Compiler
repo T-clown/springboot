@@ -1,0 +1,3 @@
+adaptive=com.springboot.common.spi.compiler.support.AdaptiveCompiler
+jdk=com.springboot.common.spi.compiler.support.JdkCompiler
+javassist=com.springboot.common.spi.compiler.support.JavassistCompiler

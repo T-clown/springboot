@@ -2,75 +2,50 @@ server:
   port: 8088
   servlet:
     context-path: /springboot
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 800 #最大工作线程数量
+    min-spare-threads: 20 #最小工作线程数量
+    max-connections: 10000 #一瞬间最大支持的并发的连接数
+    accept-count: 200 #等待队列长度
 
-
+#====================================spring Config===============================================
 
 spring:
   profiles:
     include:
-      mysql,kafka,redis,elasticsearch,hystrix
+      mysql,kafka,redis,hystrix,seata,test
+  main:
+    allow-circular-references: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   servlet:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
   mail:
     username: 414162330@qq.com
-  datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    master: # 主数据源
-      driverClassName: com.p6spy.engine.spy.P6SpyDriver
-      username: root
-      password: root123456
-      url: jdbc:p6spy:mysql://localhost:3306/master?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
-      initial-size: 5
-      min-idle: 5
-      max-active: 20
-      # 配置获取连接等待超时的时间
-      max-wait: 60000
-      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
-      time-between-eviction-runs-millis: 60000
-      # 配置一个连接在池中最小生存的时间，单位是毫秒
-      min-evictable-idle-time-millis: 300000
-      #validationQuery: SELECT 1
-      test-while-idle: true
-      validation-query: SELECT 1 FROM DUAL
-      test-on-borrow: false
-      test-on-return: false
-      # 打开PSCache，并且指定每个连接上PSCache的大小
-      pool-prepared-statements: true
-      max-pool-prepared-statement-per-connection-size: 20
-      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
-      filters: stat,wall,log4j
-      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
-      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
-    slave: # 从数据源
-      driverClassName: com.p6spy.engine.spy.P6SpyDriver
-      username: root
-      password: root123456
-      url: jdbc:p6spy:mysql://localhost:3306/slave?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
-      initial-size: 5
-      min-idle: 5
-      max-active: 20
-      # 配置获取连接等待超时的时间
-      max-wait: 60000
-      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
-      time-between-eviction-runs-millis: 60000
-      # 配置一个连接在池中最小生存的时间，单位是毫秒
-      min-evictable-idle-time-millis: 300000
-      #validationQuery: SELECT 1
-      test-while-idle: true
-      validation-query: SELECT 1 FROM DUAL
-      test-on-borrow: false
-      test-on-return: false
-      # 打开PSCache，并且指定每个连接上PSCache的大小
-      pool-prepared-statements: true
-      max-pool-prepared-statement-per-connection-size: 20
-      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
-      filters: stat,wall,log4j
-      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
-      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+
 mybatis:
   config-location: classpath:/mybatis-config.xml
+  dts:
+    subscribe: springboot_user #接收方
+    tables: springboot_user #发送方
+    #env: dev
+
+#打印sql
+#logging:
+#  level:
+#    com.springboot.dao.generatedMapper.UserDTOMapper.selectByPrimaryKey: trace # 改成你的mapper文件所在包路径
+
+###打印sql
+sqlprinter:
+  show: true
+  format: true
+  filter:
+  # - com.github.dreamroute.sqlprinter.boot.mapper.UserMapper.selectById
+  # - com.github.dreamroute.sqlprinter.boot.mapper.UserMapper.selectAll
 #
 #mybatis:
 #  mapper-locations: classpath:mapper/*.xml
@@ -80,20 +55,7 @@ mybatis:
 #  offsetAsPageNum: true
 #  rowBoundsWithCount: true
 #  reasonable: false
-#zookeeper
-zk:
-  url: localhost:2181
-  timeout: 1000
-  retry: 3
-
-p:
-  name: ${com.properties.name}
-  price: 3999
-com:
-  properties:
-    name: '等闲变却故人心'
-    title: '却道故人心易变'
-
+#====================================management Config===============================================
 management:
   # 端点信息接口使用的端口，为了和主系统接口使用的端口进行分离
   server:
@@ -110,3 +72,15 @@ management:
       exposure:
         include: '*'
       base-path: /actuator
+#====================================gateway Config===============================================
+api:
+  gateway:
+    http:
+      app-name: order
+      version: gray_1.0
+      port: 8088
+      admin-url: 127.0.0.1:9001
+#====================================nacos Config===============================================
+nacos:
+  discovery:
+    server-addr: 127.0.0.1:8848

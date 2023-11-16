@@ -2,7 +2,7 @@ package com.springboot.common.enums;
 
 import java.util.Arrays;
 
-import com.springboot.common.exception.ServiceRuntimeException;
+import com.springboot.common.exception.ServiceException;
 
 public enum CommonYN {
     /**
@@ -24,7 +24,7 @@ public enum CommonYN {
         CommonYN[] types = CommonYN.values();
         return Arrays.stream(types)
             .filter(type -> type.value() == value)
-            .findAny().orElseThrow(() -> new ServiceRuntimeException("无法解析" + value));
+            .findAny().orElseThrow(() -> new ServiceException("无法解析" + value));
     }
 
     public short value() { return value; }

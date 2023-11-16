@@ -15,44 +15,83 @@
 */
 
 SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
+SET
+FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
 -- Table structure for user
 -- ----------------------------
 DROP TABLE IF EXISTS `springboot_user`;
-CREATE TABLE `springboot_user`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `gender` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `birthday` datetime(0) NULL DEFAULT NULL,
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `region` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `status` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `create_time` datetime(0) NULL DEFAULT NULL,
-  `update_time` datetime(0) NULL DEFAULT NULL,
-  `is_deleted` smallint(5) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
-
-SET FOREIGN_KEY_CHECKS = 1;
-
-
-
-create table if not exists master.springboot_user
+CREATE TABLE `springboot_user`
 (
-	id int auto_increment
-		primary key,
-	username varchar(255) null,
-	gender varchar(25) null,
-	birthday datetime null,
-	email varchar(255) null,
-	phone varchar(255) null,
-	create_time datetime null,
-	update_time datetime null,
-	is_deleted smallint null,
-	region varchar(20) null,
-	status smallint null
+    `id`          bigint(11) NOT NULL COMMENT '主键',
+    `username`    varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `gender`      varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NOT NULL DEFAULT 'MALE' COMMENT '性别',
+    `birthday`    datetime(0) DEFAULT NULL COMMENT '生日',
+    `email`       varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci          DEFAULT NULL COMMENT '邮箱',
+    `phone`       varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '手机号',
+    `region`      varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'CHINA' COMMENT '区域',
+    `status`      varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NOT NULL DEFAULT 'ENABLED' COMMENT '状态',
+    `create_time` datetime(0) NOT NULL DEFAULT NOW(),
+    `update_time` datetime(0) NOT NULL DEFAULT NOW(),
+    `is_deleted`  smallint(5) NOT NULL DEFAULT 0,
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT '用户表' ROW_FORMAT = Dynamic ;
+
+SET
+FOREIGN_KEY_CHECKS = 1;
+
+drop table `global_table`;
+create table `global_table`
+(
+    `xid`                       varchar(128) not null,
+    `transaction_id`            bigint,
+    `status`                    tinyint      not null,
+    `application_id`            varchar(64),
+    `transaction_service_group` varchar(64),
+    `transaction_name`          varchar(128),
+    `timeout`                   int,
+    `begin_time`                bigint,
+    `application_data`          varchar(2000),
+    `gmt_create`                datetime,
+    `gmt_modified`              datetime,
+    primary key (`xid`),
+    key                         `idx_gmt_modified_status` (`gmt_modified`, `status`),
+    key                         `idx_transaction_id` (`transaction_id`)
 );
 
+-- the table to store BranchSession data
+drop table `branch_table`;
+create table `branch_table`
+(
+    `branch_id`         bigint       not null,
+    `xid`               varchar(128) not null,
+    `transaction_id`    bigint,
+    `resource_group_id` varchar(128),
+    `resource_id`       varchar(256),
+    `lock_key`          varchar(256),
+    `branch_type`       varchar(8),
+    `status`            tinyint,
+    `client_id`         varchar(64),
+    `application_data`  varchar(2000),
+    `gmt_create`        datetime,
+    `gmt_modified`      datetime,
+    primary key (`branch_id`),
+    key                 `idx_xid` (`xid`)
+);
+
+-- the table to store lock data
+drop table `lock_table`;
+create table `lock_table`
+(
+    `row_key`        varchar(128) not null,
+    `xid`            varchar(128),
+    `transaction_id` long,
+    `branch_id`      long,
+    `resource_id`    varchar(256),
+    `table_name`     varchar(64),
+    `pk`             varchar(128),
+    `gmt_create`     datetime,
+    `gmt_modified`   datetime,
+    primary key (`row_key`)
+);

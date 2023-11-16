@@ -5,6 +5,9 @@ import java.io.Serializable;
 import com.springboot.common.enums.ResultCode;
 import lombok.Data;
 
+/**
+ * @author 666
+ */
 public class Result<T> implements Serializable {
 
     private static final long serialVersionUID = 1696194043024336235L;
@@ -28,7 +31,7 @@ public class Result<T> implements Serializable {
     }
 
     public Result(ResultCode resultCode) {
-        this(resultCode.getCode(), resultCode.getMessage(),null);
+        this(resultCode.getCode(), resultCode.getMessage(), null);
     }
 
     public Result(ResultCode resultCode, T data) {

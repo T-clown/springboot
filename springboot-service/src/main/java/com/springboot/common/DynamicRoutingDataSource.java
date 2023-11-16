@@ -12,7 +12,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.pool.DruidDataSourceFactory;
 import com.alibaba.fastjson.JSON;
 
-import com.springboot.common.exception.ServiceRuntimeException;
+import com.springboot.common.exception.ServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
@@ -95,7 +95,7 @@ public class DynamicRoutingDataSource extends AbstractRoutingDataSource {
                 dataSourceMap.get(DruidDataSourceFactory.PROP_PASSWORD));
         } catch (Exception e) {
             log.error("数据源连接失败，dataSource:{}", JSON.toJSONString(dataSourceMap));
-            throw new ServiceRuntimeException("数据源连接失败");
+            throw new ServiceException("数据源连接失败");
         } finally {
             try {
                 if (connection != null) { connection.close(); }

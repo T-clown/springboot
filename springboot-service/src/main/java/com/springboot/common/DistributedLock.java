@@ -13,6 +13,8 @@ public interface DistributedLock {
 
     RLock lock(String lockKey, TimeUnit unit, int timeout);
 
+    boolean tryLock(String lockKey);
+
     boolean tryLock(String lockKey, TimeUnit unit, int waitTime, int leaseTime);
 
     boolean tryLock(String lockKey, TimeUnit unit, int leaseTime);

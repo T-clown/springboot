@@ -2,11 +2,11 @@ package com.springboot.service.impl;
 
 import java.io.File;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 
 import cn.hutool.core.util.ArrayUtil;
 import com.springboot.service.MailService;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -20,6 +20,7 @@ public class MailServiceImpl implements MailService {
 
     @Autowired(required = false)
     private JavaMailSender mailSender;
+
     @Value("${spring.mail.username}")
     private String from;
 

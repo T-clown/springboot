@@ -1,6 +1,6 @@
 package com.springboot.config;
 
-import com.springboot.aop.Advice;
+import com.springboot.common.aop.Advice;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class InterfaceAopConfig {
 
-    public static final String execution = "@annotation(com.springboot.annotation.Pointcut)";
+    public static final String execution = "@annotation(com.springboot.common.aop.annotation.PrintLog)";
 
     @Bean
     public DefaultPointcutAdvisor defaultPointcutAdvisor2() {

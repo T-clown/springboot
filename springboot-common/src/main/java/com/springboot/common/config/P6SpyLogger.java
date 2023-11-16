@@ -12,7 +12,7 @@ public class P6SpyLogger implements MessageFormattingStrategy {
     @Override
     public String formatMessage(int connectionId, String execTime, long elapsed, String category, String preparedSql,
                                 String sql, String url) {
-       // return String.format(message, execTime, elapsed, sql, url);
+        //return String.format(message, execTime, elapsed, sql, url);
         return null;
     }
 }

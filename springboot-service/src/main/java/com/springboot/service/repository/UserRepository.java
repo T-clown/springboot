@@ -1,5 +1,6 @@
 package com.springboot.service.repository;
 
+import cn.hutool.core.util.IdUtil;
 import com.github.pagehelper.PageHelper;
 import com.springboot.common.entity.Page;
 import com.springboot.common.entity.PageResult;
@@ -9,13 +10,12 @@ import com.springboot.dao.dto.UserDTOExample;
 import com.springboot.dao.dto.UserDTOKey;
 import com.springboot.dao.extendedMapper.UserMapper;
 import com.springboot.dao.generatedMapper.UserDTOMapper;
-import com.springboot.entity.UserQueryRequest;
+import com.springboot.domain.entity.UserQueryRequest;
+import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.Resource;
-import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -27,15 +27,19 @@ public class UserRepository {
     @Autowired
     private UserMapper userMapper;
 
-    public void addUser(UserDTO userDTO) {
-        userMapper.insert(Collections.singletonList(userDTO));
+    public Long addUser(UserDTO userDTO) {
+        if(userDTO.getId()==null){
+            userDTO.setId(IdUtil.getSnowflakeNextId());
+        }
+        userDTOMapper.insertSelective(userDTO);
+        return userDTO.getId();
     }
 
     public void addUser(List<UserDTO> userDTO) {
         userMapper.insert(userDTO);
     }
 
-    public UserDTO getById(int id) {
+    public UserDTO getById(Long id) {
         UserDTOKey key = new UserDTOKey();
         key.setId(id);
         return userDTOMapper.selectByPrimaryKey(key);
@@ -45,7 +49,7 @@ public class UserRepository {
 
     }
 
-    public void delete(Integer id) {
+    public void delete(Long id) {
         UserDTO userDTO = new UserDTO();
         userDTO.setId(id);
         userDTO.setIsDeleted(CommonYN.YES.value());

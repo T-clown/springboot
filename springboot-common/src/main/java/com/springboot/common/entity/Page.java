@@ -2,9 +2,9 @@ package com.springboot.common.entity;
 
 public class Page {
 
-    private Integer pageNum=1;
+    private Integer pageNum = 1;
 
-    private Integer pageSize=10;
+    private Integer pageSize = 10;
 
     public Page() {
     }

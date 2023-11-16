@@ -2,13 +2,11 @@ package com.springboot.statemachine;
 
 import java.util.Objects;
 
-import com.springboot.common.exception.ServiceRuntimeException;
+import com.springboot.common.exception.ServiceException;
 import com.springboot.dao.dto.UserDTO;
-import com.springboot.service.UserService;
 import com.springboot.service.repository.UserRepository;
 import com.springboot.statemachine.entity.StatusEnum;
 import com.springboot.statemachine.entity.StudentTrigger;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -35,7 +33,7 @@ public class StudentStateMachineEngine implements ApplicationContextAware {
     }
 
 
-    public UserDTO fire(int id, StudentTrigger trigger, StateMachineContext context) {
+    public UserDTO fire(Long id, StudentTrigger trigger, StateMachineContext context) {
         UserDTO UserDTO = userService.getById(id);
         if (Objects.isNull(UserDTO)) {
             throw new RuntimeException("无此学生");
@@ -57,7 +55,7 @@ public class StudentStateMachineEngine implements ApplicationContextAware {
         try {
             stateMachine.fire(trigger, context);
         } catch (Exception e) {
-            throw new ServiceRuntimeException();
+            throw new ServiceException();
         }
         return UserDTO;
     }

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- https://blog.csdn.net/HXNLYW/article/details/103069026
+ * https://blog.csdn.net/HXNLYW/article/details/103069026
  */
 @Configuration
 public class RedissonConfig {
@@ -26,6 +26,9 @@ public class RedissonConfig {
     public RedissonClient redissonClient() {
 
         Config config = new Config();
+        //分布式锁watchdog模式超时时间设置，默认是30秒
+        //watchdog后台线程会每隔lockWatchdogTimeout/3的时间去重置超时时间
+        config.setLockWatchdogTimeout(60 * 1000);
         //单节点
         config.useSingleServer().setAddress("redis://" + host + ":" + port).setDatabase(0);
 

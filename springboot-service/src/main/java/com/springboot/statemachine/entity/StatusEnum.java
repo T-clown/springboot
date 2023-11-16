@@ -1,10 +1,6 @@
 package com.springboot.statemachine.entity;
 
 
-/**
- * @author lbwwz
- */
-
 public enum StatusEnum {
     /**
      *

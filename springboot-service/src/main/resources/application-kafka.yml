@@ -21,3 +21,5 @@ spring:
       concurrency: 5
       # 手动提交
       ack-mode: manual_immediate
+    topics:
+      dts: data_sync

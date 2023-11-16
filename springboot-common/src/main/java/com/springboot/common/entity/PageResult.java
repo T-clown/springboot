@@ -30,7 +30,7 @@ public class PageResult<T> extends PageSerializable<T> {
 
     }
 
-    public static <T> PageResult<T> of(List<T> list) {
+    public static <T> PageResult<T> of(List<? extends T> list) {
         return new PageResult(list);
     }
 

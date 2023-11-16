@@ -1,1 +1,2 @@
 #org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.starter.AutoConfiguration
+org.springframework.context.ApplicationContextInitializer=com.springboot.common.extension.TestApplicationContextInitializer

@@ -8,13 +8,14 @@ import java.util.concurrent.ThreadPoolExecutor.AbortPolicy;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.annotation.Resource;
-import javax.servlet.AsyncContext;
-import javax.servlet.AsyncEvent;
-import javax.servlet.AsyncListener;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.AsyncEvent;
+import jakarta.servlet.AsyncListener;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +33,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 /**
  * https://www.cnblogs.com/baixianlong/p/10661591.html
  */
+@Tag(name = "异步执行测试", description = "异步执行测试")
 @Slf4j
 @RestController
 public class AsyncController {
@@ -126,13 +128,13 @@ public class AsyncController {
     public class RequestAsyncPoolConfig implements WebMvcConfigurer {
 
         @Resource
-        private ThreadPoolTaskExecutor myThreadPoolTaskExecutor;
+        private ThreadPoolTaskExecutor asyncTaskExecutor;
 
         @Override
         public void configureAsyncSupport(final AsyncSupportConfigurer configurer) {
             //处理 callable超时
             configurer.setDefaultTimeout(60 * 1000);
-            configurer.setTaskExecutor(myThreadPoolTaskExecutor);
+            configurer.setTaskExecutor(asyncTaskExecutor);
             configurer.registerCallableInterceptors(timeoutCallableProcessingInterceptor());
         }
 

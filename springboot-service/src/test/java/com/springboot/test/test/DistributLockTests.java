@@ -5,8 +5,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-import com.springboot.annotation.ZkLock;
-import com.springboot.aop.ZkLockAspect;
+import com.springboot.common.aop.ZkLockAspect;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;

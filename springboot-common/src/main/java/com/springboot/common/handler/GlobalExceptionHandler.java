@@ -7,8 +7,8 @@ import javax.validation.ConstraintViolationException;
 
 import cn.hutool.json.JSONUtil;
 import com.springboot.common.entity.Result;
-import com.springboot.common.util.ResultUtil;
-import com.springboot.common.exception.ServiceRuntimeException;
+import com.springboot.common.utils.ResultUtil;
+import com.springboot.common.exception.ServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * 全局异常拦截
+ * @author ikun
  */
 @Slf4j
 @RestControllerAdvice
@@ -28,7 +29,7 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ExceptionHandler(value = Exception.class)
-    public Result<String> handle(Exception e) {
+    public Result<Void> handle(Exception e) {
         log.error("Unknown error :", e);
         return ResultUtil.unknownError(e.getMessage());
     }
@@ -38,7 +39,7 @@ public class GlobalExceptionHandler {
      * 实体参数校验
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Result handle(MethodArgumentNotValidException e) {
+    public Result<Void> handle(MethodArgumentNotValidException e) {
         Map<String, String> errors = new HashMap<>();
         e.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
@@ -57,7 +58,7 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ExceptionHandler(ConstraintViolationException.class)
-    public Result handle(ConstraintViolationException e) {
+    public Result<Void> handle(ConstraintViolationException e) {
         log.error("Single Parameter error:", e);
         return ResultUtil.methodArgumentError(e.getMessage());
     }
@@ -68,8 +69,8 @@ public class GlobalExceptionHandler {
      * @param e
      * @return
      */
-    @ExceptionHandler(ServiceRuntimeException.class)
-    public Result handle(ServiceRuntimeException e) {
+    @ExceptionHandler(ServiceException.class)
+    public Result<Void> handle(ServiceException e) {
         log.error("ServiceRuntimeException:", e);
         return ResultUtil.error(e.getResultCode(), e.getMessage());
     }

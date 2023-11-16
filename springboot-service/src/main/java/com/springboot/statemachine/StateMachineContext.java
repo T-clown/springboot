@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 import com.springboot.dao.dto.UserDTO;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.redisson.api.RLock;
 import org.springframework.transaction.TransactionStatus;
 
@@ -17,15 +19,21 @@ public class StateMachineContext {
     private String failReason;
     private Operator operator;
 
+    @Getter
     public enum OperateRole {
+        /**
+         * 操作角色
+         */
         TEACHER,
         STUDENT
     }
-    @Data
+
+    @Getter
+    @Setter
     public static class Operator {
-        OperateRole operateRole;
-        String operatorName;
-        int operatorId;
-        String note;
+        private OperateRole operateRole;
+        private String operatorName;
+        private int operatorId;
+        private String note;
     }
 }

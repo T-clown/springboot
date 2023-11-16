@@ -1,0 +1,18 @@
+#====================================Dubbo config===============================================
+dubbo:
+  application:
+    id: springboot
+    name: springboot
+    qosEnable: false
+  protocol:
+    id: dubbo
+    name: dubbo
+    port: 20888
+  registry:
+    id: springboot-registry
+    address: nacos://127.0.0.1:8848
+  config-center:
+    address: nacos://127.0.0.1:8848
+  metadata-report:
+    address: nacos://127.0.0.1:8848
+

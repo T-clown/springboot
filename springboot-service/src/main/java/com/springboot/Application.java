@@ -6,6 +6,7 @@ import com.github.dreamroute.sqlprinter.starter.anno.EnableSQLPrinter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.ibatis.executor.SimpleExecutor;
+import org.apache.ibatis.plugin.InterceptorChain;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,6 +15,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -27,7 +29,7 @@ import java.net.UnknownHostException;
 //@EnableWebMvc
 //@EnableHystrix
 //@ServletComponentScan
-@EnableSQLPrinter
+//@EnableSQLPrinter
 @NacosPropertySource(dataId = "springboot", autoRefreshed = true)
 @EnableDynamicThreadPool
 @EnableDubbo(scanBasePackages = "com.springboot.client")
@@ -55,7 +57,8 @@ public class Application {
         //ConfigurableApplicationContext application=SpringApplication.run(Knife4jSpringBootDemoApplication.class, args);
         Environment env = application.getEnvironment();
         log.info("""
-                        ----------------------------------------------------------
+                        
+                      \n----------------------------------------------------------
                         \tApplication '{}' is running! Access URLs:
                         \tLocal: \t\thttp://localhost:{}
                         \tExternal: \thttp://{}:{}
@@ -69,7 +72,7 @@ public class Application {
                 env.getProperty("server.port"), env.getProperty("server.servlet.context-path"));
 
         log.info("""
-                ----------------------------------------------------------
+               \n----------------------------------------------------------
                 \tnacos地址:{}
                 ----------------------------------------------------------
                 """, "http://localhost:8848/nacos");

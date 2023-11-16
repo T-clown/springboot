@@ -8,6 +8,7 @@ import java.util.concurrent.ThreadPoolExecutor.AbortPolicy;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 
 import jakarta.servlet.AsyncContext;
@@ -32,6 +33,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 /**
  * https://www.cnblogs.com/baixianlong/p/10661591.html
  */
+@Tag(name = "异步执行测试", description = "异步执行测试")
 @Slf4j
 @RestController
 public class AsyncController {

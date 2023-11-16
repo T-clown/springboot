@@ -19,6 +19,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
@@ -50,12 +51,13 @@ public class ToolController implements ApplicationContextAware {
     @Autowired
     private SmsService smsService;
 
+
     @Operation(summary = "延迟任务")
     @PostMapping(value = "/delay/task")
     public Result<Void> delayTask(@RequestParam Integer count,@RequestParam Long delayTime ) {
         log.info(JSON.toJSONString(phone));
         log.info(Phone.cache);
-        Promise
+
         for (Integer i = 0; i < count; i++) {
             redisDelayQueue.addQueue(RedisDelayKey.DELAY_QUEUE_KEY, new DelayDTO(String.valueOf(counter.incrementAndGet())), delayTime, TimeUnit.SECONDS);
             //redisDelayQueue.addQueue(RedisDelayKey.DELAY_QUEUE_KEY2, new DelayDTO(String.valueOf(counter.incrementAndGet())), delayTime, TimeUnit.SECONDS);

@@ -18,34 +18,18 @@ import java.util.List;
 @Component
 public class TransactionListener {
 
-    public static class UserTransactionEvent extends ApplicationEvent {
-        private String username;
-
-        public UserTransactionEvent(Object source, String username) {
-            super(source);
-            this.username = username;
-        }
-
-        public String getUserName() {
-            return username;
-        }
-
-        public void setUserName(String username) {
-            this.username = username;
-        }
-    }
     @Autowired
     private UserRepository userRepository;
 
-    public void getUser(String username){
-        UserQueryRequest request=new UserQueryRequest();
+    public void getUser(String username) {
+        UserQueryRequest request = new UserQueryRequest();
         request.setUsername(username);
         List<UserDTO> list = userRepository.list(request);
         log.info("添加用户:{}", JSON.toJSONString(list));
     }
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-    public void onUnitPracticeEvent(UserTransactionEvent event) {
+    public void onAddUserEvent(UserTransactionEvent event) {
         String username = event.getUserName();
         getUser(username);
     }

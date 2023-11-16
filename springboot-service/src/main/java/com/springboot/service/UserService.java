@@ -37,6 +37,5 @@ public interface UserService {
 
     List<User> list(UserQueryRequest request);
 
-
     PageResult<User> page(UserQueryRequest request, Page page);
 }

@@ -22,12 +22,12 @@ import java.time.LocalDateTime;
 public class UpdateUserRequest {
     @NotNull(message = "id不能为空")
     @PositiveOrZero(message = "不能为负数")
-    private Integer id;
+    private Long id;
     /**
      * 姓名
      */
     @NotBlank(message = "姓名不能为空")
-    @Length(min = 1,max = 10, message = "length太大")
+    //@Length(min = 1,max = 10, message = "length太大")
     @Size(min = 1,max = 50,message = "size太大")
     private String username;
 
@@ -50,6 +50,7 @@ public class UpdateUserRequest {
     private GenderType gender;
 
     @Email(message = "邮箱格式错误")
+    @NotBlank(message = "邮箱不能为空")
     private String email;
 
     @Region(message = "region值不在范围内")

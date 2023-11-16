@@ -1,6 +1,8 @@
 package com.springboot.utils.excel.poi;
 
 import cn.hutool.core.util.RandomUtil;
+import com.alibaba.excel.metadata.data.ReadCellData;
+import com.google.common.collect.Lists;
 import com.springboot.common.enums.ResultCode;
 import com.springboot.common.exception.ServiceException;
 import com.springboot.utils.LocalDateTimeUtil;
@@ -11,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.lang.reflect.Field;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
@@ -86,5 +89,22 @@ public class ExcelUtil {
             log.error("导出失败", e);
             throw new ServiceException(ResultCode.EXCEL_DOWNLOAD_ERROR);
         }
+    }
+
+
+    public static List<Column> getColumns(Class<?> clazz) {
+        Field[] fields = clazz.getDeclaredFields();
+        List<Column> columns = Lists.newArrayList();
+        for (Field field : fields) {
+            ExcelColumn excelColumn = field.getAnnotation(ExcelColumn.class);
+            if (excelColumn != null) {
+                columns.add(new Column(field.getName(), excelColumn.value()));
+            }
+        }
+        return columns;
+    }
+
+    public static void main(String[] args) {
+
     }
 }

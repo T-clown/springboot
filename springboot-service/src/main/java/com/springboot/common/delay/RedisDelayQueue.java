@@ -49,10 +49,10 @@ public class RedisDelayQueue {
      * @return 队列
      */
     RBlockingQueue<String> getBlockingQueue(String queueName) {
-        return blockingQueueMap.computeIfAbsent(queueName, k -> redissonClient.getBlockingQueue(queueName, new StringCodec()));
-//        RBlockingQueue<String> blockingQueue = blockingQueueMap.computeIfAbsent(queueName, k -> redissonClient.getBlockingQueue(queueName, new StringCodec()));
-//        redissonClient.getDelayedQueue(blockingQueue);
-        //return blockingQueue;
+        //return blockingQueueMap.computeIfAbsent(queueName, k -> redissonClient.getBlockingQueue(queueName, new StringCodec()));
+        RBlockingQueue<String> blockingQueue = blockingQueueMap.computeIfAbsent(queueName, k -> redissonClient.getBlockingQueue(queueName, new StringCodec()));
+        redissonClient.getDelayedQueue(blockingQueue);
+        return blockingQueue;
     }
 
     /**

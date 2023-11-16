@@ -1,9 +1,9 @@
 package com.springboot.controller;
 
+import cn.hippo4j.common.web.exception.ServiceException;
 import com.alibaba.fastjson.JSON;
 import com.springboot.common.aop.annotation.DataSource;
 import com.springboot.common.aop.annotation.LockKeyParam;
-import com.springboot.common.DynamicRoutingDataSource;
 import com.springboot.common.HystrixComponent;
 import com.springboot.common.entity.Page;
 import com.springboot.common.entity.PageResult;
@@ -18,9 +18,16 @@ import com.springboot.common.extension.TestFactoryBean;
 import com.springboot.service.TestStrategy;
 import com.springboot.service.UserService;
 import com.springboot.utils.StopWatchUtil;
+import com.springboot.utils.ValidationUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RList;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,7 +41,13 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
+
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
 @Tag(name = "用户管理")
 @Slf4j
 @Validated
@@ -43,9 +56,6 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private DynamicRoutingDataSource dynamicRoutingDataSource;
 
     @Autowired
     DataSourceInfo dataSourceInfo;
@@ -58,6 +68,9 @@ public class UserController {
 
     @Autowired
     private TestStrategy testStrategy;
+
+    @Autowired
+    private RedissonClient redissonSingle;
 
     @PostConstruct
     public void init() {
@@ -88,12 +101,31 @@ public class UserController {
     @DataSource(name = "master")
     @PostMapping("get/{id}")
     protected Result<User> getUserById(@Valid @PathVariable("id") @Min(value = 0, message = "id最小为1") Long id) {
-        log.info("TestFactoryBean类型  {}", testFactoryBean.getClass());
-        log.info("TestFactoryBean2类型  {}", testFactoryBean2.getClass());
+//        log.info("TestFactoryBean类型  {}", testFactoryBean.getClass());
+//        log.info("TestFactoryBean2类型  {}", testFactoryBean2.getClass());
         //User userById = userService.getUserById(id);
-        User userById = testStrategy.test(id);
-        log.info("获取用户,id:{},result:{}", id, JSON.toJSONString(userById));
+//        User userById = testStrategy.test(id);
+//        log.info("获取用户,id:{},result:{}", id, JSON.toJSONString(userById));
+        User userById = getUser("用户");
         return ResultUtil.success(userById);
+    }
+
+    public User getUser(String name) {
+        RList<User> cachedPapers = redissonSingle.getList(name);
+        if (!cachedPapers.isExists()) {
+            UserQueryRequest request = new UserQueryRequest();
+            request.setUsername(name);
+            List<User> papers = userService.list(request);
+            if (papers.isEmpty()) {
+                throw new ServiceException("f");
+            }
+            // 补偿进缓存，提高性能
+            cachedPapers.addAll(papers);
+            cachedPapers.expire(30, TimeUnit.DAYS);
+        }
+        int size = cachedPapers.size();
+        int randomIndex = new Random().nextInt(size);
+        return cachedPapers.get(randomIndex);
     }
 
 
@@ -136,5 +168,15 @@ public class UserController {
     public Result<Boolean> update(@RequestBody @Valid UpdateUserRequest request) throws Exception {
         return ResultUtil.success(userService.update(request));
     }
+
+
+    public static void main(String[] args) {
+
+        UpdateUserRequest request = new UpdateUserRequest();
+        request.setUsername("");
+        request.setAge(25);
+        System.out.println(ValidationUtil.validate(request));
+    }
+
 
 }

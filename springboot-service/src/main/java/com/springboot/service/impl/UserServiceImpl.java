@@ -16,6 +16,7 @@ import com.springboot.domain.entity.UserQueryRequest;
 import com.springboot.service.CallBackService;
 import com.springboot.service.TransactionListener;
 import com.springboot.service.UserService;
+import com.springboot.service.UserTransactionEvent;
 import com.springboot.service.converter.UserConverter;
 import com.springboot.service.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -60,16 +61,16 @@ public class UserServiceImpl implements UserService {
         UserDTO userDTO = new UserDTO();
         BeanUtils.copyProperties(request, userDTO);
         userRepository.addUser(userDTO);
-        applicationEventPublisher.publishEvent(new TransactionListener.UserTransactionEvent("单元评分", request.getUsername()));
-        transactionTemplate.execute(status -> {
-            Long result = 0L;
-            try {
-                result = userRepository.addUser(userDTO);
-            } catch (Exception e) {
-                status.setRollbackOnly();
-            }
-            return result;
-        });
+        applicationEventPublisher.publishEvent(new UserTransactionEvent("单元评分", request.getUsername()));
+//        transactionTemplate.execute(status -> {
+//            Long result = 0L;
+//            try {
+//                result = userRepository.addUser(userDTO);
+//            } catch (Exception e) {
+//                status.setRollbackOnly();
+//            }
+//            return result;
+//        });
         //callBackService.execute(()->threadPoolExecutor.execute(()->asyncLog(request.getUsername())) );
         return true;
     }

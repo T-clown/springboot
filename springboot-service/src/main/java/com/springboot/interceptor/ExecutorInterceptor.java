@@ -14,10 +14,17 @@ import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.support.DefaultSingletonBeanRegistry;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 /**
  * 这里可以定义多个@Signature对多个地方拦截，都用这个拦截器
  * 拦截执行器的方法
+ * 注册拦截器的三种方式：
+ * 1.拦截器上添加@Component注解
+ * 2.通过@Bean注解创建拦截器并交给Spring管理
+ * 3.mybatis的xml配置文件里配置
+ * 坑点：重复配置会多次注册拦截器
  */
 @Slf4j
 @Intercepts({

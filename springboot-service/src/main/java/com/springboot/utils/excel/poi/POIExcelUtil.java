@@ -528,9 +528,12 @@ public class POIExcelUtil {
 
         List<Column> data = new ArrayList<>();
         data.add(new Column("name", "张"));
+
         List<TableCell<Object>> headers = Lists.newArrayList();
-        headers.add(new TableCell<>(0, 1, 0, 0, "姓名"));
-        headers.add(new TableCell<>(0, 0, 1, 2, "测试"));
+//        headers.add(new TableCell<>(0, 1, 0, 0, "姓名1"));
+//        headers.add(new TableCell<>(0, 0, 1, 2, "测试1"));
+        headers.add(new TableCell<>(0, 0, 0, 0, "姓名1"));
+        headers.add(new TableCell<>(0, 0, 1, 1, "测试1"));
         //headers.add(new TableCell<>(0, 0, 3, 4, "hahah"));
         SXSSFWorkbook wb = exportExcel2007(new SXSSFWorkbook(), "学生数据", columns, data, headers);
         try {

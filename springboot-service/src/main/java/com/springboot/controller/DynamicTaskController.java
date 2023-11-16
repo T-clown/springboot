@@ -1,12 +1,15 @@
 package com.springboot.controller;
 
+import com.mysql.cj.jdbc.AbandonedConnectionCleanupThread;
 import com.springboot.task.DynamicTaskService;
 import com.springboot.task.Task;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+@Tag(name = "动态定时任务", description = "动态定时任务")
 @Slf4j
 @RestController
 @RequestMapping("/dynamic/task")
@@ -30,7 +33,6 @@ public class DynamicTaskController {
 
     /**
      * 开启一个动态任务
-     * @param task
      * @return
      */
     @PostMapping("/dynamic")

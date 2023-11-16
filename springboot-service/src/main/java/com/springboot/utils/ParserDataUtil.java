@@ -61,7 +61,7 @@ public class ParserDataUtil {
 
     public static void main(String[] args) throws JsonProcessingException {
         User user=new User();
-        user.setId(1);
+        user.setId(1L);
         user.setUsername("aa");
         String s = OBJECT_MAPPER.writeValueAsString(Collections.singletonList(user));
 

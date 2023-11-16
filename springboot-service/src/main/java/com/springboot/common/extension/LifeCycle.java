@@ -27,6 +27,7 @@ import org.springframework.web.context.ServletContextAware;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.sql.DataSource;
 
 
 /**
@@ -65,7 +66,7 @@ public class LifeCycle implements
         ServletContextAware,
         InitializingBean,
         DestructionAwareBeanPostProcessor,
-        DisposableBean  {
+        DisposableBean {
 
 
     private ClassLoader classLoader;
@@ -147,7 +148,6 @@ public class LifeCycle implements
 //        this.userService = userService;
 //        log.error("第二步：执行LifeCycle的set方法给userService赋值，userService: {}", userService);
 //    }
-
     @Override
     public void setBeanName(String name) {
         log.error("第三步：LifeCycle[BeanNameAware.setBeanName],name:{}", name);
@@ -162,6 +162,9 @@ public class LifeCycle implements
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
+        DataSource dataSource = applicationContext.getBean(DataSource.class);
+        log.info("--------------数据库连接池[{}]--------------------", dataSource.getClass().getName());
+
         log.error("第五步：设置ApplicationContext容器属性，LifeCycle[ApplicationContextAware.setApplicationContext] ,applicationContext:{}", applicationContext.getApplicationName());
     }
 
@@ -190,7 +193,6 @@ public class LifeCycle implements
     public void destroy() {
         log.info("第十一步：LifeCycle[DisposableBean.destroy] ");
     }
-
 
 
 }

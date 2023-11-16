@@ -14,6 +14,9 @@ public class Column {
     /** 列宽 */
     private Integer width;
 
+    public Column() {
+    }
+
     public Column(String key, String name, int width) {
         this.key = key;
         this.name = name;

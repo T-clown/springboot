@@ -4,5 +4,5 @@ public interface UserClientService {
 
     String getUserName(Long userId);
 
-    Long addUser(String userName);
+    void addUser(String userName);
 }

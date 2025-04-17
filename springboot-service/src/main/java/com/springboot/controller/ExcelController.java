@@ -3,29 +3,19 @@ package com.springboot.controller;
 import cn.hutool.poi.excel.ExcelReader;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
-import com.alibaba.fastjson2.JSONArray;
-import com.alibaba.fastjson2.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Lists;
 import com.springboot.common.entity.Result;
 import com.springboot.common.utils.ResultUtil;
-import com.springboot.dao.dto.UserDTO;
-import com.springboot.domain.entity.User;
+import com.springboot.domain.entity.UserDTO;
 import com.springboot.domain.entity.UserQueryRequest;
 import com.springboot.domain.entity.excel.DownloadData;
 import com.springboot.domain.entity.excel.UploadData;
 import com.springboot.service.repository.UserRepository;
-import com.springboot.utils.BeanCopyUtils;
+import com.springboot.utils.PPTToImageUtil;
 import com.springboot.utils.excel.easyexcel.EasyExcelSheet;
 import com.springboot.utils.excel.easyexcel.ExcelUtil;
-import com.springboot.utils.PPTToImageUtil;
-import com.springboot.utils.excel.poi.Column;
-import com.springboot.utils.excel.poi.DownloadExcelSheet;
-import com.springboot.utils.excel.poi.ExcelParser;
-import com.springboot.utils.excel.poi.ExcelSheet;
-import com.springboot.utils.excel.poi.TestData;
+import com.springboot.utils.excel.poi.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
@@ -39,12 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
 
 @Tag(name = "Excel导入导出")
 @Slf4j
@@ -63,7 +48,7 @@ public class ExcelController {
     @PostMapping(value = "/export/user")
     public void exportUser(@RequestBody UserQueryRequest request, HttpServletResponse response) {
         List<UserDTO> userDTOS = userRepository.list(request);
-        List<DownloadData> data = userDTOS.stream().map(x -> BeanCopyUtils.copyProperties(x, DownloadData.class)).collect(Collectors.toList());
+        List<DownloadData> data = null;
         ExcelUtil.exportExcel(response, DownloadData.class, data, "固定表头excel");
     }
 
@@ -131,7 +116,7 @@ public class ExcelController {
 
             excelReader.addHeaderAlias("create_date", "createDate");
             //直接把Excel中的内容映射到实体类中
-            List<User> tests = excelReader.read(0, 0, User.class);
+            List<UserDTO> tests = excelReader.read(0, 0, UserDTO.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -150,8 +135,7 @@ public class ExcelController {
     }
 
     private UserDTO convert(UploadData uploadData) {
-
-        return BeanCopyUtils.copyProperties(uploadData, UserDTO.class);
+        return null;
     }
 
     /**

@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.pool.DruidDataSourceFactory;
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 
 import com.springboot.common.exception.ServiceException;
 import lombok.extern.slf4j.Slf4j;

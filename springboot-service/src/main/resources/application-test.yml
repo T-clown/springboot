@@ -11,3 +11,6 @@ com:
   properties:
     name: '等闲变却故人心'
     title: '却道故人心易变'
+
+test:
+  value: a,b,c

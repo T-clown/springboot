@@ -75,6 +75,12 @@ public class WebConfig implements WebMvcConfigurer {
      */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
+        // Allow cross-origin requests from localhost:3000 to all endpoints
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:3000")
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedHeaders("*")
+                .allowCredentials(true);
         WebMvcConfigurer.super.addCorsMappings(registry);
     }
 

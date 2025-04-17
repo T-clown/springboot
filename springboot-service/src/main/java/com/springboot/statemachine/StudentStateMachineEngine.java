@@ -1,9 +1,7 @@
 package com.springboot.statemachine;
 
-import java.util.Objects;
-
 import com.springboot.common.exception.ServiceException;
-import com.springboot.dao.dto.UserDTO;
+import com.springboot.domain.entity.UserDTO;
 import com.springboot.service.repository.UserRepository;
 import com.springboot.statemachine.entity.StatusEnum;
 import com.springboot.statemachine.entity.StudentTrigger;
@@ -15,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.squirrelframework.foundation.fsm.StateMachineBuilderFactory;
 import org.squirrelframework.foundation.fsm.StateMachineConfiguration;
 import org.squirrelframework.foundation.fsm.UntypedStateMachineBuilder;
+
+import java.util.Objects;
 
 @Service
 public class StudentStateMachineEngine implements ApplicationContextAware {

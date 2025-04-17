@@ -1,9 +1,9 @@
 package com.springboot.statemachine.condition;
 
-import java.math.BigDecimal;
-
-import com.springboot.dao.dto.UserDTO;
+import com.springboot.domain.entity.UserDTO;
 import com.springboot.statemachine.StateMachineContext;
+
+import java.math.BigDecimal;
 
 public class ApplyStatusToSckoolCondition extends AbstractUntypedCondition {
     @Override

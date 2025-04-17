@@ -1,25 +1,28 @@
 package com.springboot.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.springboot.common.entity.Result;
-import com.springboot.common.utils.ResultUtil;
-import com.springboot.controller.cycle.TestBeanA;
-import com.springboot.common.delay.handler.DelayDTO;
+import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson2.JSON;
+import com.google.common.collect.Lists;
 import com.springboot.common.delay.RedisDelayKey;
 import com.springboot.common.delay.RedisDelayQueue;
-import com.springboot.domain.entity.Phone;
+import com.springboot.common.delay.handler.DelayDTO;
+import com.springboot.common.entity.Result;
 import com.springboot.common.extension.ImportAnnotation;
 import com.springboot.common.extension.plugin.SmsRequest;
 import com.springboot.common.extension.plugin.SmsService;
 import com.springboot.common.extension.plugin.SmsType;
+import com.springboot.common.utils.ResultUtil;
+import com.springboot.controller.cycle.TestBeanA;
+import com.springboot.domain.entity.Phone;
+import com.springboot.domain.entity.TreeNodeDTO;
+import com.springboot.domain.entity.TreeNodeEntity;
 import com.springboot.handler.AsyncHandler;
+import com.springboot.service.converter.UserConvert;
 import com.springboot.utils.RedisLockUtil;
-import io.netty.util.concurrent.Promise;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
@@ -32,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -65,6 +69,21 @@ public class ToolController implements ApplicationContextAware {
         }
         return ResultUtil.success();
     }
+
+    @Operation(summary = "拷贝测试")
+    @PostMapping(value = "/mapstruct")
+    public Result<List<TreeNodeDTO>> copy() {
+        TreeNodeEntity v1 = TreeNodeEntity.builder().key("1").value("1").build();
+        TreeNodeEntity v2 = TreeNodeEntity.builder().key("2").value("2").build();
+        v2.setChildren(Lists.newArrayList(v1));
+        TreeNodeEntity v3 = TreeNodeEntity.builder().key("3").value("3").build();
+        v3.setChildren(Lists.newArrayList(v2));
+        List<TreeNodeDTO> convert = UserConvert.INSTANCE.convert(Lists.newArrayList(v3));
+        TreeNodeDTO convert1 = UserConvert.INSTANCE.convert(v3);
+        log.info(JSONUtil.toJsonPrettyStr(convert1));
+        return ResultUtil.success(convert);
+    }
+
 
     @Operation(summary = "分布式锁")
     @PostMapping(value = "/redis/lock")

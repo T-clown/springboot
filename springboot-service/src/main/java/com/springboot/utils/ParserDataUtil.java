@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
-import com.springboot.domain.entity.User;
+import com.springboot.domain.entity.UserDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -60,14 +60,14 @@ public class ParserDataUtil {
     }
 
     public static void main(String[] args) throws JsonProcessingException {
-        User user=new User();
+        UserDTO user=new UserDTO();
         user.setId(1L);
         user.setUsername("aa");
         String s = OBJECT_MAPPER.writeValueAsString(Collections.singletonList(user));
 
-        List<User> users = parseDataArray(s, User.class);
-        List<User> users2 = parseDataArray2(s);
-        List<User> users1 = OBJECT_MAPPER.readValue(s, new TypeReference<>() {});
+        List<UserDTO> users = parseDataArray(s, UserDTO.class);
+        List<UserDTO> users2 = parseDataArray2(s);
+        List<UserDTO> users1 = OBJECT_MAPPER.readValue(s, new TypeReference<>() {});
         Map<String, Object> map = OBJECT_MAPPER.readValue(s, new TypeReference<Map<String,Object>>(){});
         System.out.println();
     }

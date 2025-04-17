@@ -2,7 +2,7 @@ package com.springboot.controller;
 
 import com.springboot.common.entity.Result;
 import com.springboot.common.utils.ResultUtil;
-import com.springboot.domain.entity.User;
+import com.springboot.domain.entity.UserDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -30,9 +30,9 @@ public class OomController {
     @Operation(summary = "大对象")
     @PostMapping("/big/object")
     public Result<Void> bigObject(@RequestParam Long count) {
-        List<User> users = new ArrayList<>();
+        List<UserDTO> users = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            users.add(new User());
+            users.add(new UserDTO());
         }
         return ResultUtil.success();
     }
@@ -76,7 +76,7 @@ public class OomController {
     }
 
 
-    private static final ThreadLocal<User> local = new ThreadLocal<>();
+    private static final ThreadLocal<UserDTO> local = new ThreadLocal<>();
 
     /**
      * @param count
@@ -89,13 +89,13 @@ public class OomController {
 
         for (int i = 0; i < count; i++) {
             new Thread(() -> {
-                local.set(new User());
+                local.set(new UserDTO());
             }).start();
         }
         return ResultUtil.success();
     }
 
-    private static final List<User> list = new ArrayList<>();
+    private static final List<UserDTO> list = new ArrayList<>();
 
     /**
      * java.lang.OutOfMemoryError: Java heap space
@@ -109,7 +109,7 @@ public class OomController {
     public Result<Void> staticValue(@RequestParam Long count) {
 
         for (int i = 0; i < count; i++) {
-            list.add(new User());
+            list.add(new UserDTO());
         }
         return ResultUtil.success();
     }

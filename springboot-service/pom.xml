@@ -14,7 +14,6 @@
 
     <properties>
         <java.version>17</java.version>
-        <janusgraph.version>0.5.2</janusgraph.version>
         <nacos.version>0.2.12</nacos.version>
     </properties>
 
@@ -46,38 +45,42 @@
                     <artifactId>commons-logging</artifactId>
                     <groupId>commons-logging</groupId>
                 </exclusion>
-                <!--                <exclusion>-->
-<!--                    <artifactId>hibernate-validator</artifactId>-->
-<!--                    <groupId>org.hibernate.validator</groupId>-->
-<!--                </exclusion>-->
+                <exclusion>
+                    <artifactId>mybatis-spring</artifactId>
+                    <groupId>org.mybatis</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>mybatis</artifactId>
+                    <groupId>org.mybatis</groupId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
             <groupId>springboot</groupId>
             <artifactId>springboot-client</artifactId>
         </dependency>
-        <dependency>
-            <groupId>springboot</groupId>
-            <artifactId>springboot-dao</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>caffeine</artifactId>
-                    <groupId>com.github.ben-manes.caffeine</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>jackson-databind</artifactId>
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>jedis</artifactId>
-                    <groupId>redis.clients</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>mysql-connector-java</artifactId>
-                    <groupId>mysql</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>springboot</groupId>-->
+<!--            <artifactId>springboot-dao</artifactId>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <artifactId>caffeine</artifactId>-->
+<!--                    <groupId>com.github.ben-manes.caffeine</groupId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <artifactId>jackson-databind</artifactId>-->
+<!--                    <groupId>com.fasterxml.jackson.core</groupId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <artifactId>jedis</artifactId>-->
+<!--                    <groupId>redis.clients</groupId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <artifactId>mysql-connector-java</artifactId>-->
+<!--                    <groupId>mysql</groupId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
 
         <!-- hystrix依赖， 处理服务灾难雪崩效应的。 -->
 <!--        <dependency>-->
@@ -170,14 +173,14 @@
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-spring-boot-starter</artifactId>
-            <version>3.2.0</version>
+            <version>3.2.15</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.api.gateway</groupId>
-            <artifactId>gateway-spring-boot-starter</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.api.gateway</groupId>-->
+<!--            <artifactId>gateway-spring-boot-starter</artifactId>-->
+<!--            <version>1.0.0-SNAPSHOT</version>-->
+<!--        </dependency>-->
 
         <!--nacos配置中心-->
         <dependency>
@@ -210,6 +213,22 @@
             <groupId>com.github.dreamroute</groupId>
             <artifactId>sqlprinter-spring-boot-starter</artifactId>
             <version>2.3.9-RELEASE</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>mybatis</artifactId>
+                    <groupId>org.mybatis</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>mybatis-spring-boot-starter</artifactId>
+                    <groupId>org.mybatis.spring.boot</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.5.5.Final</version>
+            <scope>compile</scope>
         </dependency>
 
     </dependencies>

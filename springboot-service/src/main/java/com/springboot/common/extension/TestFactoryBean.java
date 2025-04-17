@@ -1,6 +1,6 @@
 package com.springboot.common.extension;
 
-import com.springboot.domain.entity.User;
+import com.springboot.domain.entity.UserDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.FactoryBean;
@@ -19,18 +19,18 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public class TestFactoryBean implements FactoryBean<User>, InitializingBean {
-    private User user;
+public class TestFactoryBean implements FactoryBean<UserDTO>, InitializingBean {
+    private UserDTO user;
 
     @Override
-    public User getObject() throws Exception {
+    public UserDTO getObject() throws Exception {
         log.error("[FactoryBean] getObject");
         return user;
     }
 
     @Override
     public Class<?> getObjectType() {
-        return User.class;
+        return UserDTO.class;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class TestFactoryBean implements FactoryBean<User>, InitializingBean {
         this.user = createUser();
     }
 
-    private User createUser() {
-        return new User();
+    private UserDTO createUser() {
+        return new UserDTO();
     }
 }

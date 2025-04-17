@@ -1,7 +1,5 @@
 package com.springboot.common.aop;
 
-import java.lang.reflect.Method;
-
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
@@ -9,9 +7,12 @@ import org.springframework.aop.AfterReturningAdvice;
 import org.springframework.aop.MethodBeforeAdvice;
 import org.springframework.aop.ThrowsAdvice;
 
+import java.lang.reflect.Method;
+
 /**
  * 基于接口实现AOP
  * 切点配置InterfaceAopConfig
+ * @author macbookpro
  */
 @Slf4j
 public class Advice implements MethodInterceptor, MethodBeforeAdvice, AfterReturningAdvice, ThrowsAdvice {

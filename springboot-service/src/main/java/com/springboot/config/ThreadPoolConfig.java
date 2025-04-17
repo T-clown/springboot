@@ -1,13 +1,5 @@
 package com.springboot.config;
 
-import java.lang.ref.WeakReference;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.ThreadPoolExecutor.AbortPolicy;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,13 +7,23 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.ThreadPoolExecutor.AbortPolicy;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * 线程池配置
+ * @author macbookpro
  */
 @Slf4j
 @Configuration
 @EnableAsync
 public class ThreadPoolConfig {
+
+    public static final String THREAD_POOL_EXECUTOR = "asyncTaskExecutor";
 
     /**
      * 核心线程数（默认线程数）
@@ -46,9 +48,10 @@ public class ThreadPoolConfig {
 
     /**
      * bean的名称，默认为首字母小写的方法名
+     *
      * @return
      */
-    @Bean
+    @Bean(THREAD_POOL_EXECUTOR)
     public ThreadPoolTaskExecutor asyncTaskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(2);
@@ -94,14 +97,14 @@ public class ThreadPoolConfig {
     @Bean
     public ThreadPoolExecutor threadPoolExecutor() {
         ThreadPoolExecutor executor = new ThreadPoolExecutor(CORE_POOL_SIZE, MAX_POOL_SIZE, KEEP_ALIVE_TIME, TimeUnit.SECONDS,
-            new LinkedBlockingQueue<>(QUEUE_CAPACITY), new ThreadFactory() {
+                new LinkedBlockingQueue<>(QUEUE_CAPACITY), new ThreadFactory() {
             private final AtomicInteger threadNumber = new AtomicInteger(1);
             private static final String NAME_PREFIX = "ThreadPoolExecutor-";
 
             @Override
             public Thread newThread(Runnable r) {
                 Thread t = new Thread(Thread.currentThread().getThreadGroup(), r,
-                    NAME_PREFIX + threadNumber.getAndIncrement(), 0);
+                        NAME_PREFIX + threadNumber.getAndIncrement(), 0);
                 //是否守护进程
                 if (t.isDaemon()) {
                     t.setDaemon(false);
@@ -123,7 +126,7 @@ public class ThreadPoolConfig {
 
     @Bean
     public ThreadPoolExecutor asyncExecutor() {
-        return new ThreadPoolExecutor(CORE_POOL_SIZE, MAX_POOL_SIZE , KEEP_ALIVE_TIME, TimeUnit.SECONDS, new LinkedBlockingQueue<>(QUEUE_CAPACITY), new ThreadPoolExecutor.CallerRunsPolicy());
+        return new ThreadPoolExecutor(CORE_POOL_SIZE, MAX_POOL_SIZE, KEEP_ALIVE_TIME, TimeUnit.SECONDS, new LinkedBlockingQueue<>(QUEUE_CAPACITY), new ThreadPoolExecutor.CallerRunsPolicy());
     }
 
 

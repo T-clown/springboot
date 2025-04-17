@@ -1,8 +1,7 @@
 package com.springboot.statemachine;
 
 import com.springboot.common.DistributedLock;
-import com.springboot.dao.dto.UserDTO;
-import com.springboot.service.UserService;
+import com.springboot.domain.entity.UserDTO;
 import com.springboot.service.repository.UserRepository;
 import com.springboot.statemachine.entity.StatusEnum;
 import com.springboot.statemachine.entity.StudentTrigger;
@@ -17,11 +16,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.squirrelframework.foundation.exception.TransitionException;
 import org.squirrelframework.foundation.fsm.UntypedStateMachine;
-import org.squirrelframework.foundation.fsm.annotation.ListenerOrder;
-import org.squirrelframework.foundation.fsm.annotation.OnTransitionBegin;
-import org.squirrelframework.foundation.fsm.annotation.OnTransitionComplete;
-import org.squirrelframework.foundation.fsm.annotation.OnTransitionEnd;
-import org.squirrelframework.foundation.fsm.annotation.OnTransitionException;
+import org.squirrelframework.foundation.fsm.annotation.*;
 
 /**
  * 持久化模块

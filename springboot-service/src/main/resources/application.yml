@@ -14,7 +14,7 @@ server:
 spring:
   profiles:
     include:
-      mysql,kafka,redis,hystrix,seata,test
+      mysql,kafka,redis,test,dubbo
   main:
     allow-circular-references: true
   mvc:
@@ -28,6 +28,7 @@ spring:
     username: 414162330@qq.com
 
 mybatis:
+  mapper-locations: classpath*:mapper/*.xml #classpath后添加你xml文件的目录
   config-location: classpath:/mybatis-config.xml
   dts:
     subscribe: springboot_user #接收方
@@ -84,3 +85,15 @@ api:
 nacos:
   discovery:
     server-addr: 127.0.0.1:8848
+
+
+#mybatis-plus:
+#  # 扫描 mapper.xml
+#  mapper-locations: classpath:/mapper/*Mapper.xml
+#  configuration:
+#    jdbc-type-for-null: 'null'
+
+# Mybatis log plugin 插件输出日志配置
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

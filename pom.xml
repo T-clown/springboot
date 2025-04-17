@@ -18,7 +18,7 @@
     </parent>
 
     <modules>
-        <module>springboot-dao</module>
+<!--        <module>springboot-dao</module>-->
         <module>springboot-service</module>
         <module>springboot-common</module>
         <module>springboot-client</module>
@@ -43,11 +43,11 @@
                 <artifactId>springboot-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
-                <groupId>springboot</groupId>
-                <artifactId>springboot-dao</artifactId>
-                <version>${project.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>springboot</groupId>-->
+<!--                <artifactId>springboot-dao</artifactId>-->
+<!--                <version>${project.version}</version>-->
+<!--            </dependency>-->
             <dependency>
                 <groupId>springboot</groupId>
                 <artifactId>springboot-service</artifactId>
@@ -74,12 +74,7 @@
                 <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
                 <version>2.2.3.RELEASE</version>
             </dependency>
-            <!-- mybatis自动生成代码 -->
-            <dependency>
-                <groupId>org.mybatis.generator</groupId>
-                <artifactId>mybatis-generator-core</artifactId>
-                <version>1.4.0</version>
-            </dependency>
+
 
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
@@ -100,10 +95,7 @@
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.mybatis.generator</groupId>
-            <artifactId>mybatis-generator-core</artifactId>
-        </dependency>
+
         <!--核心模块，包括自动配置支持、日志和YAML-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -147,9 +139,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>3.0.2</version>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+<!--            <version>3.5.7-SNAPSHOT</version>-->
         </dependency>
 
         <dependency>

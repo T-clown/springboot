@@ -6,7 +6,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 
 import cn.hutool.json.JSONUtil;
-import com.springboot.domain.entity.User;
+import com.springboot.domain.entity.UserDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,7 +45,7 @@ public class UserControllerTest {
 
     @Test
     public void mvc() throws Exception {
-        User user = new User();
+        UserDTO user = new UserDTO();
         user.setUsername("SnailClimb");
         user.setAge(11);
         user.setEmail("82938390@qq.com");
@@ -70,12 +70,12 @@ public class UserControllerTest {
     public void checkManually() {
         //ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         //Validator validator = factory.getValidator();
-        User user = new User();
+        UserDTO user = new UserDTO();
         user.setUsername("clown");
         user.setAge(8);
         user.setEmail("82938390@qq.com");
-        Set<ConstraintViolation<User>> violations = validator.validate(user);
-        for (ConstraintViolation<User> constraintViolation : violations) {
+        Set<ConstraintViolation<UserDTO>> violations = validator.validate(user);
+        for (ConstraintViolation<UserDTO> constraintViolation : violations) {
             log.info(constraintViolation.getMessage());
         }
     }

@@ -1,6 +1,6 @@
 package com.springboot.common;
 
-import com.springboot.domain.entity.User;
+import com.springboot.domain.entity.UserDTO;
 import com.springboot.domain.entity.UserQueryRequest;
 import com.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,18 +31,18 @@ public class HystrixComponent {
      * @return
      */
     //@HystrixCommand(fallbackMethod="fallback")
-    public List<User> getUsers() {
+    public List<UserDTO> getUsers() {
         //远程调用其他服务
-        List<User> result = userService.list(new UserQueryRequest());
+        List<UserDTO> result = userService.list(new UserQueryRequest());
         return result;
     }
 
     /**
      * fallback方法。本地定义的。用来处理远程服务调用错误时，返回的基础数据。
      */
-    private List<User> fallback(){
-        List<User> result = new ArrayList<>();
-        User user=new User();
+    private List<UserDTO> fallback(){
+        List<UserDTO> result = new ArrayList<>();
+        UserDTO user=new UserDTO();
         user.setUsername("降级处理");
         return result;
     }

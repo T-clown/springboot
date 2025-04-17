@@ -19,9 +19,9 @@ public class TransactionUtil implements InitializingBean {
 
 
     @PostConstruct
-    public void init(){
+    public void init() {
         log.info("TransactionTemplate初始化");
-        template=transactionTemplate;
+        template = transactionTemplate;
     }
 //    /**
 //     * 加锁调用
@@ -33,6 +33,9 @@ public class TransactionUtil implements InitializingBean {
 //    public static <T> T callLocked(Callable<T> callable, TransactionDefinition definition) {
 //        transactionTemplate.setPropagationBehavior();
 //    }
+
+    public static void execute(){
+    }
 
 
     @Override

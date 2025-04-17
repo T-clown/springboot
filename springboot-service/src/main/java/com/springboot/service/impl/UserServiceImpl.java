@@ -2,23 +2,20 @@ package com.springboot.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
+import com.github.pagehelper.PageInfo;
+import com.springboot.common.TransactionalComponent;
 import com.springboot.common.aop.annotation.LockKeyParam;
 import com.springboot.common.aop.annotation.RedisLock;
-import com.springboot.common.TransactionalComponent;
 import com.springboot.common.entity.Page;
-import com.springboot.common.entity.PageResult;
-import com.springboot.dao.dto.UserDTO;
 import com.springboot.domain.entity.CreateUserRequest;
 import com.springboot.domain.entity.UpdateUserRequest;
-import com.springboot.domain.entity.User;
+import com.springboot.domain.entity.UserDTO;
 import com.springboot.domain.entity.UserQueryRequest;
-import com.springboot.service.CallBackService;
-import com.springboot.service.TransactionListener;
 import com.springboot.service.UserService;
-import com.springboot.service.UserTransactionEvent;
-import com.springboot.service.converter.UserConverter;
+import com.springboot.utils.trransaction.event.UserTransactionEvent;
 import com.springboot.service.repository.UserRepository;
+import com.springboot.utils.trransaction.ExecuteUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +27,11 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.List;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
+/**
+ * @author macbookpro
+ */
 @Slf4j
 @EnableAspectJAutoProxy(exposeProxy = true, proxyTargetClass = true)
 @Service
@@ -40,9 +41,6 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private TransactionalComponent transactionalComponent;
-
-    @Autowired
-    private CallBackService callBackService;
 
     @Autowired
     private ThreadPoolExecutor threadPoolExecutor;
@@ -56,12 +54,18 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean addUser(CreateUserRequest request) {
+    public void addUser(CreateUserRequest request) {
         //TransactionalUtil.transactional(() -> add(request));
         UserDTO userDTO = new UserDTO();
         BeanUtils.copyProperties(request, userDTO);
         userRepository.addUser(userDTO);
-        applicationEventPublisher.publishEvent(new UserTransactionEvent("单元评分", request.getUsername()));
+        ExecuteUtil.executeAfterTransaction(() -> userRepository.execute(userDTO.getUsername()));
+        try {
+            TimeUnit.SECONDS.sleep(10);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        applicationEventPublisher.publishEvent(new UserTransactionEvent("创建用户", request.getUsername()));
 //        transactionTemplate.execute(status -> {
 //            Long result = 0L;
 //            try {
@@ -72,7 +76,6 @@ public class UserServiceImpl implements UserService {
 //            return result;
 //        });
         //callBackService.execute(()->threadPoolExecutor.execute(()->asyncLog(request.getUsername())) );
-        return true;
     }
 
     private void asyncLog(String username) {
@@ -80,7 +83,7 @@ public class UserServiceImpl implements UserService {
         //log(username);;
         UserQueryRequest request = new UserQueryRequest();
         request.setUsername(username);
-        List<User> list = list(request);
+        List<UserDTO> list = list(request);
         log.info("添加用户:{}", JSON.toJSONString(list));
 
     }
@@ -96,16 +99,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     //@Transactional(rollbackFor = Exception.class)
-    public Long add(CreateUserRequest request) {
+    public void add(CreateUserRequest request) {
         UserDTO userDTO = new UserDTO();
         BeanUtils.copyProperties(request, userDTO);
-        return userRepository.addUser(userDTO);
+        userRepository.addUser(userDTO);
     }
 
     @Override
-    public User getUserById(Long id) {
-        UserDTO userDTO = userRepository.getById(id);
-        return UserConverter.convert(userDTO);
+    public UserDTO getUserById(Long id) {
+        return userRepository.getById(id);
     }
 
     @Override
@@ -116,22 +118,21 @@ public class UserServiceImpl implements UserService {
     @RedisLock(key = "user")
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean update(@LockKeyParam(fields = "id") UpdateUserRequest request) {
+    public void update(@LockKeyParam(fields = "id") UpdateUserRequest request) {
         UserDTO userDTO = new UserDTO();
         BeanUtil.copyProperties(request, userDTO, CopyOptions.create().ignoreNullValue());
-        return userRepository.update(userDTO);
+        userRepository.update(userDTO);
     }
 
     @Override
-    public List<User> list(UserQueryRequest request) {
+    public List<UserDTO> list(UserQueryRequest request) {
         List<UserDTO> userDTOS = userRepository.list(request);
-        return JSON.parseArray(JSON.toJSONString(userDTOS), User.class);
+        return JSON.parseArray(JSON.toJSONString(userDTOS), UserDTO.class);
     }
 
     @Override
-    public PageResult<User> page(UserQueryRequest request, Page page) {
-        PageResult<UserDTO> pageResult = userRepository.page(request, page);
-        return UserConverter.convertPageResult(pageResult, UserConverter::convert);
+    public PageInfo<UserDTO> pageQuery(UserQueryRequest request, Page page) {
+        return userRepository.pageQuery(request);
     }
 
 }

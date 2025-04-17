@@ -1,10 +1,10 @@
 package com.springboot.service;
 
+import com.github.pagehelper.PageInfo;
 import com.springboot.common.entity.Page;
-import com.springboot.common.entity.PageResult;
 import com.springboot.domain.entity.CreateUserRequest;
 import com.springboot.domain.entity.UpdateUserRequest;
-import com.springboot.domain.entity.User;
+import com.springboot.domain.entity.UserDTO;
 import com.springboot.domain.entity.UserQueryRequest;
 
 import java.util.List;
@@ -16,16 +16,18 @@ public interface UserService {
      * @param request 用户对象
      * @return 操作结果
      */
-    boolean addUser(CreateUserRequest request);
+    void addUser(CreateUserRequest request);
 
-    Long add(CreateUserRequest request);
+    void add(CreateUserRequest request);
+
     /**
      * 获取用户
      *
      * @param id key值
      * @return 返回结果
      */
-    User getUserById(Long id);
+    UserDTO getUserById(Long id);
+
     /**
      * 删除
      *
@@ -33,9 +35,9 @@ public interface UserService {
      */
     void delete(Long id);
 
-    boolean update(UpdateUserRequest request) throws Exception;
+    void update(UpdateUserRequest request);
 
-    List<User> list(UserQueryRequest request);
+    List<UserDTO> list(UserQueryRequest request);
 
-    PageResult<User> page(UserQueryRequest request, Page page);
+    PageInfo<UserDTO> pageQuery(UserQueryRequest request, Page page);
 }

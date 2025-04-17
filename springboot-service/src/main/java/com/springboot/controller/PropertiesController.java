@@ -1,26 +1,21 @@
 package com.springboot.controller;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.springboot.common.aop.annotation.ImportSelector;
-import com.springboot.common.constants.Constants;
 import com.springboot.common.entity.Result;
 import com.springboot.common.enums.CommonYN;
 import com.springboot.common.utils.ResultUtil;
 import com.springboot.domain.entity.Yellow;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -49,6 +44,15 @@ public class PropertiesController {
     @Value("${p.cachename}")
     private String cacheName;
 
+    @Value("${test.value}")
+    private Set<String> valueSet;
+    @Value("${test.value}")
+    private List<String> valueList;
+    @Value("${test.value}")
+    private String[] valueArray;
+    @Value("${test.value}")
+    private String value;
+
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
@@ -63,18 +67,34 @@ public class PropertiesController {
 
     @PostMapping("/test")
     public Result<Void> test(@RequestBody List<Long> ids) {
-        log.info(cacheName);
+        log.info(value);
+        log.info(JSON.toJSONString(valueArray));
+        log.info(JSON.toJSONString(valueList));
+        log.info(JSON.toJSONString(valueSet));
         log.info(JSON.toJSONString(ids));
         return ResultUtil.success();
     }
 
     @PostMapping("/send")
     public Result<Void> send(@RequestParam("message") String message) {
-        CompletableFuture<SendResult<String, String>> sendResult = kafkaTemplate.send(Constants.KAFKA_TOPIC_NAME, message);
-        sendResult.whenComplete((i, t) -> {
-            log.info("i:{},t:{}", i, t);
-        });
+        log.info("参数：{}", message);
+//        CompletableFuture<SendResult<String, String>> sendResult = kafkaTemplate.send(Constants.KAFKA_TOPIC_NAME, message);
+//        sendResult.whenComplete((i, t) -> {
+//            log.info("i:{},t:{}", i, t);
+//        });
         return ResultUtil.success();
+    }
+
+    @PostMapping("/send2")
+    public Result<Void> send(@RequestBody Message message) {
+        log.info("参数：{}", JSON.toJSONString(message));
+        return ResultUtil.success();
+    }
+
+    @Getter
+    @Setter
+    static class Message {
+        private String message;
     }
 
 

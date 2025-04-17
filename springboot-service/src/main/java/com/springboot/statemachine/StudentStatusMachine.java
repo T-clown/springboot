@@ -1,12 +1,6 @@
 package com.springboot.statemachine;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.ThreadPoolExecutor.CallerRunsPolicy;
-import java.util.concurrent.TimeUnit;
-
-import com.springboot.dao.dto.UserDTO;
+import com.springboot.domain.entity.UserDTO;
 import com.springboot.service.UserService;
 import com.springboot.statemachine.condition.ApplyStatusToSckoolCondition;
 import com.springboot.statemachine.condition.SchoolStatusToHolidayStatusCondition;
@@ -22,13 +16,14 @@ import org.squirrelframework.foundation.component.SquirrelSingletonProvider;
 import org.squirrelframework.foundation.exception.SquirrelRuntimeException;
 import org.squirrelframework.foundation.exception.TransitionException;
 import org.squirrelframework.foundation.fsm.ConverterProvider;
-import org.squirrelframework.foundation.fsm.annotation.OnBeforeActionExecuted;
-import org.squirrelframework.foundation.fsm.annotation.State;
-import org.squirrelframework.foundation.fsm.annotation.StateMachineParameters;
-import org.squirrelframework.foundation.fsm.annotation.States;
-import org.squirrelframework.foundation.fsm.annotation.Transit;
-import org.squirrelframework.foundation.fsm.annotation.Transitions;
+import org.squirrelframework.foundation.fsm.annotation.*;
 import org.squirrelframework.foundation.fsm.impl.AbstractUntypedStateMachine;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.ThreadPoolExecutor.CallerRunsPolicy;
+import java.util.concurrent.TimeUnit;
 
 @StateMachineParameters(stateType = StatusEnum.class, eventType = StudentTrigger.class,
         contextType = StateMachineContext.class)

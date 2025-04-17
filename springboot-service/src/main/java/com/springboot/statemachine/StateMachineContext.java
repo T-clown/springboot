@@ -1,13 +1,13 @@
 package com.springboot.statemachine;
 
-import java.math.BigDecimal;
-
-import com.springboot.dao.dto.UserDTO;
+import com.springboot.domain.entity.UserDTO;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.redisson.api.RLock;
 import org.springframework.transaction.TransactionStatus;
+
+import java.math.BigDecimal;
 
 @Data
 public class StateMachineContext {

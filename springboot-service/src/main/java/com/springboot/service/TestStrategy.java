@@ -1,6 +1,6 @@
 package com.springboot.service;
 
-import com.springboot.domain.entity.User;
+import com.springboot.domain.entity.UserDTO;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,7 +11,7 @@ public class TestStrategy extends TestAbstractStrategy{
     }
 
     @Override
-    public User test(Long userId) {
+    public UserDTO test(Long userId) {
         return getUserById(userId);
     }
 }

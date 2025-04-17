@@ -5,22 +5,17 @@ import com.alibaba.nacos.spring.context.annotation.config.NacosPropertySource;
 import com.github.dreamroute.sqlprinter.starter.anno.EnableSQLPrinter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.apache.ibatis.executor.SimpleExecutor;
-import org.apache.ibatis.plugin.InterceptorChain;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
+ * @author macbookpro
  * @EnableCircuitBreaker - 开启断路器。就是开启hystrix服务容错能力。
  * 当应用启用Hystrix服务容错的时候，必须增加的一个注解。
  */
@@ -29,13 +24,12 @@ import java.net.UnknownHostException;
 //@EnableWebMvc
 //@EnableHystrix
 //@ServletComponentScan
-//@EnableSQLPrinter
+@EnableSQLPrinter
 @NacosPropertySource(dataId = "springboot", autoRefreshed = true)
 @EnableDynamicThreadPool
 @EnableDubbo(scanBasePackages = "com.springboot.client")
 @EnableAsync
-@MapperScan(basePackages = {"com.springboot.dao"})
-@SpringBootApplication(scanBasePackages = "com.springboot", exclude = DataSourceAutoConfiguration.class)
+@SpringBootApplication
 public class Application {
     public static void main(String[] args) throws UnknownHostException {
         /**

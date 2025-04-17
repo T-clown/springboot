@@ -1,9 +1,8 @@
 package com.springboot.client;
 
 import com.springboot.domain.entity.CreateUserRequest;
-import com.springboot.domain.entity.User;
+import com.springboot.domain.entity.UserDTO;
 import com.springboot.service.UserService;
-import io.seata.core.context.RootContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +21,15 @@ public class UserRpcServiceImpl implements UserClientService {
     @Override
     public String getUserName(Long userId) {
         //NettyCodecAdapter
-        User userById = userService.getUserById(userId);
+        UserDTO userById = userService.getUserById(userId);
         return userById == null ? "没有此用户" : userById.getUsername();
     }
 
     @Override
-    public Long addUser(String userName) {
-        log.info("全局事务ID:[{}]" , RootContext.getXID());
+    public void addUser(String userName) {
         CreateUserRequest request = new CreateUserRequest();
         request.setUsername(userName);
         request.setPhone("123456");
-        return userService.add(request);
+        userService.add(request);
     }
 }

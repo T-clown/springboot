@@ -1,20 +1,20 @@
 package com.springboot.utils.excel.easyexcel;
 
-import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Function;
-
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
-import com.alibaba.fastjson.JSON;
-
+import com.alibaba.fastjson2.JSON;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 /**
  * 有个很重要的点 ExcelUploadListener 不能被spring管理，要每次读取excel都要new,然后里面用到spring可以构造方法传进去
  *
+ * @author macbookpro
  * @param <T>
  * @param <R>
  */

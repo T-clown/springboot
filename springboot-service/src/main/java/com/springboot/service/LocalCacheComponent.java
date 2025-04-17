@@ -1,6 +1,6 @@
 package com.springboot.service;
 
-import com.springboot.dao.dto.UserDTO;
+import com.springboot.domain.entity.UserDTO;
 import com.springboot.service.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * SpringBoot集成Caffeine
+ * @author macbookpro
  */
 @Slf4j
 @Component

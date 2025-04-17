@@ -1,13 +1,10 @@
 package com.springboot.task;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
-import java.util.function.Consumer;
 
 
 @Getter

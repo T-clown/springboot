@@ -97,3 +97,22 @@ nacos:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+file:
+  file-type-list:
+    - jpg
+    - png
+    - pdf
+    - docx
+
+  file-mime-type-list:
+    - image/jpeg
+    - image/png
+    - application/pdf
+    - application/vnd.openxmlformats-officedocument.wordprocessingml.document
+
+  file-size-map:
+    jpg: 2
+    png: 3
+    pdf: 5
+    docx: 10

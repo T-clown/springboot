@@ -1,7 +1,7 @@
 package com.springboot.service;
 
 import com.github.pagehelper.PageInfo;
-import com.springboot.common.entity.Page;
+import com.springboot.common.entity.PageParam;
 import com.springboot.domain.entity.CreateUserRequest;
 import com.springboot.domain.entity.UpdateUserRequest;
 import com.springboot.domain.entity.UserDTO;
@@ -39,5 +39,5 @@ public interface UserService {
 
     List<UserDTO> list(UserQueryRequest request);
 
-    PageInfo<UserDTO> pageQuery(UserQueryRequest request, Page page);
+    PageInfo<UserDTO> pageQuery(PageParam<UserQueryRequest> pageParam);
 }

@@ -7,15 +7,15 @@ import com.github.pagehelper.PageInfo;
 import com.springboot.common.TransactionalComponent;
 import com.springboot.common.aop.annotation.LockKeyParam;
 import com.springboot.common.aop.annotation.RedisLock;
-import com.springboot.common.entity.Page;
+import com.springboot.common.entity.PageParam;
 import com.springboot.domain.entity.CreateUserRequest;
 import com.springboot.domain.entity.UpdateUserRequest;
 import com.springboot.domain.entity.UserDTO;
 import com.springboot.domain.entity.UserQueryRequest;
 import com.springboot.service.UserService;
-import com.springboot.utils.trransaction.event.UserTransactionEvent;
 import com.springboot.service.repository.UserRepository;
 import com.springboot.utils.trransaction.ExecuteUtil;
+import com.springboot.utils.trransaction.event.UserTransactionEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,13 +126,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> list(UserQueryRequest request) {
-        List<UserDTO> userDTOS = userRepository.list(request);
-        return JSON.parseArray(JSON.toJSONString(userDTOS), UserDTO.class);
+        return userRepository.list(request);
     }
 
     @Override
-    public PageInfo<UserDTO> pageQuery(UserQueryRequest request, Page page) {
-        return userRepository.pageQuery(request);
+    public PageInfo<UserDTO> pageQuery(PageParam<UserQueryRequest> pageParam) {
+        return userRepository.pageQuery(pageParam);
     }
 
 }

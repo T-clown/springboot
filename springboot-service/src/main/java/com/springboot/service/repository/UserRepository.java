@@ -1,6 +1,7 @@
 package com.springboot.service.repository;
 
 import com.github.pagehelper.PageInfo;
+import com.springboot.common.entity.PageParam;
 import com.springboot.domain.entity.UserDTO;
 import com.springboot.domain.entity.UserQueryRequest;
 import com.springboot.mapper.UserSupport;
@@ -52,8 +53,8 @@ public class UserRepository {
         userSupport.updateById(userDTO);
     }
 
-    public PageInfo<UserDTO> pageQuery(UserQueryRequest request) {
-        return userSupport.pageQuery(null, 1, 20);
+    public PageInfo<UserDTO> pageQuery(PageParam<UserQueryRequest> pageParam) {
+        return userSupport.pageQuery(pageParam);
     }
 
     @Async(THREAD_POOL_EXECUTOR)

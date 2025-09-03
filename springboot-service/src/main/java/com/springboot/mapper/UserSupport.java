@@ -3,9 +3,12 @@ package com.springboot.mapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.springboot.common.entity.PageParam;
 import com.springboot.domain.entity.UserDTO;
+import com.springboot.domain.entity.UserQueryRequest;
 import com.springboot.service.converter.UserConvert2;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,15 +40,16 @@ public class UserSupport extends ServiceImpl<UserMapper, UserPO> {
         return UserConvert2.INSTANCE.targetToSource(list);
     }
 
-    public PageInfo<UserDTO> pageQuery(List<Long> ids, Integer pageNum, Integer pageSize) {
+    public PageInfo<UserDTO> pageQuery(PageParam<UserQueryRequest> pageParam) {
 //        try (Page<UserPO> page = PageHelper.startPage(pageNum, pageSize)) {
 //            PageInfo<UserPO> pageInfo = page.doSelectPageInfo(() ->
 //                    lambdaQuery().in(CollectionUtils.isNotEmpty(ids), UserPO::getId, ids).list()
 //            );
 //            return UserConvert2.INSTANCE.targetToSource(pageInfo);
 //        }
-        PageHelper.startPage(pageNum, pageSize);
-        List<UserPO> list = lambdaQuery().in(CollectionUtils.isNotEmpty(ids), UserPO::getId, ids).list();
+        PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
+        UserQueryRequest param = pageParam.getParam();
+        List<UserPO> list = lambdaQuery().like(StringUtils.isNotBlank(param.getUsername()), UserPO::getUsername, param.getUsername()).list();
         PageInfo<UserPO> pageInfo = new PageInfo<>(list);
         return UserConvert2.INSTANCE.targetToSource(pageInfo);
     }

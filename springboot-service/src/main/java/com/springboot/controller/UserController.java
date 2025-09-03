@@ -6,7 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.springboot.common.HystrixComponent;
 import com.springboot.common.aop.annotation.DataSource;
 import com.springboot.common.aop.annotation.LockKeyParam;
-import com.springboot.common.entity.Page;
+import com.springboot.common.entity.PageParam;
 import com.springboot.common.entity.Result;
 import com.springboot.common.extension.TestFactoryBean;
 import com.springboot.common.utils.ResultUtil;
@@ -123,10 +123,10 @@ public class UserController {
      */
     @Operation(summary = "分页查询")
     @PostMapping("/page")
-    public Result<PageInfo<UserDTO>> pageQuery(@RequestBody UserQueryRequest request, Page page) {
+    public Result<PageInfo<UserDTO>> pageQuery(@RequestBody PageParam<UserQueryRequest> pageParam) {
         StopWatchUtil.start("测试", "获取用户列表");
-        log.info("page:{}", JSON.toJSONString(page));
-        PageInfo<UserDTO> pageResult = userService.pageQuery(request, page);
+        log.info("pageParam:{}", JSON.toJSONString(pageParam));
+        PageInfo<UserDTO> pageResult = userService.pageQuery(pageParam);
         log.info(StopWatchUtil.prettyPrint());
         return ResultUtil.success(pageResult);
     }

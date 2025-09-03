@@ -1,6 +1,5 @@
 package com.springboot.handler;
 
-import com.springboot.common.entity.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -34,6 +33,6 @@ public class PPageArgumentsResolver implements HandlerMethodArgumentResolver {
      */
     @Override
     public Object resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) throws Exception {
-        return new Page();
+        return null;
     }
 }
